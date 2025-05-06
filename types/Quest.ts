@@ -1,13 +1,13 @@
-type Step = {
+export type Enigma = {
     id: string;
     text: string;
     solution: string;
 };
 
-export type Enigma = {
-    id: string;
+export type Quest = {
+    id: number;
     name: string;
-    steps: Step[];
+    enigmas: Enigma[];
     level: number;
     image: string;
     description: string;

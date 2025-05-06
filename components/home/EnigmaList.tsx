@@ -1,10 +1,10 @@
-import { useGetEnigmas } from '@/api/queries/useGetEnigmas';
+import { useGetQuests } from '@/api/queries/useGetQuests';
 import { View, StyleSheet } from 'react-native';
 import EnigmaCard from './EnigmaCard';
 import { colors } from '@/utils/colors';
 
 const EnigmaList = () => {
-    const { data: enigmas } = useGetEnigmas();
+    const { data: enigmas } = useGetQuests();
 
     return (
         <View style={styles.container}>

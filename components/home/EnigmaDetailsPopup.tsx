@@ -4,9 +4,11 @@ import { View, Text, StyleSheet, Image, Pressable, Modal } from 'react-native';
 import EnigmaLevel from './EnigmaLevel';
 import Button from '../Button';
 import CloseIcon from '../../assets/icons/close.svg';
+import { useRouter } from 'expo-router';
 
 const EnigmaDetailsPopup = () => {
     const { showEnigmaDetails: enigma, setShowEnigmaDetails } = useEnigmappContext()
+    const router = useRouter()
 
     if (!enigma) {
         return null
@@ -37,7 +39,13 @@ const EnigmaDetailsPopup = () => {
                     <Text style={[titleStyle.subtitle]}>{enigma?.description}</Text>
                 </View>
                 <View>
-                    <Button title={'Commencer'} onPress={() => console.log('pouetpouet')} type={'primary'} />
+                    <Button
+                        title={'Commencer'}
+                        onPress={() => {
+                            setShowEnigmaDetails(null)
+                            router.push(`/quest/${enigma.id}`)
+                        }}
+                        type={'primary'} />
                 </View>
             </View>
         </Modal >

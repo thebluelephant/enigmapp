@@ -1,10 +1,11 @@
 import { colors } from '@/utils/colors';
-import type { Enigma } from '@/types/Enigma';
+import type { Enigma } from '@/types/Quest';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Button from '../Button';
 import EnigmaLevel from './EnigmaLevel';
 import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
+import { useRouter } from 'expo-router';
 
 interface EnigmaCardProps {
     enigma: Enigma
@@ -13,6 +14,7 @@ interface EnigmaCardProps {
 
 const EnigmaCard = ({ enigma, state }: EnigmaCardProps) => {
     const { setShowEnigmaDetails } = useEnigmappContext();
+    const router = useRouter();
 
     return (
         <View style={[styles.card, styles[state]]}>
@@ -24,7 +26,7 @@ const EnigmaCard = ({ enigma, state }: EnigmaCardProps) => {
                 </View>
                 <View style={styles.buttons}>
                     <Button title={"Plus d'info"} onPress={() => setShowEnigmaDetails(enigma)} type='tertiary' />
-                    <Button title={"Démarrer"} onPress={() => console.log('pouet')} type='primary' />
+                    <Button title={"Démarrer"} onPress={() => router.push(`/quest/${enigma.id}`)} type='primary' />
                 </View>
             </View>
         </View >

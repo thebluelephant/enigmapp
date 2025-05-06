@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchEnigmas } from "../enigmas";
-import type { Enigma } from "@/types/Enigma";
+import type { Quest } from "@/types/Quest";
+import { fetchQuests } from "../Quests";
 
-export const useGetEnigmas = () => {
+export const useGetQuests = () => {
     return useQuery({
-        queryKey: ['enigmas',],
+        queryKey: ['quests'],
         queryFn: async () => {
-            const response: Error | Enigma[] | null = await fetchEnigmas()
+            const response: Error | Quest[] | null = await fetchQuests()
             if (response instanceof Error) {
                 throw new Error(response.message)
             }
