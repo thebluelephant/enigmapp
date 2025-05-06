@@ -1,10 +1,10 @@
-import type { Enigma } from '@/types/Quest';
+import type { Quest } from '@/types/Quest';
 import type React from 'react';
 import { createContext, useContext, useState, type ReactNode } from 'react'
 
 interface EnigmappContextProps {
-    showEnigmaDetails: Enigma | null;
-    setShowEnigmaDetails: (enigma: Enigma | null) => void
+    showQuestDetails: Quest | null;
+    setShowQuestDetails: (quest: Quest | null) => void
     userId: number;
     setUserId: (userId: number) => void
 }
@@ -12,19 +12,19 @@ interface EnigmappContextProps {
 const EnigmappContext = createContext<EnigmappContextProps | undefined>(undefined);
 
 const defaultValue: EnigmappContextProps = {
-    showEnigmaDetails: null,
-    setShowEnigmaDetails: () => { },
+    showQuestDetails: null,
+    setShowQuestDetails: () => { },
     userId: 1,
     setUserId: () => { },
 
 }
 
 export const EnigmappContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [showEnigmaDetails, setShowEnigmaDetails] = useState(defaultValue.showEnigmaDetails);
+    const [showQuestDetails, setShowQuestDetails] = useState(defaultValue.showQuestDetails);
     const [userId, setUserId] = useState(defaultValue.userId);
 
     return (
-        <EnigmappContext.Provider value={{ showEnigmaDetails, setShowEnigmaDetails, userId, setUserId }}>
+        <EnigmappContext.Provider value={{ showQuestDetails, setShowQuestDetails, userId, setUserId }}>
             {children}
         </EnigmappContext.Provider>
     );

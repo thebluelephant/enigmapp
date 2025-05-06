@@ -1,19 +1,19 @@
 import { colors } from '@/utils/colors';
 import AccountHeader from '@/components/home/AccountHeader';
-import EnigmaList from '@/components/home/EnigmaList';
 import { ScrollView } from "react-native";
 import { View, StyleSheet } from 'react-native';
-import EnigmaDetailsPopup from '@/components/home/EnigmaDetailsPopup';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import QuestDetailsModal from '@/components/home/QuestDetailsModal';
+import QuestList from '@/components/home/QuestList';
 
 const HomeScreen = () => {
     return (
         <SafeAreaView>
             <ScrollView>
                 <View style={styles.container}>
-                    <EnigmaDetailsPopup />
+                    <QuestDetailsModal />
                     <AccountHeader />
-                    <EnigmaList />
+                    <QuestList />
                 </View>
             </ScrollView>
         </SafeAreaView>

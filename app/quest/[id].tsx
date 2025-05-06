@@ -4,33 +4,42 @@ import type { Enigma } from '@/types/Quest';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { Text, StyleSheet } from 'react-native';
+import CurrentEnigma from '@/components/quest/CurrentEnigma';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { colors } from '@/utils/colors';
 
-const EnigmeScreen = () => {
+const QuestScreen = () => {
     const { id } = useLocalSearchParams();
     const { userId } = useEnigmappContext()
     const { data: solutions } = useGetInProgressSolutionsByQuestId(Number(id), userId);
     const { data: quest } = useGetQuestById(Number(id));
-    const [currentEnigma, setCurrentEnigma] = useState<Enigma | null>(null)
+    const [currentEnigma, setCurrentEnigma] = useState<Enigma | undefined>(undefined)
 
     useEffect(() => {
-        const isFirstStep = !solutions?.length;
         if (quest) {
-            if (isFirstStep) {
-                setCurrentEnigma(quest.enigmas[0]);
-            } else {
-                const nextStep = solutions.length + 1
-                setCurrentEnigma(quest.enigmas[nextStep])
-            }
+            const nextStep = (solutions?.length ?? 0) + 1;
+            const currentEnigma = quest?.enigmas.find((enigma) => enigma.id === nextStep);
+            setCurrentEnigma(currentEnigma);
         }
     }, [solutions, quest]);
 
     return (
-        <View style={{ padding: 20 }}>
-            <Text style={{ fontSize: 24 }}>Énigme ID : {id}</Text>
-            {/* Tu peux ici fetcher les données d’énigme en fonction de l’id */}
-        </View>
+        <SafeAreaView style={styles.quest}>
+
+            {currentEnigma && <CurrentEnigma enigma={currentEnigma} />}
+        </SafeAreaView>
     );
 }
 
-export default EnigmeScreen;
+
+const styles = StyleSheet.create({
+    quest: {
+        backgroundColor: colors.background,
+        display: 'flex',
+        flex: 1,
+    },
+});
+
+
+export default QuestScreen

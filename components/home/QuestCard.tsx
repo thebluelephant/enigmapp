@@ -1,32 +1,32 @@
 import { colors } from '@/utils/colors';
-import type { Enigma } from '@/types/Quest';
+import type { Quest } from '@/types/Quest';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Button from '../Button';
-import EnigmaLevel from './EnigmaLevel';
 import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import { useRouter } from 'expo-router';
+import QuestLevel from './QuestLevel';
 
-interface EnigmaCardProps {
-    enigma: Enigma
-    state?: 'completed' | 'inProgress'
+interface QuestCardProps {
+    quest: Quest
+    state: 'completed' | 'inProgress' | 'notStarted'
 }
 
-const EnigmaCard = ({ enigma, state }: EnigmaCardProps) => {
-    const { setShowEnigmaDetails } = useEnigmappContext();
+const QuestCard = ({ quest, state }: QuestCardProps) => {
+    const { setShowQuestDetails } = useEnigmappContext();
     const router = useRouter();
 
     return (
         <View style={[styles.card, styles[state]]}>
-            <Image style={styles.image} source={{ uri: enigma.image }} />
+            <Image style={styles.image} source={{ uri: quest.image }} />
             <View style={styles.content}>
                 <View>
-                    <Text style={titleStyle.default_l}>{enigma.name}</Text>
-                    <EnigmaLevel level={enigma.level} />
+                    <Text style={titleStyle.default_l}>{quest.name}</Text>
+                    <QuestLevel level={quest.level} />
                 </View>
                 <View style={styles.buttons}>
-                    <Button title={"Plus d'info"} onPress={() => setShowEnigmaDetails(enigma)} type='tertiary' />
-                    <Button title={"Démarrer"} onPress={() => router.push(`/quest/${enigma.id}`)} type='primary' />
+                    <Button title={"Plus d'info"} onPress={() => setShowQuestDetails(quest)} type='tertiary' />
+                    <Button title={"Démarrer"} onPress={() => router.push(`/quest/${quest.id}`)} type='primary' />
                 </View>
             </View>
         </View >
@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 170,
     },
+    notStarted: {},
     completed: {
         borderColor: colors.green,
         borderWidth: 2,
@@ -69,4 +70,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default EnigmaCard;
+export default QuestCard;

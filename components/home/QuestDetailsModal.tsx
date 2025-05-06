@@ -1,49 +1,49 @@
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import titleStyle from '@/utils/titleStyle';
 import { View, Text, StyleSheet, Image, Pressable, Modal } from 'react-native';
-import EnigmaLevel from './EnigmaLevel';
 import Button from '../Button';
 import CloseIcon from '../../assets/icons/close.svg';
 import { useRouter } from 'expo-router';
+import QuestLevel from './QuestLevel';
 
-const EnigmaDetailsPopup = () => {
-    const { showEnigmaDetails: enigma, setShowEnigmaDetails } = useEnigmappContext()
+const QuestDetailsModal = () => {
+    const { showQuestDetails: quest, setShowQuestDetails } = useEnigmappContext()
     const router = useRouter()
 
-    if (!enigma) {
+    if (!quest) {
         return null
     }
     return (
         <Modal
             animationType="slide"
             transparent={true}
-            visible={!!enigma}
+            visible={!!quest}
             onRequestClose={() => {
-                setShowEnigmaDetails(null);
+                setShowQuestDetails(null);
             }}
             presentationStyle='overFullScreen'
         >
-            <View style={styles.popup}>
-                <Pressable onPress={() => setShowEnigmaDetails(null)}>
+            <View style={styles.modal}>
+                <Pressable onPress={() => setShowQuestDetails(null)}>
                     <CloseIcon width={20} height={20} fill="red" style={styles.closeIcon} />
                 </Pressable>
                 <View>
-                    <Text style={titleStyle.default_l}>{enigma?.name}</Text>
-                    <EnigmaLevel level={enigma?.level ?? 1} />
+                    <Text style={titleStyle.default_l}>{quest?.name}</Text>
+                    <QuestLevel level={quest?.level ?? 1} />
                 </View>
 
-                <Image style={styles.image} source={{ uri: enigma?.image }} />
+                <Image style={styles.image} source={{ uri: quest?.image }} />
 
                 <View style={styles.subCard}>
                     <Text style={titleStyle.default_s}>Description</Text>
-                    <Text style={[titleStyle.subtitle]}>{enigma?.description}</Text>
+                    <Text style={[titleStyle.subtitle]}>{quest?.description}</Text>
                 </View>
                 <View>
                     <Button
                         title={'Commencer'}
                         onPress={() => {
-                            setShowEnigmaDetails(null)
-                            router.push(`/quest/${enigma.id}`)
+                            setShowQuestDetails(null)
+                            router.push(`/quest/${quest.id}`)
                         }}
                         type={'primary'} />
                 </View>
@@ -54,7 +54,7 @@ const EnigmaDetailsPopup = () => {
 
 const styles = StyleSheet.create({
 
-    popup: {
+    modal: {
         flexDirection: 'column',
         gap: 10,
         padding: 20,
@@ -82,4 +82,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default EnigmaDetailsPopup;
+export default QuestDetailsModal;

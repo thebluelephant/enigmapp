@@ -1,14 +1,16 @@
 import { useGetQuests } from '@/api/queries/useGetQuests';
 import { View, StyleSheet } from 'react-native';
-import EnigmaCard from './EnigmaCard';
 import { colors } from '@/utils/colors';
+import QuestCard from './QuestCard';
 
-const EnigmaList = () => {
-    const { data: enigmas } = useGetQuests();
+//TODO : Update state props to QuestCard when we have the data
+const QuestList = () => {
+    const { data: quests } = useGetQuests();
 
     return (
         <View style={styles.container}>
-            {enigmas?.map((enigma) => <EnigmaCard enigma={enigma} key={enigma.id} />)}
+
+            {quests?.map((quest) => <QuestCard quest={quest} key={quest.id} state={'notStarted'} />)}
         </View>
     );
 };
@@ -24,4 +26,4 @@ const styles = StyleSheet.create({
     },
 
 });
-export default EnigmaList;
+export default QuestList;

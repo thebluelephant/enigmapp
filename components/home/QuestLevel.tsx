@@ -2,11 +2,11 @@ import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
 import { View, Text, StyleSheet } from 'react-native';
 
-interface EnigmaLevelProps {
+interface QuestLevelProps {
     level: number;
 }
 
-const EnigmaLevel = ({ level }: EnigmaLevelProps) => {
+const QuestLevel = ({ level }: QuestLevelProps) => {
     const totalStars = 3;
     const difficulty = ['Facile', 'Moyen', 'Expert'];
     const stars = Array.from({ length: totalStars }, (_, index) =>
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default EnigmaLevel;
+export default QuestLevel;

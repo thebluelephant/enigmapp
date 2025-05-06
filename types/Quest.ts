@@ -1,5 +1,5 @@
 export type Enigma = {
-    id: string;
+    id: number;
     text: string;
     solution: string;
 };
