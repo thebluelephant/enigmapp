@@ -5,8 +5,20 @@ import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import QuestDetailsModal from '@/components/home/QuestDetailsModal';
 import QuestList from '@/components/home/QuestList';
+import { useCameraPermission } from 'react-native-vision-camera';
+import { useEffect } from 'react';
 
 const HomeScreen = () => {
+    const { hasPermission, requestPermission } = useCameraPermission()
+
+    useEffect(() => {
+        if (!hasPermission) {
+            requestPermission().then((status) => { console.log(status); })
+            console.log('hey');
+        }
+
+    }, [requestPermission, hasPermission]);
+
     return (
         <SafeAreaView>
             <ScrollView>

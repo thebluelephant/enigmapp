@@ -4,7 +4,7 @@ import type { Enigma } from '@/types/Quest';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import CurrentEnigma from '@/components/quest/CurrentEnigma';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/utils/colors';
@@ -26,7 +26,6 @@ const QuestScreen = () => {
 
     return (
         <SafeAreaView style={styles.quest}>
-
             {currentEnigma && <CurrentEnigma enigma={currentEnigma} />}
         </SafeAreaView>
     );
@@ -38,6 +37,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
         display: 'flex',
         flex: 1,
+        padding: 20,
     },
 });
 

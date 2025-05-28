@@ -53,7 +53,6 @@ const QuestDetailsModal = () => {
 };
 
 const styles = StyleSheet.create({
-
     modal: {
         flexDirection: 'column',
         gap: 10,

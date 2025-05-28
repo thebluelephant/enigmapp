@@ -1,5 +1,7 @@
 export type Enigma = {
     id: number;
+    title: string;
+    image: string;
     text: string;
     solution: string;
 };
