@@ -8,21 +8,23 @@ import { StyleSheet } from 'react-native';
 import CurrentEnigma from '@/components/quest/CurrentEnigma';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/utils/colors';
+import { useGetEnigmaById } from '@/api/queries/useGetEnigmaById';
 
 const QuestScreen = () => {
     const { id } = useLocalSearchParams();
     const { userId } = useEnigmappContext()
     const { data: solutions } = useGetInProgressSolutionsByQuestId(Number(id), userId);
     const { data: quest } = useGetQuestById(Number(id));
-    const [currentEnigma, setCurrentEnigma] = useState<Enigma | undefined>(undefined)
+    const [nextEnigmaId, setNextEnigmaId] = useState<Enigma['id']>();
+    const { data: currentEnigma } = useGetEnigmaById(nextEnigmaId);
 
     useEffect(() => {
         if (quest) {
-            const nextStep = (solutions?.length ?? 0) + 1;
-            const currentEnigma = quest?.enigmas.find((enigma) => enigma.id === nextStep);
-            setCurrentEnigma(currentEnigma);
+            const nextEnigmaIndex = (solutions?.length ?? 0) + 1
+            setNextEnigmaId(quest.enigmas[nextEnigmaIndex])
         }
     }, [solutions, quest]);
+
 
     return (
         <SafeAreaView style={styles.quest}>

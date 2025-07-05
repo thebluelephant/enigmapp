@@ -1,4 +1,4 @@
-import type { Quest } from "@/types/Quest"
+import type { Enigma, Quest } from "@/types/Quest"
 import { supabase } from "./core"
 import type { InProgressQuest } from "@/types/InProgressQuest"
 
@@ -25,15 +25,16 @@ export const fetchQuestById = async (questId: Quest['id']): Promise<Quest | Erro
     return data[0]
 }
 
-export const fetchQuestEnigmas = async (): Promise<{ steps: Quest['enigmas'] }[]> => {
+export const fetchEnigmaById = async (enigmaId: Enigma['id']): Promise<Enigma | Error | null> => {
     const { data, error } = await supabase
-        .from('quests')
-        .select('steps')
+        .from('enigmas')
+        .select()
+        .eq('id', enigmaId)
 
     if (error) {
         throw new Error(error.message)
     }
-    return data
+    return data[0]
 }
 
 export const fetchCurrentQuestUserSolutions = async (questId: number, userId: number): Promise<InProgressQuest['solutions']> => {

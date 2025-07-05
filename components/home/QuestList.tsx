@@ -9,7 +9,6 @@ const QuestList = () => {
 
     return (
         <View style={styles.container}>
-
             {quests?.map((quest) => <QuestCard quest={quest} key={quest.id} state={'notStarted'} />)}
         </View>
     );

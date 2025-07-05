@@ -3,13 +3,14 @@ export type Enigma = {
     title: string;
     image: string;
     text: string;
-    solution: string;
+    solution: string[];
+    clues: string[];
 };
 
 export type Quest = {
     id: number;
     name: string;
-    enigmas: Enigma[];
+    enigmas: number[];
     level: number;
     image: string;
     description: string;
