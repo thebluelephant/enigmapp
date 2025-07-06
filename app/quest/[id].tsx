@@ -7,12 +7,12 @@ import { colors } from '@/utils/colors';
 import useGetCurrentEnigma from '@/hooks/useGetCurrentEnigma';
 
 const QuestScreen = () => {
-    const { id: inProgressQuestId } = useLocalSearchParams();
-    const { currentEnigma } = useGetCurrentEnigma(inProgressQuestId as string)
+    const { id: questSessionId } = useLocalSearchParams();
+    const { currentEnigma, questSession } = useGetCurrentEnigma(questSessionId as string)
 
     return (
         <SafeAreaView style={styles.quest}>
-            {currentEnigma && <CurrentEnigma enigma={currentEnigma} />}
+            {currentEnigma && questSession && <CurrentEnigma enigma={currentEnigma} questSession={questSession} />}
         </SafeAreaView>
     );
 }

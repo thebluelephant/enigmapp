@@ -3,12 +3,14 @@ import titleStyle from '@/utils/titleStyle';
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Button from '../Button';
+import { QuestSession } from '@/types/QuestSession';
 
 
 interface CurrentEnigmaProps {
     enigma: Enigma;
+    questSession: QuestSession;
 }
-const CurrentEnigma = ({ enigma }: CurrentEnigmaProps) => {
+const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
     const [showCamera, setShowCamera] = useState(false);
 
     if (showCamera) {

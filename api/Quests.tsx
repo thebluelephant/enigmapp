@@ -1,6 +1,6 @@
 import type { Enigma, Quest } from "@/types/Quest"
 import { supabase } from "./core"
-import type { InProgressQuest } from "@/types/InProgressQuest"
+import { QuestSession } from "@/types/QuestSession";
 
 export const fetchQuests = async (): Promise<Quest[] | Error | null> => {
     const { data, error } = await supabase
@@ -37,9 +37,9 @@ export const fetchEnigmaById = async (enigmaId: Enigma['id']): Promise<Enigma | 
     return data?.[0]
 }
 
-export const fetchInProgressQuestByUserId = async (userId: number, questId: Quest['id']): Promise<InProgressQuest | Error | null> => {
+export const fetchQuestSessionByUserId = async (userId: number, questId: Quest['id']): Promise<QuestSession | Error | null> => {
     const { data, error } = await supabase
-        .from('in_progress_quests')
+        .from('quest_sessions')
         .select()
         .eq('user_id', userId)
         .eq('quest_id', questId)
@@ -49,9 +49,9 @@ export const fetchInProgressQuestByUserId = async (userId: number, questId: Ques
     }
     return data?.[0]
 }
-export const fetchInProgressQuestById = async (ipqId: InProgressQuest['id']): Promise<InProgressQuest | Error | null> => {
+export const fetchQuestSessionById = async (ipqId: QuestSession['id']): Promise<QuestSession | null> => {
     const { data, error } = await supabase
-        .from('in_progress_quests')
+        .from('quest_sessions')
         .select()
         .eq('id', ipqId)
 
@@ -62,20 +62,20 @@ export const fetchInProgressQuestById = async (ipqId: InProgressQuest['id']): Pr
 }
 
 /**
- * Return existing in progress quest or create a new one
+ * Return existing quest session or create a new one
  * @param userId 
  * @param questId 
  * @returns 
  */
-export const postNewInProgressQuest = async (userId: number, questId: Quest['id']): Promise<InProgressQuest | Error | null> => {
-    const existingInProgressQuest = await fetchInProgressQuestByUserId(userId, questId)
+export const postNewQuestSession = async (userId: number, questId: Quest['id']): Promise<QuestSession | Error | null> => {
+    const existingQuestSession = await fetchQuestSessionByUserId(userId, questId)
 
-    if (existingInProgressQuest) {
-        return existingInProgressQuest
+    if (existingQuestSession) {
+        return existingQuestSession
 
     } else {
         const { data } = await supabase
-            .from('in_progress_quests')
+            .from('quest_sessions')
             .insert({ user_id: userId, quest_id: questId })
             .select()
         return data?.[0]

@@ -9,7 +9,7 @@ type Solution = {
     solution: unknown
 }
 
-export type InProgressQuest = {
+export type QuestSession = {
     id: number;
     user_id: number;
     quest_id: number;

@@ -6,7 +6,7 @@ import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import { useRouter } from 'expo-router';
 import QuestLevel from './QuestLevel';
-import { postNewInProgressQuest } from '@/api/Quests';
+import { postNewQuestSession } from '@/api/Quests';
 
 interface QuestCardProps {
     quest: Quest
@@ -19,12 +19,12 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
     const router = useRouter();
 
     const startQuest = () => {
-        postNewInProgressQuest(userId, quest.id)
-            .then((inProgressQuest) => {
-                if (inProgressQuest instanceof Error) {
+        postNewQuestSession(userId, quest.id)
+            .then((questSession) => {
+                if (questSession instanceof Error) {
                     return;
                 } else {
-                    router.push(`/quest/${inProgressQuest?.id}`);
+                    router.push(`/quest/${questSession?.id}`);
                 }
             })
     }

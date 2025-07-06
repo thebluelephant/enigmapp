@@ -1,10 +1,10 @@
-import { useGetInProgressQuest } from '@/api/queries/useGetInProgressQuest';
+import { useGetQuestSession } from '@/api/queries/useGetQuestSession';
 import { fetchEnigmaById, fetchQuestById } from '@/api/Quests';
 import { Enigma, Quest } from '@/types/Quest';
 import { useState, useEffect } from 'react';
 
-const useGetCurrentEnigma = (inProgressQuestId: string) => {
-    const { data: inProgressQuest } = useGetInProgressQuest(Number(inProgressQuestId))
+const useGetCurrentEnigma = (questSessionId: string) => {
+    const { data: questSession } = useGetQuestSession(Number(questSessionId));
     const [currentEnigma, setCurrentEnigma] = useState<Enigma | null>(null);
     const [quest, setQuest] = useState<Quest | null>()
     const [nextEnigmaId, setNextEnigmaId] = useState<Enigma['id']>();
@@ -20,21 +20,21 @@ const useGetCurrentEnigma = (inProgressQuestId: string) => {
 
     useEffect(() => {
         const fetchQuest = async () => {
-            if (!inProgressQuest?.quest_id) return;
-            const quest = await fetchQuestById(inProgressQuest.quest_id)
+            if (!questSession?.quest_id) return;
+            const quest = await fetchQuestById(questSession.quest_id)
             setQuest(quest);
         }
         fetchQuest()
-    }, [inProgressQuest]);
+    }, [questSession]);
 
     useEffect(() => {
-        if (quest && inProgressQuest) {
-            const nextEnigmaIndex = (inProgressQuest.solutions?.length ?? 0) + 1
+        if (quest && questSession) {
+            const nextEnigmaIndex = (questSession.solutions?.length ?? 0) + 1
             setNextEnigmaId(quest.enigmas[nextEnigmaIndex])
         }
-    }, [inProgressQuest, quest]);
+    }, [questSession, quest]);
 
-    return { currentEnigma, quest }
+    return { currentEnigma, quest, questSession }
 };
 
 export default useGetCurrentEnigma;
