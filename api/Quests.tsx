@@ -8,59 +8,77 @@ export const fetchQuests = async (): Promise<Quest[] | Error | null> => {
         .select()
 
     if (error) {
-        throw new Error(error.message)
+        console.log(error.message);
     }
     return data
 }
 
-export const fetchQuestById = async (questId: Quest['id']): Promise<Quest | Error | null> => {
+export const fetchQuestById = async (questId: Quest['id']): Promise<Quest | null> => {
     const { data, error } = await supabase
         .from('quests')
         .select()
         .eq('id', questId)
 
     if (error) {
-        throw new Error(error.message)
+        console.log(error.message);
     }
-    return data[0]
+    return data?.[0]
 }
 
-export const fetchEnigmaById = async (enigmaId: Enigma['id']): Promise<Enigma | Error | null> => {
+export const fetchEnigmaById = async (enigmaId: Enigma['id']): Promise<Enigma | null> => {
     const { data, error } = await supabase
         .from('enigmas')
         .select()
         .eq('id', enigmaId)
 
     if (error) {
-        throw new Error(error.message)
+        console.log(error.message);
     }
-    return data[0]
+    return data?.[0]
 }
 
-export const fetchCurrentQuestUserSolutions = async (questId: number, userId: number): Promise<InProgressQuest['solutions']> => {
-    // Fetch existing in-progress enigma solutions of a userId
+export const fetchInProgressQuestByUserId = async (userId: number, questId: Quest['id']): Promise<InProgressQuest | Error | null> => {
     const { data, error } = await supabase
-        .from('in_progress_quest')
-        .select('solutions')
-        .eq('quest_id', questId)
+        .from('in_progress_quests')
+        .select()
         .eq('user_id', userId)
+        .eq('quest_id', questId)
 
     if (error) {
-        throw new Error(error.message)
+        console.log(error.message);
     }
-
-    // If no existing data, create it
-    if (!data?.length) {
-        const { error } = await supabase
-            .from('in_progress_quest')
-            .insert({ quest_id: questId, user_id: userId, })
-            .select('solutions')
-
-        if (error) {
-            throw new Error(error.message)
-        }
-        return []
-
-    }
-    return data as InProgressQuest['solutions'] ?? []
+    return data?.[0]
 }
+export const fetchInProgressQuestById = async (ipqId: InProgressQuest['id']): Promise<InProgressQuest | Error | null> => {
+    const { data, error } = await supabase
+        .from('in_progress_quests')
+        .select()
+        .eq('id', ipqId)
+
+    if (error) {
+        console.log(error.message);
+    }
+    return data?.[0]
+}
+
+/**
+ * Return existing in progress quest or create a new one
+ * @param userId 
+ * @param questId 
+ * @returns 
+ */
+export const postNewInProgressQuest = async (userId: number, questId: Quest['id']): Promise<InProgressQuest | Error | null> => {
+    const existingInProgressQuest = await fetchInProgressQuestByUserId(userId, questId)
+
+    if (existingInProgressQuest) {
+        return existingInProgressQuest
+
+    } else {
+        const { data } = await supabase
+            .from('in_progress_quests')
+            .insert({ user_id: userId, quest_id: questId })
+            .select()
+        return data?.[0]
+    }
+}
+

@@ -6,6 +6,7 @@ import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import { useRouter } from 'expo-router';
 import QuestLevel from './QuestLevel';
+import { postNewInProgressQuest } from '@/api/Quests';
 
 interface QuestCardProps {
     quest: Quest
@@ -13,8 +14,20 @@ interface QuestCardProps {
 }
 
 const QuestCard = ({ quest, state }: QuestCardProps) => {
+    const { userId } = useEnigmappContext()
     const { setShowQuestDetails } = useEnigmappContext();
     const router = useRouter();
+
+    const startQuest = () => {
+        postNewInProgressQuest(userId, quest.id)
+            .then((inProgressQuest) => {
+                if (inProgressQuest instanceof Error) {
+                    return;
+                } else {
+                    router.push(`/quest/${inProgressQuest?.id}`);
+                }
+            })
+    }
 
     return (
         <View style={[styles.card, styles[state]]}>
@@ -26,7 +39,7 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                 </View>
                 <View style={styles.buttons}>
                     <Button title={"Plus d'info"} onPress={() => setShowQuestDetails(quest)} type='tertiary' />
-                    <Button title={"Démarrer"} onPress={() => router.push(`/quest/${quest.id}`)} type='primary' />
+                    <Button title={"Démarrer"} onPress={() => startQuest()} type='primary' />
                 </View>
             </View>
         </View >

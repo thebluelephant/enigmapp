@@ -13,7 +13,6 @@ const HomeScreen = () => {
     /*     useEffect(() => {
             if (!hasPermission) {
                 requestPermission().then((status) => { console.log(status); })
-                console.log('hey');
             }
     
         }, [requestPermission, hasPermission]); */
