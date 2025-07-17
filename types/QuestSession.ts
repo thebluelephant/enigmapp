@@ -15,9 +15,4 @@ export type QuestSession = {
     quest_id: number;
     start_date: string;
     solutions: Solution[] | [];
-    clues_asked: {
-        enigma_id: Enigma['id']
-        clues_asked: number //How many clues (max 3) the user has asked for
-        clues: string[]
-    }[]
 };
