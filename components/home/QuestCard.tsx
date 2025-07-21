@@ -4,9 +4,8 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 import Button from '../Button';
 import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
-import { useRouter } from 'expo-router';
 import QuestLevel from './QuestLevel';
-import { postNewQuestSession } from '@/api/Quests';
+import { startQuest } from '@/utils/quest';
 
 interface QuestCardProps {
     quest: Quest
@@ -16,18 +15,7 @@ interface QuestCardProps {
 const QuestCard = ({ quest, state }: QuestCardProps) => {
     const { userId } = useEnigmappContext()
     const { setShowQuestDetails } = useEnigmappContext();
-    const router = useRouter();
 
-    const startQuest = () => {
-        postNewQuestSession(userId, quest.id)
-            .then((questSession) => {
-                if (questSession instanceof Error) {
-                    return;
-                } else {
-                    router.push(`/quest/${questSession?.id}`);
-                }
-            })
-    }
 
     return (
         <View style={[styles.card, styles[state]]}>
@@ -38,8 +26,8 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                     <QuestLevel level={quest.level} />
                 </View>
                 <View style={styles.buttons}>
-                    <Button title={"Plus d'info"} onPress={() => setShowQuestDetails(quest)} type='tertiary' />
-                    <Button title={"Démarrer"} onPress={() => startQuest()} type='primary' />
+                    <Button title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails(quest)} type='secondary' />
+                    <Button title={"Commencer"} onPress={() => startQuest(userId, quest.id)} type='primary' />
                 </View>
             </View>
         </View >
@@ -49,9 +37,11 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
 const styles = StyleSheet.create({
     card: {
         borderRadius: 8,
-        backgroundColor: colors.secondaryBackground,
+        backgroundColor: '#1D212A',
         width: '100%',
         height: 170,
+        borderColor: "#2A2F3B",
+        borderWidth: 1,
     },
     notStarted: {},
     completed: {

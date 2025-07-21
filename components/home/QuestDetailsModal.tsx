@@ -2,12 +2,14 @@ import { useEnigmappContext } from '@/utils/EnigmappContext';
 import titleStyle from '@/utils/titleStyle';
 import { View, Text, StyleSheet, Image, Pressable, Modal } from 'react-native';
 import Button from '../Button';
-import CloseIcon from '../../assets/icons/close.svg';
 import { useRouter } from 'expo-router';
 import QuestLevel from './QuestLevel';
+import Icon from '../Icon';
+import { startQuest } from '@/utils/quest';
 
 const QuestDetailsModal = () => {
-    const { showQuestDetails: quest, setShowQuestDetails } = useEnigmappContext()
+    const { showQuestDetails: quest, setShowQuestDetails, userId } = useEnigmappContext()
+
     const router = useRouter()
 
     if (!quest) {
@@ -24,8 +26,8 @@ const QuestDetailsModal = () => {
             presentationStyle='overFullScreen'
         >
             <View style={styles.modal}>
-                <Pressable onPress={() => setShowQuestDetails(null)}>
-                    <CloseIcon width={20} height={20} fill="red" style={styles.closeIcon} />
+                <Pressable onPress={() => setShowQuestDetails(null)} style={styles.closeIcon}>
+                    <Icon name='close' size={20} color='white' />
                 </Pressable>
                 <View>
                     <Text style={titleStyle.default_l}>{quest?.name}</Text>
@@ -41,10 +43,7 @@ const QuestDetailsModal = () => {
                 <View>
                     <Button
                         title={'Commencer'}
-                        onPress={() => {
-                            setShowQuestDetails(null)
-                            router.push(`/quest/${quest.id}`)
-                        }}
+                        onPress={() => startQuest(userId, quest.id)}
                         type={'primary'} />
                 </View>
             </View>
@@ -77,7 +76,8 @@ const styles = StyleSheet.create({
     },
     closeIcon: {
         position: 'absolute',
-        right: 0
+        right: 10,
+        top: 10
     }
 });
 

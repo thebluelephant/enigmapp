@@ -6,11 +6,13 @@ export const useGetQuests = () => {
     return useQuery({
         queryKey: ['quests'],
         queryFn: async () => {
-            const response: Error | Quest[] | null = await fetchQuests()
-            if (response instanceof Error) {
-                throw new Error(response.message)
+            try {
+                const response: Error | Quest[] | null = await fetchQuests()
+                return response
+            } catch (e) {
+                console.log('useGetQuests error : ', e);
+                return e
             }
-            return response
         },
 
 

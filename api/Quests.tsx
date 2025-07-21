@@ -2,13 +2,13 @@ import type { Enigma, Quest } from "@/types/Quest"
 import { supabase } from "./core"
 import { QuestSession } from "@/types/QuestSession";
 
-export const fetchQuests = async (): Promise<Quest[] | Error | null> => {
+export const fetchQuests = async (): Promise<Quest[] | null> => {
     const { data, error } = await supabase
         .from('quests')
         .select()
 
     if (error) {
-        console.log(error.message);
+        console.log("fetchQuests error : ", error);
     }
     return data
 }
@@ -20,7 +20,7 @@ export const fetchQuestById = async (questId: Quest['id']): Promise<Quest | null
         .eq('id', questId)
 
     if (error) {
-        console.log(error.message);
+        console.log("fetchQuestsById error : ", error);
     }
     return data?.[0]
 }
@@ -32,7 +32,7 @@ export const fetchEnigmaById = async (enigmaId: Enigma['id']): Promise<Enigma | 
         .eq('id', enigmaId)
 
     if (error) {
-        console.log(error.message);
+        console.log("fetchEnigmaById error : ", error);
     }
     return data?.[0]
 }
@@ -45,7 +45,7 @@ export const fetchQuestSessionByUserId = async (userId: number, questId: Quest['
         .eq('quest_id', questId)
 
     if (error) {
-        console.log(error.message);
+        console.log("fetchQuestSessionByUserId error : ", error);
     }
     return data?.[0]
 }
@@ -56,7 +56,7 @@ export const fetchQuestSessionById = async (ipqId: QuestSession['id']): Promise<
         .eq('id', ipqId)
 
     if (error) {
-        console.log(error.message);
+        console.log("fetchQuestSessionById error : ", error);
     }
     return data?.[0]
 }
@@ -72,12 +72,15 @@ export const postNewQuestSession = async (userId: number, questId: Quest['id']):
 
     if (existingQuestSession) {
         return existingQuestSession
-
     } else {
-        const { data } = await supabase
+        const { data, error } = await supabase
             .from('quest_sessions')
             .insert({ user_id: userId, quest_id: questId })
             .select()
+
+        if (error) {
+            console.log("postNewQuestSession error : ", error);
+        }
         return data?.[0]
     }
 }

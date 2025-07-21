@@ -4,7 +4,7 @@ import { QuestSession } from "@/types/QuestSession"
 import { Clue, RequestedClues } from "@/types/Clue"
 
 
-export const fetchClueByEnigmaId = async (enigmaId: Enigma['id'], index: Clue['index']): Promise<Clue['clue'] | null>  => {
+export const fetchClueByEnigmaId = async (enigmaId: Enigma['id'], index: Clue['index']): Promise<Clue['clue'] | null> => {
     const { data, error } = await supabase
         .from('clues')
         .select('clue')
@@ -12,32 +12,27 @@ export const fetchClueByEnigmaId = async (enigmaId: Enigma['id'], index: Clue['i
         .eq('index', index)
 
     if (error) {
-        console.log(error);
+        console.log("fetchClueByEnigmaId error : ", error);
     }
-
-    return data?.[0].clue as Clue['clue']
+    return data?.[0].clue
 }
 
 
 export const fetchClueAndUpdateRequestedClues = async (questSession: QuestSession, enigmaId: Enigma['id'], nextClueNumber: Clue['index']) => {
-    const clue  = await fetchClueByEnigmaId(enigmaId, nextClueNumber)
+    const clue = await fetchClueByEnigmaId(enigmaId, nextClueNumber)
     if (clue) {
-        const requestedCluesUpdated = await updateRequestedCluesWithNewClue(questSession.id, enigmaId, clue)
-        if (requestedCluesUpdated) {
-            return clue
-        } else {
-            console.log('an error appears in the updatedQuestSessionClues');
-        }
+        return await updateRequestedCluesWithNewClue(questSession.id, enigmaId, clue)
     }
 }
 
 
 export const updateRequestedCluesWithNewClue = async (questSessionId: QuestSession['id'], enigmaId: Enigma['id'], clue: Clue['clue']) => {
+    // We get user's requested clues
     const requestedClues = await fetchRequestedClues(questSessionId, enigmaId)
 
+    // If he already requests clues, we update them with the new one
     if (requestedClues) {
-        const updatedClues : RequestedClues['clues'] = [...requestedClues.clues, clue]
-
+        const updatedClues: RequestedClues['clues'] = [...requestedClues.clues, clue]
         const { data, error } = await supabase
             .from('requested_clues')
             .update({ 'clues': updatedClues })
@@ -50,7 +45,9 @@ export const updateRequestedCluesWithNewClue = async (questSessionId: QuestSessi
         }
 
         return data?.[0]
+
     } else {
+        // Else, we create a request clue entry with the new one
         const { data, error } = await supabase
             .from('requested_clues')
             .insert({ 'enigma_id': enigmaId, 'quest_session_id': questSessionId, 'clues': [clue] })
@@ -63,7 +60,7 @@ export const updateRequestedCluesWithNewClue = async (questSessionId: QuestSessi
     }
 }
 
-export const fetchRequestedClues = async (questSessionId: QuestSession['id'], enigmaId: Enigma['id']) : Promise<RequestedClues> => {
+export const fetchRequestedClues = async (questSessionId: QuestSession['id'], enigmaId: Enigma['id']): Promise<RequestedClues | null> => {
     const { data, error } = await supabase
         .from('requested_clues')
         .select()
@@ -75,15 +72,3 @@ export const fetchRequestedClues = async (questSessionId: QuestSession['id'], en
     }
     return data?.[0]
 }
-
-
-export const updateClueAsked = async (questSessionId: QuestSession['id'], clues: QuestSession['clues_asked']) => {
-    const { data } = await supabase
-        .from('quest_sessions')
-        .update({ clues_aked: clues })
-        .eq('id', questSessionId)
-        .select()
-
-    return data?.[0].clues
-}
-
