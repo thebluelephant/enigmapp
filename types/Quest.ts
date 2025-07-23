@@ -15,3 +15,5 @@ export type Quest = {
     image: string;
     description: string;
 };
+
+export type QuestState = 'notStarted' | 'inProgress'

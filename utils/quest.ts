@@ -1,5 +1,6 @@
 import { postNewQuestSession } from "@/api/Quests";
-import { Quest } from "@/types/Quest";
+import { Quest, QuestState } from "@/types/Quest";
+import { QuestSession } from "@/types/QuestSession";
 import { router } from "expo-router";
 
 export const startQuest = (userId: number, questId: Quest['id']) => {
@@ -11,4 +12,13 @@ export const startQuest = (userId: number, questId: Quest['id']) => {
                 router.push(`/quest/${questSession?.id}`);
             }
         })
+}
+
+export const getQuestState = (quest: Quest, associatedQuestSession?: QuestSession): QuestState => {
+    if (!associatedQuestSession) {
+        return 'notStarted'
+    } else {
+        return 'inProgress'
+    }
+
 }

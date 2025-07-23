@@ -37,7 +37,18 @@ export const fetchEnigmaById = async (enigmaId: Enigma['id']): Promise<Enigma | 
     return data?.[0]
 }
 
-export const fetchQuestSessionByUserId = async (userId: number, questId: Quest['id']): Promise<QuestSession | Error | null> => {
+export const fetchQuestSessionByUserId = async (userId: number): Promise<QuestSession[] | null> => {
+    const { data, error } = await supabase
+        .from('quest_sessions')
+        .select()
+        .eq('user_id', userId)
+
+    if (error) {
+        console.log("fetchQuestSessionByUserId error : ", error);
+    }
+    return data
+}
+export const fetchQuestSessionByUserAndQuestId = async (userId: number, questId: Quest['id']): Promise<QuestSession | null> => {
     const { data, error } = await supabase
         .from('quest_sessions')
         .select()
@@ -45,7 +56,7 @@ export const fetchQuestSessionByUserId = async (userId: number, questId: Quest['
         .eq('quest_id', questId)
 
     if (error) {
-        console.log("fetchQuestSessionByUserId error : ", error);
+        console.log("fetchQuestSessionByUserAndQuestId error : ", error);
     }
     return data?.[0]
 }
@@ -68,7 +79,7 @@ export const fetchQuestSessionById = async (ipqId: QuestSession['id']): Promise<
  * @returns 
  */
 export const postNewQuestSession = async (userId: number, questId: Quest['id']): Promise<QuestSession | Error | null> => {
-    const existingQuestSession = await fetchQuestSessionByUserId(userId, questId)
+    const existingQuestSession = await fetchQuestSessionByUserAndQuestId(userId, questId)
 
     if (existingQuestSession) {
         return existingQuestSession

@@ -19,7 +19,7 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={{ height: '100%' }}>
-            <ScrollView contentContainerStyle={{ height: '100%' }}>
+            <ScrollView>
                 <View style={styles.container}>
                     <QuestDetailsModal />
                     <AccountHeader />

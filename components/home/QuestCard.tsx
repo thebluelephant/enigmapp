@@ -1,5 +1,5 @@
 import { colors } from '@/utils/colors';
-import type { Quest } from '@/types/Quest';
+import type { Quest, QuestState } from '@/types/Quest';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Button from '../Button';
 import titleStyle from '@/utils/titleStyle';
@@ -9,16 +9,24 @@ import { startQuest } from '@/utils/quest';
 
 interface QuestCardProps {
     quest: Quest
-    state: 'completed' | 'inProgress' | 'notStarted'
+    state: QuestState
 }
 
 const QuestCard = ({ quest, state }: QuestCardProps) => {
     const { userId } = useEnigmappContext()
     const { setShowQuestDetails } = useEnigmappContext();
+    const isInProgress = state === 'inProgress'
+    const hasNotStarted = state === 'notStarted'
 
 
     return (
         <View style={[styles.card, styles[state]]}>
+            {
+                !hasNotStarted &&
+                <View style={[styles.banner, isInProgress ? styles.inProgressBanner : styles.completedBanner]}>
+                    <Text style={[titleStyle.default_s, styles.textBanner]}>{isInProgress ? 'En cours' : 'Terminé'}</Text>
+                </View>
+            }
             <Image style={styles.image} source={{ uri: quest.image }} />
             <View style={styles.content}>
                 <View>
@@ -27,7 +35,7 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                 </View>
                 <View style={styles.buttons}>
                     <Button title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails(quest)} type='secondary' />
-                    <Button title={"Commencer"} onPress={() => startQuest(userId, quest.id)} type='primary' />
+                    <Button title={isInProgress ? 'Continuer' : "Commencer"} onPress={() => startQuest(userId, quest.id)} type='primary' />
                 </View>
             </View>
         </View >
@@ -39,21 +47,39 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: '#1D212A',
         width: '100%',
-        height: 170,
-        borderColor: "#2A2F3B",
-        borderWidth: 1,
+        maxHeight: 270,
+        borderWidth: 0.5,
     },
-    notStarted: {},
+    banner: {
+        height: 25,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        display: 'flex',
+        justifyContent: 'center'
+    },
+    inProgressBanner: {
+        backgroundColor: colors.yellow,
+    },
+    completedBanner: {
+        backgroundColor: colors.green
+    },
+    textBanner: {
+        paddingLeft: 10,
+        fontSize: 12,
+        color: 'black'
+    },
+    notStarted: {
+        borderColor: "#2A2F3B",
+        borderWidth: 1
+    },
     completed: {
         borderColor: colors.green,
-        borderWidth: 2,
     },
     inProgress: {
         borderColor: colors.yellow,
-        borderWidth: 2,
     },
     image: {
-        height: '40%',
+        height: '50%',
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
         resizeMode: 'cover'
@@ -64,6 +90,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        gap: 10
     },
     buttons: {
         display: 'flex',
