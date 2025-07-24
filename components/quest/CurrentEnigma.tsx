@@ -1,13 +1,14 @@
 import type { Enigma } from '@/types/Quest';
 import titleStyle from '@/utils/titleStyle';
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Image, GestureResponderEvent } from 'react-native';
 import Button from '../Button';
 import { QuestSession } from '@/types/QuestSession';
 import Clues from './Clues';
 import { useGetClues } from '@/api/queries/useGetClues';
 import { useRequestClue } from '@/api/queries/useRequestClue';
-import { colors } from '@/utils/colors';
+import { colors } from '@/utils/colors'
+import AppCamera from './AppCamera';
 
 interface CurrentEnigmaProps {
     enigma: Enigma;
@@ -38,16 +39,10 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
         }
     }, [clues]);
 
-    if (showCamera) {
-        /*     return (
-                <Camera
-                    style={StyleSheet.absoluteFill}
-                    device={device}
-                    isActive={true}
-                />
-            ) */
-    }
 
+    if (showCamera) {
+        return (<AppCamera onCloseCamera={() => setShowCamera(false)} />)
+    }
 
     return (
         <View style={styles.currentEnigma}>
@@ -63,7 +58,7 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
             <View style={styles.buttons}>
                 <Button
                     title={"Faire une proposition"}
-                    onPress={() => { }}
+                    onPress={() => setShowCamera(true)}
                     type='primary'
                     icon={{
                         name: 'camera',
@@ -111,4 +106,5 @@ const styles = StyleSheet.create({
 });
 
 export default CurrentEnigma;
+
 

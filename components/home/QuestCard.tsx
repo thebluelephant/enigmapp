@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: '#1D212A',
         width: '100%',
-        maxHeight: 270,
+        height: 270,
         borderWidth: 0.5,
     },
     banner: {
