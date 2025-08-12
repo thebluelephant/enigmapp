@@ -24,7 +24,6 @@ const QuestList = () => {
                 return (
                     <QuestCard quest={quest} key={quest.id} state={getQuestState(quest, associatedQuestSession)} />
                 )
-
             })}
         </View>
     );
@@ -38,6 +37,7 @@ const styles = StyleSheet.create({
         flex: 1,
         gap: 10,
         paddingVertical: 10,
+
     },
 
 });

@@ -21,9 +21,7 @@ const QuestScreen = () => {
 const styles = StyleSheet.create({
     quest: {
         backgroundColor: colors.background,
-        display: 'flex',
         flex: 1,
-        padding: 20,
     },
 });
 

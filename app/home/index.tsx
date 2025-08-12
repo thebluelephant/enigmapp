@@ -5,7 +5,6 @@ import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import QuestDetailsModal from '@/components/home/QuestDetailsModal';
 import QuestList from '@/components/home/QuestList';
-import { useEffect } from 'react';
 
 const HomeScreen = () => {
     //  const { hasPermission, requestPermission } = useCameraPermission()

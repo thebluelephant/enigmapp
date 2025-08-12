@@ -34,8 +34,8 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                     <QuestLevel level={quest.level} />
                 </View>
                 <View style={styles.buttons}>
-                    <Button title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails(quest)} type='secondary' />
-                    <Button title={isInProgress ? 'Continuer' : "Commencer"} onPress={() => startQuest(userId, quest.id)} type='primary' />
+                    <Button size='mini' title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails(quest)} type='secondary' />
+                    <Button size='mini' title={isInProgress ? 'Continuer' : "Commencer"} onPress={() => startQuest(userId, quest.id)} type='primary' />
                 </View>
             </View>
         </View >
@@ -55,7 +55,10 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        position: 'absolute',
+        zIndex: 1,
+        width: '100%'
     },
     inProgressBanner: {
         backgroundColor: colors.yellow,
@@ -94,9 +97,12 @@ const styles = StyleSheet.create({
     },
     buttons: {
         display: 'flex',
+        width: '100%',
+        justifyContent: 'space-between',
         flexDirection: 'row',
         gap: 5,
     },
+
 
 });
 

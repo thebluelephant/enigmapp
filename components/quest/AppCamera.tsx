@@ -1,8 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useCameraDevice, Camera, useCameraFormat } from 'react-native-vision-camera';
-import ImageLabeling from '@react-native-ml-kit/image-labeling';
 import Button from '../Button';
+
+import RNFS from 'react-native-fs';
+import { postImageRecognition } from '@/api/Quests';
+
 
 type Props = {
     onCloseCamera: () => void
@@ -12,8 +15,9 @@ const AppCamera = ({ onCloseCamera }: Props) => {
     const device = useCameraDevice('back')
     const camera = useRef<Camera>(null)
     const format = useCameraFormat(device, [
-        { photoResolution: { width: 480, height: 650 } }
+        { photoResolution: { width: 651, height: 970 } }
     ])
+    const [elements, setElements] = useState<string[]>()
 
     if (!device) {
         return
@@ -22,12 +26,20 @@ const AppCamera = ({ onCloseCamera }: Props) => {
     const recognizeImage = async () => {
         const photo = await camera?.current?.takePhoto()
         if (photo) {
-            onCloseCamera()
-            const rawLabels = await ImageLabeling.label(`file://${photo?.path}`);
-            const labels = rawLabels.map((rawLabel) => rawLabel.text)
-            console.log(labels);
+            const base64 = await RNFS.readFile(photo.path, 'base64');
+            try {
+                const imageElements = await postImageRecognition(base64)
+                setElements(imageElements)
+                onCloseCamera()
+            } catch (error) {
+                console.log(error);
+                onCloseCamera()
+            }
+
         }
+
     }
+
     return (
         <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
             <Camera

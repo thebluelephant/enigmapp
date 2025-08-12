@@ -1,7 +1,7 @@
 import type { Enigma } from '@/types/Quest';
 import titleStyle from '@/utils/titleStyle';
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Image, GestureResponderEvent } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import Button from '../Button';
 import { QuestSession } from '@/types/QuestSession';
 import Clues from './Clues';
@@ -19,6 +19,7 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
     const [disableRequestClue, setDisableRequestClue] = useState(false);
     const { data: clues } = useGetClues(questSession.id, enigma.id)
     const { mutate: requestClue } = useRequestClue()
+    //Todo probleme UI dans les boutons Commencer et Plus d'info
 
     const askClue = async () => {
         if (clues) {
@@ -46,8 +47,8 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
 
     return (
         <View style={styles.currentEnigma}>
-            <View >
-                <View style={styles.content}>
+            <View style={styles.content}>
+                <View >
                     <Image style={styles.image} source={{ uri: enigma.image }} />
                     <Text style={titleStyle.default_l}>{enigma.title}</Text>
                     <Text style={[titleStyle.subtitle, styles.text]}>{enigma?.text}</Text>
@@ -81,27 +82,28 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
 
 const styles = StyleSheet.create({
     currentEnigma: {
+        padding: 20,
         flex: 1,
         justifyContent: 'space-between',
         backgroundColor: colors.background
     },
-    buttons: {
-        display: 'flex',
-        height: '15%',
+    content: {
         gap: 10,
+
+    },
+    buttons: {
+        height: 100,
+        gap: 5,
     },
     text: {
         fontSize: 14,
         lineHeight: 20
     },
-    content: {
-        gap: 10,
-        marginBottom: 20
-    },
     image: {
         height: 200,
         width: '100%',
         borderRadius: 5,
+        marginBottom: 10
     },
 });
 

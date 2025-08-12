@@ -1,6 +1,8 @@
 import type { Enigma, Quest } from "@/types/Quest"
 import { supabase } from "./core"
 import { QuestSession } from "@/types/QuestSession";
+import axios from "axios";
+import Config from '../env';
 
 export const fetchQuests = async (): Promise<Quest[] | null> => {
     const { data, error } = await supabase
@@ -94,5 +96,24 @@ export const postNewQuestSession = async (userId: number, questId: Quest['id']):
         }
         return data?.[0]
     }
+}
+
+export const postImageRecognition = async (image: Base64URLString) => {
+    return axios.post('https://vision.googleapis.com/v1/images:annotate',
+        {
+            requests: [
+                {
+                    image: { content: image },
+                    features: [{ type: 'OBJECT_LOCALIZATION', maxResults: 10 }],
+                }
+            ]
+        },
+        {
+            headers: {
+                'X-Goog-Api-Key': Config.GOOGLE_API_KEY
+            }
+        }
+    ).then((resp) => resp.data.responses[0].localizedObjectAnnotations.map((object) => object.name))
+
 }
 
