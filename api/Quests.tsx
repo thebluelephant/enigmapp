@@ -1,6 +1,6 @@
 import type { Enigma, Quest } from "@/types/Quest"
 import { supabase } from "./core"
-import { QuestSession } from "@/types/QuestSession";
+import { QuestSession, Solution } from "@/types/QuestSession";
 import axios from "axios";
 import Config from '../env';
 
@@ -98,6 +98,22 @@ export const postNewQuestSession = async (userId: number, questId: Quest['id']):
     }
 }
 
+export const updateQuestSessionSolutions = async (questSession: QuestSession, userSolution: Solution) => {
+    const updatedQuestSessionSolutions = [...(questSession.solutions ?? []), userSolution];
+    console.log('updated, ', updatedQuestSessionSolutions);
+    const { data, error } = await supabase
+        .from('quest_sessions')
+        .update({ solutions: updatedQuestSessionSolutions })
+        .eq('id', questSession.id)
+        .select()
+
+    if (error) {
+        console.log("fetchQuestSessionById error : ", error);
+    }
+    return data?.[0]
+
+}
+
 export const postImageRecognition = async (image: Base64URLString) => {
     return axios.post('https://vision.googleapis.com/v1/images:annotate',
         {
@@ -113,7 +129,7 @@ export const postImageRecognition = async (image: Base64URLString) => {
                 'X-Goog-Api-Key': Config.GOOGLE_API_KEY
             }
         }
-    ).then((resp) => resp.data.responses[0].localizedObjectAnnotations.map((object) => object.name))
+    ).then((resp) => resp.data.responses[0].localizedObjectAnnotations?.map((object) => object.name.toLowerCase()))
 
 }
 

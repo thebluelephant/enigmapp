@@ -1,36 +1,24 @@
+import { useGetEnigmaById } from '@/api/queries/useGetEnigmaById';
+import { useGetQuestById } from '@/api/queries/useGetQuestById';
 import { useGetQuestSession } from '@/api/queries/useGetQuestSession';
-import { fetchEnigmaById, fetchQuestById } from '@/api/Quests';
-import { Enigma, Quest } from '@/types/Quest';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 const useGetCurrentEnigma = (questSessionId: string) => {
     const { data: questSession } = useGetQuestSession(Number(questSessionId));
-    const [currentEnigma, setCurrentEnigma] = useState<Enigma | null>(null);
-    const [quest, setQuest] = useState<Quest | null>()
-    const [nextEnigmaId, setNextEnigmaId] = useState<Enigma['id']>();
+    const { mutate: getEnigmaById, data: currentEnigma } = useGetEnigmaById();
+    const { mutate: getQuestById, data: quest } = useGetQuestById();
 
     useEffect(() => {
-        const fetchEnigma = async () => {
-            if (!nextEnigmaId) return;
-            const enigma = await fetchEnigmaById(nextEnigmaId)
-            setCurrentEnigma(enigma);
+        if (questSession) {
+            getQuestById(questSession.quest_id)
         }
-        fetchEnigma()
-    }, [nextEnigmaId]);
-
-    useEffect(() => {
-        const fetchQuest = async () => {
-            if (!questSession?.quest_id) return;
-            const quest = await fetchQuestById(questSession.quest_id)
-            setQuest(quest);
-        }
-        fetchQuest()
     }, [questSession]);
 
     useEffect(() => {
         if (quest && questSession) {
-            const nextEnigmaIndex = (questSession.solutions?.length ?? 0) + 1
-            setNextEnigmaId(quest.enigmas[nextEnigmaIndex])
+            const nextEnigmaIndex = questSession.solutions.length
+            const nextEnigmaId = quest.enigmas[nextEnigmaIndex]
+            getEnigmaById(nextEnigmaId)
         }
     }, [questSession, quest]);
 

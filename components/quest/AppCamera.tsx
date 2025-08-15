@@ -1,23 +1,23 @@
-import React, { useRef, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { useCameraDevice, Camera, useCameraFormat } from 'react-native-vision-camera';
-import Button from '../Button';
-
+import CameraIcon from '../../assets/icons/Camera'
 import RNFS from 'react-native-fs';
 import { postImageRecognition } from '@/api/Quests';
+import { colors } from '@/utils/colors';
 
 
 type Props = {
     onCloseCamera: () => void
+    onProposeSolution: (proposition: string[]) => void
 }
 
-const AppCamera = ({ onCloseCamera }: Props) => {
+const AppCamera = ({ onCloseCamera, onProposeSolution }: Props) => {
     const device = useCameraDevice('back')
     const camera = useRef<Camera>(null)
     const format = useCameraFormat(device, [
         { photoResolution: { width: 651, height: 970 } }
     ])
-    const [elements, setElements] = useState<string[]>()
 
     if (!device) {
         return
@@ -29,50 +29,58 @@ const AppCamera = ({ onCloseCamera }: Props) => {
             const base64 = await RNFS.readFile(photo.path, 'base64');
             try {
                 const imageElements = await postImageRecognition(base64)
-                setElements(imageElements)
+                onProposeSolution(imageElements)
                 onCloseCamera()
             } catch (error) {
                 console.log(error);
                 onCloseCamera()
             }
-
         }
-
     }
 
     return (
-        <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+        <View style={styles.container}>
             <Camera
                 ref={camera}
-                style={{ position: 'absolute', top: 0, bottom: 50, left: 0, right: 0 }}
+                style={styles.camera}
                 device={device}
                 photo={true}
                 isActive={true}
                 format={format}
             />
-            <Button title={'Photo'} onPress={recognizeImage} type={'primary'} style={{ position: 'absolute', bottom: 0, height: 100, width: '100%' }} />
+            <View style={styles.buttonContainer}>
+                <Pressable onPress={recognizeImage} style={styles.button}>
+                    <CameraIcon color='white' height={24} />
+                </Pressable>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        gap: 10
+        gap: 10,
+        flex: 1
     },
-    title: {
-        display: 'flex',
-        flexDirection: 'row',
+    camera: {
+        flex: 1
+    },
+    buttonContainer: {
+        height: 70,
+        width: '100%',
+        justifyContent: 'center',
         alignItems: 'center',
-        gap: 5,
-        opacity: 0.7
+        position: 'absolute',
+        bottom: 50
     },
-    clue: {
-        backgroundColor: '#1C1E25',
-        borderColor: "#2A2F3B",
-        borderWidth: 1,
-        paddingVertical: 13,
-        paddingHorizontal: 10,
-        borderRadius: 5
+    button: {
+        height: 70,
+        width: 70,
+        backgroundColor: colors.yellow,
+        borderRadius: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+
     }
 });
 

@@ -14,6 +14,7 @@ export type Quest = {
     level: number;
     image: string;
     description: string;
+    state?: QuestState
 };
 
 export type QuestState = 'notStarted' | 'inProgress'

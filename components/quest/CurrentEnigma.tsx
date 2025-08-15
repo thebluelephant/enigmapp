@@ -9,6 +9,7 @@ import { useGetClues } from '@/api/queries/useGetClues';
 import { useRequestClue } from '@/api/queries/useRequestClue';
 import { colors } from '@/utils/colors'
 import AppCamera from './AppCamera';
+import { useUpdateQuestSessionSolutions } from '@/api/queries/useUpdateQuestSessionSolutions';
 
 interface CurrentEnigmaProps {
     enigma: Enigma;
@@ -19,7 +20,7 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
     const [disableRequestClue, setDisableRequestClue] = useState(false);
     const { data: clues } = useGetClues(questSession.id, enigma.id)
     const { mutate: requestClue } = useRequestClue()
-    //Todo probleme UI dans les boutons Commencer et Plus d'info
+    const { mutate: updateQuestSessionSolutions } = useUpdateQuestSessionSolutions()
 
     const askClue = async () => {
         if (clues) {
@@ -34,6 +35,16 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
         }
     }
 
+    const verifyProposition = async (proposition: string[]) => {
+        const userRightAnswer = enigma.solution.find((solution) => proposition.includes(solution))
+
+        if (userRightAnswer) {
+            console.log('enigma solution : ', enigma.solution, 'userProposition : ', proposition, 'matching ? ', userRightAnswer);
+            updateQuestSessionSolutions({ questSession: questSession, enigmaId: enigma.id, userSolution: userRightAnswer })
+        }
+
+    }
+
     useEffect(() => {
         if (clues) {
             setDisableRequestClue(clues.length >= 3)
@@ -42,7 +53,7 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
 
 
     if (showCamera) {
-        return (<AppCamera onCloseCamera={() => setShowCamera(false)} />)
+        return (<AppCamera onCloseCamera={() => setShowCamera(false)} onProposeSolution={verifyProposition} />)
     }
 
     return (

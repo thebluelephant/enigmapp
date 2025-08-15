@@ -7,6 +7,7 @@ import { useEnigmappContext } from '@/utils/EnigmappContext';
 import QuestLevel from './QuestLevel';
 import { startQuest } from '@/utils/quest';
 
+
 interface QuestCardProps {
     quest: Quest
     state: QuestState
@@ -34,10 +35,11 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                     <QuestLevel level={quest.level} />
                 </View>
                 <View style={styles.buttons}>
-                    <Button size='mini' title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails(quest)} type='secondary' />
+                    <Button size='mini' title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails({ ...quest, state: state })} type='secondary' />
                     <Button size='mini' title={isInProgress ? 'Continuer' : "Commencer"} onPress={() => startQuest(userId, quest.id)} type='primary' />
                 </View>
             </View>
+
         </View >
     );
 };

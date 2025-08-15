@@ -1,11 +1,9 @@
-import { Enigma } from "./Quest";
+import { Enigma, Quest } from "./Quest";
 
 
-type Solution = {
-    id: string,
-    quest_id: number,
-    step_id: string,
-    date: string,
+export type Solution = {
+    quest_id: Quest['id'],
+    enigma_id: Enigma['id'],
     solution: unknown
 }
 
