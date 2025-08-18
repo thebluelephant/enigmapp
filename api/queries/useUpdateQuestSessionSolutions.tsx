@@ -1,33 +1,31 @@
 import { QuestSession } from '@/types/QuestSession'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { updateQuestSessionSolutions } from '../Quests'
 import { Enigma } from '@/types/Quest'
+import { useEnigmappContext } from '@/utils/EnigmappContext'
 
 export const useUpdateQuestSessionSolutions = () => {
-    const queryClient = useQueryClient()
+    const { setResultModalStatus } = useEnigmappContext()
 
     return useMutation({
         mutationFn: async ({
             questSession,
-            enigmaId,
+            enigma,
             userSolution,
         }: {
             questSession: QuestSession
-            enigmaId: Enigma['id']
+            enigma: Enigma
             userSolution: string
         }) => {
             const formattedSolution = {
                 quest_id: questSession.quest_id,
-                enigma_id: enigmaId,
+                enigma_id: enigma.id,
                 solution: userSolution
             }
             return await updateQuestSessionSolutions(questSession, formattedSolution)
         },
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['questSession'],
-            })
-
+        onSuccess: (data, { enigma }) => {
+            setResultModalStatus('success', enigma.success_text)
         },
     })
 }

@@ -7,6 +7,7 @@ export const colors = {
     secondaryText: '9AA1AD',
     disabledText: '#808084',
     yellow: '#F59E0C',
-    green: '#12B981'
+    green: '#12B981',
+    red: '#EF4444'
 
 }

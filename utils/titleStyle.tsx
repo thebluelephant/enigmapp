@@ -1,16 +1,17 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { colors } from './colors';
 
 const styles = StyleSheet.create({
     default: {
-        fontWeight: 'bold',
         color: colors.primaryText,
         marginBottom: 4,
+        fontFamily: "Roboto_700Bold"
     },
     subtitle: {
         fontSize: 12,
         color: '#9BA2AE',
-        fontWeight: 'bold',
+        fontFamily: "Roboto_700Bold"
+
     },
 });
 

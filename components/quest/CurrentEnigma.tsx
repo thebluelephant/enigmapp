@@ -1,7 +1,7 @@
 import type { Enigma } from '@/types/Quest';
 import titleStyle from '@/utils/titleStyle';
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import Button from '../Button';
 import { QuestSession } from '@/types/QuestSession';
 import Clues from './Clues';
@@ -10,6 +10,9 @@ import { useRequestClue } from '@/api/queries/useRequestClue';
 import { colors } from '@/utils/colors'
 import AppCamera from './AppCamera';
 import { useUpdateQuestSessionSolutions } from '@/api/queries/useUpdateQuestSessionSolutions';
+import { useEnigmappContext } from '@/utils/EnigmappContext';
+import RequestClueButton from './RequestClueButton';
+
 
 interface CurrentEnigmaProps {
     enigma: Enigma;
@@ -17,77 +20,53 @@ interface CurrentEnigmaProps {
 }
 const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
     const [showCamera, setShowCamera] = useState(false);
-    const [disableRequestClue, setDisableRequestClue] = useState(false);
     const { data: clues } = useGetClues(questSession.id, enigma.id)
-    const { mutate: requestClue } = useRequestClue()
     const { mutate: updateQuestSessionSolutions } = useUpdateQuestSessionSolutions()
+    const { setResultModalStatus } = useEnigmappContext()
 
-    const askClue = async () => {
-        if (clues) {
-            const requestedCluesCount = clues.length ?? 0
-            if (requestedCluesCount < 3) {
-                requestClue({
-                    questSession,
-                    enigmaId: enigma.id,
-                    nextClueIndex: requestedCluesCount + 1
-                })
-            }
+    const validateAnswer = async (answer: string[]) => {
+        console.log('propositions:, ', answer);
+        if (!answer) {
+            setResultModalStatus('error')
         }
-    }
-
-    const verifyProposition = async (proposition: string[]) => {
-        const userRightAnswer = enigma.solution.find((solution) => proposition.includes(solution))
-
+        const userRightAnswer = enigma.solution.find((solution) => answer.includes(solution))
         if (userRightAnswer) {
-            console.log('enigma solution : ', enigma.solution, 'userProposition : ', proposition, 'matching ? ', userRightAnswer);
-            updateQuestSessionSolutions({ questSession: questSession, enigmaId: enigma.id, userSolution: userRightAnswer })
+            updateQuestSessionSolutions({ questSession: questSession, enigma: enigma, userSolution: userRightAnswer })
+        } else {
+            setResultModalStatus('error')
         }
-
     }
-
-    useEffect(() => {
-        if (clues) {
-            setDisableRequestClue(clues.length >= 3)
-        }
-    }, [clues]);
-
 
     if (showCamera) {
-        return (<AppCamera onCloseCamera={() => setShowCamera(false)} onProposeSolution={verifyProposition} />)
+        return (<AppCamera onCloseCamera={() => setShowCamera(false)} onProposeAnswer={validateAnswer} />)
     }
 
     return (
-        <View style={styles.currentEnigma}>
-            <View style={styles.content}>
-                <View >
-                    <Image style={styles.image} source={{ uri: enigma.image }} />
-                    <Text style={titleStyle.default_l}>{enigma.title}</Text>
-                    <Text style={[titleStyle.subtitle, styles.text]}>{enigma?.text}</Text>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View style={styles.currentEnigma}>
+                <View style={styles.content}>
+                    <View >
+                        <Image style={styles.image} source={{ uri: enigma.image }} />
+                        <Text style={[titleStyle.default_l, styles.title]}>{enigma.title}</Text>
+                        <Text style={[styles.text]}>{enigma?.text}</Text>
+                    </View>
+                    <Clues clues={clues} />
                 </View>
-                {!!clues?.length && <Clues clues={clues} />}
-            </View>
 
-            <View style={styles.buttons}>
-                <Button
-                    title={"Faire une proposition"}
-                    onPress={() => setShowCamera(true)}
-                    type='primary'
-                    icon={{
-                        name: 'camera',
-                        color: 'black',
-                        size: 15
-                    }} />
-                <Button
-                    title={"Demander un indice"}
-                    onPress={() => askClue()}
-                    type='secondary' disabled={disableRequestClue}
-                    icon={{
-                        name: 'bulb',
-                        color: disableRequestClue ? colors.disabledText : 'white',
-                        size: 15
-                    }} />
+                <View style={styles.buttons}>
+                    <Button
+                        title={"Faire une proposition"}
+                        onPress={() => setShowCamera(true)}
+                        type='primary'
+                        icon={{
+                            name: 'camera',
+                            color: 'black',
+                            size: 15
+                        }} />
+                    <RequestClueButton clues={clues} questSession={questSession} enigmaId={enigma.id} />
+                </View>
             </View>
-        </View>
+        </ScrollView>
     );
 };
 
@@ -99,22 +78,26 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background
     },
     content: {
-        gap: 10,
-
+        gap: 20,
+    },
+    title: {
+        marginBottom: 10
     },
     buttons: {
         height: 100,
         gap: 5,
+        marginTop: 20
     },
     text: {
         fontSize: 14,
-        lineHeight: 20
+        lineHeight: 20,
+        color: colors.primaryText
     },
     image: {
         height: 200,
         width: '100%',
         borderRadius: 5,
-        marginBottom: 10
+        marginBottom: 20
     },
 });
 

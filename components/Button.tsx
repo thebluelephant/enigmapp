@@ -17,7 +17,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ title, onPress, style, textStyle, type, disabled = false, icon, size = 'default' }) =>
     <Pressable style={[styles.button, style, disabled ? styles.disabled : styles[type], styles[size]]} onPress={onPress} disabled={disabled}>
         {icon && <Icon name={icon.name} color={icon.color} size={icon.size} />}
-        <Text style={[textStyle, disabled ? styles.textDisabled : styles[type]]}>{title}</Text>
+        <Text style={[styles.text, textStyle, disabled ? styles.textDisabled : styles[type]]}>{title}</Text>
     </Pressable>
 
 
@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     mini: {
         minHeight: 30
     },
-
     primary: {
         backgroundColor: colors.yellow,
         color: 'black'
@@ -57,6 +56,9 @@ const styles = StyleSheet.create({
     textDisabled: {
         color: colors.disabledText
     },
+    text: {
+        fontFamily: "Roboto_700Bold"
+    }
 });
 
 export default Button;

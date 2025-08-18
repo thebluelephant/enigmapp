@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     ranking: {
-        fontWeight: 'bold',
+        fontFamily: "Roboto_700Bold",
         color: colors.primaryText,
         fontSize: 12,
     },
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     },
     progress: {
         color: colors.yellow,
-        fontWeight: 'bold',
+        fontFamily: "Roboto_700Bold",
         fontSize: 12,
     }
 });

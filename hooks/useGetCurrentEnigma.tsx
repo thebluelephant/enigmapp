@@ -16,7 +16,7 @@ const useGetCurrentEnigma = (questSessionId: string) => {
 
     useEffect(() => {
         if (quest && questSession) {
-            const nextEnigmaIndex = questSession.solutions.length
+            const nextEnigmaIndex = questSession.solutions?.length ?? 0
             const nextEnigmaId = quest.enigmas[nextEnigmaIndex]
             getEnigmaById(nextEnigmaId)
         }

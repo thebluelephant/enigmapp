@@ -38,9 +38,21 @@
           "backgroundColor": "#ffffff"
         }
       ],
-     [ "react-native-vision-camera", {
-      "cameraPermissionText": "$(PRODUCT_NAME) needs access to your Camera."
-     }]
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/roboto/"
+          ]
+        }
+      ],
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "$(PRODUCT_NAME) needs access to your Camera."
+        }
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

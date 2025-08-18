@@ -6,6 +6,8 @@ import { colors } from '@/utils/colors';
 
 import useGetCurrentEnigma from '@/hooks/useGetCurrentEnigma';
 import TopBar from '@/components/TopBar';
+import ResultModal from '@/components/ResultModal';
+
 
 const QuestScreen = () => {
     const { id: questSessionId } = useLocalSearchParams();
@@ -14,6 +16,7 @@ const QuestScreen = () => {
     return (
         <SafeAreaView style={styles.quest}>
             <TopBar backButton={true} />
+            <ResultModal />
             {currentEnigma && questSession && <CurrentEnigma enigma={currentEnigma} questSession={questSession} />}
         </SafeAreaView>
     );

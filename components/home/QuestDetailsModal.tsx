@@ -8,6 +8,7 @@ import { startQuest } from '@/utils/quest';
 import GestureRecognizer from 'react-native-swipe-gestures';
 
 
+
 const QuestDetailsModal = () => {
     const { showQuestDetails: quest, setShowQuestDetails, userId } = useEnigmappContext()
     const isInProgress = quest?.state === 'inProgress'
@@ -15,19 +16,19 @@ const QuestDetailsModal = () => {
     if (!quest) {
         return null
     }
+
     return (
         <GestureRecognizer onSwipeDown={() => setShowQuestDetails(null)}>
             <Modal
                 animationType="slide"
-                transparent={true}
                 visible={!!quest}
                 onRequestClose={() => {
                     setShowQuestDetails(null);
                 }}
-
-                presentationStyle='overFullScreen'
+                backdropColor="#rgba(27, 27, 29, 0.4)"
             >
-                <View style={styles.modal}>
+                <View
+                    style={styles.modal}>
                     <Pressable onPress={() => setShowQuestDetails(null)} style={styles.closeIcon}>
                         <Icon name='close' size={20} color='white' />
                     </Pressable>
@@ -48,24 +49,24 @@ const QuestDetailsModal = () => {
                             onPress={() => startQuest(userId, quest.id)}
                             type={'primary'} />
                     </View>
-                </View>
+                </View >
             </Modal >
-        </GestureRecognizer>
+        </GestureRecognizer >
     );
 };
 
 const styles = StyleSheet.create({
     modal: {
         flexDirection: 'column',
+        backgroundColor: '#131B2A',
         gap: 10,
         padding: 20,
-        backgroundColor: '#1F2937',
-        borderRadius: 10,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
         position: 'absolute',
         bottom: 0,
-
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
     },
     subCard: {
         padding: 10,

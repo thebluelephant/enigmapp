@@ -17,8 +17,8 @@ const HomeScreen = () => {
         }, [requestPermission, hasPermission]); */
 
     return (
-        <SafeAreaView style={{ height: '100%' }}>
-            <ScrollView>
+        <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View style={styles.container}>
                     <QuestDetailsModal />
                     <AccountHeader />
@@ -31,10 +31,10 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         backgroundColor: colors.background,
         gap: 10,
         padding: 10,
-        height: '100%'
     }
 });
 

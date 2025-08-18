@@ -4,7 +4,7 @@ export type Enigma = {
     image: string;
     text: string;
     solution: string[];
-    clues: string[];
+    success_text: string
 };
 
 export type Quest = {
