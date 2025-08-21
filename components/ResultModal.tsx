@@ -14,6 +14,7 @@ import Button from './Button';
 const ResultModal = () => {
     const { resultModalStatus, setResultModalStatus } = useEnigmappContext()
     const isSuccess = resultModalStatus.status === 'success'
+    const hasFailedOnLastChance = resultModalStatus.status === 'error_last_chance'
     const queryClient = useQueryClient()
 
     if (!resultModalStatus.status) {
@@ -30,6 +31,25 @@ const ResultModal = () => {
     }
 
 
+    const getTitle = () => {
+        if (isSuccess) {
+            return 'Bien joué inspecteur !'
+        }
+        if (hasFailedOnLastChance) {
+            return "Mauvaise nouvelle inspecteur ... "
+        }
+        return "Pas tout a fait !"
+    }
+
+    const getSubtitle = () => {
+        if (isSuccess) {
+            return resultModalStatus.text
+        }
+        if (hasFailedOnLastChance) {
+            return "Vous ne gagnez pas de points et passez directement à l'énigme suivante."
+        }
+        return "Ce n'est pas le bon objet, regardez attentivement les indices et réesseayez !"
+    }
     return (
         <Animated.View
             style={styles.container}
@@ -43,15 +63,8 @@ const ResultModal = () => {
                 <View style={[styles.icon, isSuccess ? styles.isSuccessIcon : styles.isErrorIcon]}>
                     {isSuccess ? <Check height={30} color={colors.green} /> : <Close height={30} color={colors.red} />}
                 </View>
-
-                <Text style={[styles.text, styles.title]} >{isSuccess ? 'Bien joué inspecteur !' : "Pas tout à fait !"}</Text>
-                {
-                    isSuccess ?
-                        <Text style={titleStyle.subtitle}>{resultModalStatus.text}</Text> :
-                        <Text style={[styles.text, titleStyle.subtitle]}>
-                            Ce n'est pas le bon objet, regardez attentivement les indices et réesseayez !
-                        </Text>
-                }
+                <Text style={[styles.text, styles.title]} >{getTitle()}</Text>
+                <Text style={[styles.text, titleStyle.subtitle]}>{getSubtitle()}</Text>
                 {isSuccess ? <Button title="Continuer" onPress={closeModal} type='primary' /> : <Timer additionalStyle={styles.timer} seconds={5} onTimerFinished={closeModal} />}
             </View>
         </Animated.View>

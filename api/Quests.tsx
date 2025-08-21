@@ -100,7 +100,6 @@ export const postNewQuestSession = async (userId: number, questId: Quest['id']):
 
 export const updateQuestSessionSolutions = async (questSession: QuestSession, userSolution: Solution) => {
     const updatedQuestSessionSolutions = [...(questSession.solutions ?? []), userSolution];
-    console.log('updated, ', updatedQuestSessionSolutions);
     const { data, error } = await supabase
         .from('quest_sessions')
         .update({ solutions: updatedQuestSessionSolutions })
@@ -108,10 +107,63 @@ export const updateQuestSessionSolutions = async (questSession: QuestSession, us
         .select()
 
     if (error) {
-        console.log("fetchQuestSessionById error : ", error);
+        console.log("updateQuestSessionSolutions error : ", error);
     }
     return data?.[0]
 
+}
+
+export const updateQuestSessionPointsToWin = async (questSession: QuestSession, newPointsToWin: number) => {
+    const { data, error } = await supabase
+        .from('quest_sessions')
+        .update({ points_to_win: newPointsToWin })
+        .eq('id', questSession.id)
+        .select()
+
+    if (error) {
+        console.log("updateQuestSessionPointsToWin error : ", error);
+    }
+    return data?.[0]
+}
+
+export const resetQuestSessionPointsToWin = async (questSessionId: QuestSession['id']) => {
+    const { data, error } = await supabase
+        .from('quest_sessions')
+        .update({ points_to_win: 7 })
+        .eq('id', questSessionId)
+        .select()
+
+    if (error) {
+        console.log("resetQuestSessionPointsToWin error : ", error);
+    }
+    return data?.[0]
+}
+
+export const updateQuestSessionScore = async (questSession: QuestSession) => {
+    const newScore = questSession.score + questSession.points_to_win
+    const { data, error } = await supabase
+        .from('quest_sessions')
+        .update({ score: newScore })
+        .eq('id', questSession.id)
+        .select()
+
+    if (error) {
+        console.log("updateQuestSessionScore error : ", error);
+    }
+    return data?.[0]
+}
+
+export const updateQuestSessionTriesNumber = async (questSession: QuestSession, triesNumber: number) => {
+    const { data, error } = await supabase
+        .from('quest_sessions')
+        .update({ tries_number: triesNumber })
+        .eq('id', questSession.id)
+        .select()
+
+    if (error) {
+        console.log("updateQuestSessionTriesNumber error : ", error);
+    }
+    return data?.[0]
 }
 
 export const postImageRecognition = async (image: Base64URLString) => {

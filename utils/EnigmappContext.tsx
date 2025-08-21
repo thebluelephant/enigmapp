@@ -5,8 +5,8 @@ import { createContext, useContext, useState, type ReactNode } from 'react'
 interface EnigmappContextProps {
     showQuestDetails: Quest | null;
     setShowQuestDetails: (quest: Quest | null) => void
-    resultModalStatus: { status: 'success' | 'error' | null, text?: string },
-    setResultModalStatus: (status: 'success' | 'error' | null, text?: string) => void,
+    resultModalStatus: { status: 'success' | 'error' | 'error_last_chance' | null, text?: string },
+    setResultModalStatus: (status: 'success' | 'error' | 'error_last_chance' | null, text?: string) => void,
     userId: number;
     setUserId: (userId: number) => void
 }
@@ -19,14 +19,14 @@ const defaultValue: EnigmappContextProps = {
     userId: 1,
     setUserId: () => { },
     resultModalStatus: { status: null },
-    setResultModalStatus: () => { }
-
+    setResultModalStatus: () => { },
 }
 
 export const EnigmappContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [showQuestDetails, setShowQuestDetails] = useState(defaultValue.showQuestDetails);
     const [userId, setUserId] = useState(defaultValue.userId);
     const [resultModalStatus, setResultModalStatus] = useState(defaultValue.resultModalStatus)
+
 
     return (
         <EnigmappContext.Provider value={{
@@ -35,9 +35,9 @@ export const EnigmappContextProvider: React.FC<{ children: ReactNode }> = ({ chi
             userId,
             setUserId,
             resultModalStatus,
-            setResultModalStatus: (status: 'success' | 'error' | null, text?: string) => {
+            setResultModalStatus: (status: 'success' | 'error' | 'error_last_chance' | null, text?: string) => {
                 setResultModalStatus({ status, text });
-            }
+            },
         }}>
             {children}
         </EnigmappContext.Provider>

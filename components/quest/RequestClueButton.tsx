@@ -9,19 +9,11 @@ interface Props {
     clues: string[] | undefined,
     questSession: QuestSession,
     enigmaId: Enigma['id']
+    disabled: boolean
 }
 
-const RequestClueButton = ({ clues, questSession, enigmaId }: Props) => {
+const RequestClueButton = ({ clues, questSession, enigmaId, disabled }: Props) => {
     const { mutate: requestNewClue } = useRequestClue()
-    const [disableRequestClue, setDisableRequestClue] = useState(false);
-
-
-    useEffect(() => {
-        if (clues) {
-            setDisableRequestClue(clues.length >= 3)
-        }
-    }, [clues]);
-
 
     const requestClue = async () => {
         if (clues) {
@@ -41,10 +33,10 @@ const RequestClueButton = ({ clues, questSession, enigmaId }: Props) => {
             title={"Demander un indice"}
             onPress={requestClue}
             type='secondary'
-            disabled={disableRequestClue}
+            disabled={disabled}
             icon={{
                 name: 'bulb',
-                color: disableRequestClue ? colors.disabledText : 'white',
+                color: disabled ? colors.disabledText : 'white',
                 size: 15
             }} />
     );

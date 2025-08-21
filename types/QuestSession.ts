@@ -13,4 +13,8 @@ export type QuestSession = {
     quest_id: number;
     start_date: string;
     solutions: Solution[] | [];
+    score: number;
+    points_to_win: number;
+    tries_number: number
+
 };

@@ -1,39 +1,37 @@
-import type { Enigma } from '@/types/Quest';
+import type { Enigma, Quest } from '@/types/Quest';
 import titleStyle from '@/utils/titleStyle';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
-import Button from '../Button';
 import { QuestSession } from '@/types/QuestSession';
 import Clues from './Clues';
 import { useGetClues } from '@/api/queries/useGetClues';
-import { useRequestClue } from '@/api/queries/useRequestClue';
 import { colors } from '@/utils/colors'
 import AppCamera from './AppCamera';
-import { useUpdateQuestSessionSolutions } from '@/api/queries/useUpdateQuestSessionSolutions';
-import { useEnigmappContext } from '@/utils/EnigmappContext';
-import RequestClueButton from './RequestClueButton';
-
-
-interface CurrentEnigmaProps {
+import EnigmaHeader from './EnigmaHeader';
+import EnigmaButtons from './EnigmaButtons';
+import { useOnValidAnswer } from '@/api/queries/useOnValidAnswer';
+import { useOnWrongAnswer } from '@/api/queries/useOnWrongAnswer';
+interface ActiveEnigmaProps {
     enigma: Enigma;
     questSession: QuestSession;
+    quest: Quest;
+    clues: string[] | undefined
 }
-const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
+const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps) => {
     const [showCamera, setShowCamera] = useState(false);
-    const { data: clues } = useGetClues(questSession.id, enigma.id)
-    const { mutate: updateQuestSessionSolutions } = useUpdateQuestSessionSolutions()
-    const { setResultModalStatus } = useEnigmappContext()
+
+    const { mutate: onValidAnswer } = useOnValidAnswer()
+    const { mutate: onWrongAnswer } = useOnWrongAnswer()
 
     const validateAnswer = async (answer: string[]) => {
-        console.log('propositions:, ', answer);
         if (!answer) {
-            setResultModalStatus('error')
+            onWrongAnswer({ questSession: questSession, enigma: enigma })
         }
         const userRightAnswer = enigma.solution.find((solution) => answer.includes(solution))
         if (userRightAnswer) {
-            updateQuestSessionSolutions({ questSession: questSession, enigma: enigma, userSolution: userRightAnswer })
+            onValidAnswer({ questSession: questSession, enigma: enigma, userRightAnswer: userRightAnswer })
         } else {
-            setResultModalStatus('error')
+            onWrongAnswer({ questSession: questSession, enigma: enigma })
         }
     }
 
@@ -43,7 +41,8 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <View style={styles.currentEnigma}>
+            <EnigmaHeader totalEnigmas={quest.enigmas.length} questSession={questSession} />
+            <View style={styles.activeEnigma}>
                 <View style={styles.content}>
                     <View >
                         <Image style={styles.image} source={{ uri: enigma.image }} />
@@ -52,26 +51,14 @@ const CurrentEnigma = ({ enigma, questSession }: CurrentEnigmaProps) => {
                     </View>
                     <Clues clues={clues} />
                 </View>
-
-                <View style={styles.buttons}>
-                    <Button
-                        title={"Faire une proposition"}
-                        onPress={() => setShowCamera(true)}
-                        type='primary'
-                        icon={{
-                            name: 'camera',
-                            color: 'black',
-                            size: 15
-                        }} />
-                    <RequestClueButton clues={clues} questSession={questSession} enigmaId={enigma.id} />
-                </View>
+                <EnigmaButtons clues={clues} questSession={questSession} enigmaId={enigma.id} onShowCamera={() => setShowCamera(true)} />
             </View>
         </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
-    currentEnigma: {
+    activeEnigma: {
         padding: 20,
         flex: 1,
         justifyContent: 'space-between',
@@ -83,11 +70,7 @@ const styles = StyleSheet.create({
     title: {
         marginBottom: 10
     },
-    buttons: {
-        height: 100,
-        gap: 5,
-        marginTop: 20
-    },
+
     text: {
         fontSize: 14,
         lineHeight: 20,
@@ -101,6 +84,6 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CurrentEnigma;
+export default ActiveEnigma;
 
 

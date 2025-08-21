@@ -46,7 +46,10 @@ const QuestDetailsModal = () => {
                     <View>
                         <Button
                             title={isInProgress ? 'Continuer' : 'Commencer'}
-                            onPress={() => startQuest(userId, quest.id)}
+                            onPress={() => {
+                                startQuest(userId, quest.id)
+                                setShowQuestDetails(null)
+                            }}
                             type={'primary'} />
                     </View>
                 </View >

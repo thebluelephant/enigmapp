@@ -10,7 +10,7 @@ export type Clue = {
 
 export type RequestedClues = {
     id: number,
-    enigma_id: Enigma['id'], 
+    enigma_id: Enigma['id'],
     quest_session_id: QuestSession['id']
     clues: string[]
 }

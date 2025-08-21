@@ -4,13 +4,12 @@ import GenericModal from '../GenericModal';
 import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
 import Icon from '../Icon';
-import { QuestSession } from '@/types/QuestSession';
 import Button from '../Button';
 
 type IntroductionModalProps = {
     isVisible: boolean,
-    text: string,
-    image: string
+    text: string | undefined,
+    image: string | undefined
 };
 
 const IntroductionModal: React.FC<IntroductionModalProps> = ({
@@ -32,8 +31,12 @@ const IntroductionModal: React.FC<IntroductionModalProps> = ({
                         <Icon name='close' size={20} color='white' />
                     </Pressable>
                     <Image style={styles.image} source={{ uri: image }} />
-                    <Text style={titleStyle.subtitle}>{text}</Text>
-                    <Button title='OK !' onPress={() => setShowModal(false)} type='primary' style={{ width: '100%' }} />
+                    <View style={styles.content}>
+                        <Text style={titleStyle.subtitle}>{text}</Text>
+                        <View >
+                            <Button title='OK !' onPress={() => setShowModal(false)} type='primary' />
+                        </View>
+                    </View>
                 </View>
             </View>
         </GenericModal>
@@ -57,6 +60,7 @@ const styles = StyleSheet.create({
         paddingVertical: 50,
         paddingHorizontal: 20,
         alignItems: 'center',
+        justifyContent: 'space-between',
         gap: 20
     },
     image: {
@@ -68,6 +72,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 10,
         right: 10
+    },
+    content: {
+        flex: 1,
+        justifyContent: 'space-between',
+        width: '100%'
     }
 });
 
