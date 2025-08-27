@@ -17,4 +17,4 @@ export type Quest = {
     state?: QuestState
 };
 
-export type QuestState = 'notStarted' | 'inProgress'
+export type QuestState = 'notStarted' | 'inProgress' | 'finished'

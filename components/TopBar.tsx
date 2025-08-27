@@ -14,7 +14,7 @@ const TopBar: React.FC<TopBarProps> = ({ backButton, credit }: TopBarProps) => {
         <View style={styles.container}>
             {
                 backButton &&
-                <Pressable onPress={() => router.back()}>
+                <Pressable onPress={() => router.replace('/')}>
                     <BackArrow color={colors.yellow} height={24} />
                 </Pressable>
             }

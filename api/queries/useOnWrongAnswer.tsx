@@ -1,13 +1,9 @@
 import { QuestSession } from '@/types/QuestSession'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { updateQuestSessionPointsToWin, updateQuestSessionSolutions, updateQuestSessionTriesNumber } from '../Quests'
 import { Enigma } from '@/types/Quest'
-import { useEnigmappContext } from '@/utils/EnigmappContext'
 
 export const useOnWrongAnswer = () => {
-    const queryClient = useQueryClient()
-
-    const { setResultModalStatus } = useEnigmappContext()
 
     return useMutation({
         mutationFn: async ({
@@ -31,20 +27,15 @@ export const useOnWrongAnswer = () => {
                 //We reset the points to win and the tries number for the next enigma
                 await updateQuestSessionPointsToWin(questSession, 7)
                 await updateQuestSessionTriesNumber(questSession, 0)
+                return 'error_last_chance'
 
-                setResultModalStatus('error_last_chance')
             } else {
                 const newPointsToWin = questSession.points_to_win - 1
                 const newTriesNumber = questSession.tries_number + 1
                 await updateQuestSessionPointsToWin(questSession, newPointsToWin)
                 await updateQuestSessionTriesNumber(questSession, newTriesNumber)
-                setResultModalStatus('error')
+                return 'error'
             }
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['questSession'],
-            })
         },
 
     })

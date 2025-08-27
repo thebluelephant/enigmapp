@@ -4,7 +4,7 @@ import { fetchQuestSessionByUserId } from "../Quests";
 
 export const useGetUserQuestSessions = (userId: number): UseQueryResult<QuestSession[] | null> => {
     return useQuery({
-        queryKey: ['questSession', userId],
+        queryKey: ['questSessions', userId],
         queryFn: async () => {
             try {
                 const response = await fetchQuestSessionByUserId(userId)

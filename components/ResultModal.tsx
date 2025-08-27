@@ -5,19 +5,24 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import Timer from './Timer';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEnigmappContext } from '@/utils/EnigmappContext';
 import Close from '@/assets/icons/Close';
 import titleStyle from '@/utils/titleStyle';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import Button from './Button';
 
-const ResultModal = () => {
-    const { resultModalStatus, setResultModalStatus } = useEnigmappContext()
-    const isSuccess = resultModalStatus.status === 'success'
-    const hasFailedOnLastChance = resultModalStatus.status === 'error_last_chance'
+export type ResultModalStatus = "success" | "error" | "error_last_chance" | null
+
+type ResultModalProps = {
+    status: ResultModalStatus,
+    text?: string
+    onClose: () => void
+}
+const ResultModal = ({ status, text, onClose }: ResultModalProps) => {
+    const isSuccess = status === 'success'
+    const hasFailedOnLastChance = status === 'error_last_chance'
     const queryClient = useQueryClient()
 
-    if (!resultModalStatus.status) {
+    if (!status) {
         return null
     }
 
@@ -27,7 +32,7 @@ const ResultModal = () => {
                 queryKey: ['questSession'],
             })
         }
-        setResultModalStatus(null)
+        onClose()
     }
 
 
@@ -43,7 +48,7 @@ const ResultModal = () => {
 
     const getSubtitle = () => {
         if (isSuccess) {
-            return resultModalStatus.text
+            return text
         }
         if (hasFailedOnLastChance) {
             return "Vous ne gagnez pas de points et passez directement à l'énigme suivante."

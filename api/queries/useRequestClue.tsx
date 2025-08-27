@@ -16,15 +16,15 @@ export const useRequestClue = () => {
             enigmaId: number
             nextClueIndex: number
         }) => {
-            return await fetchClueAndUpdateRequestedClues(questSession, enigmaId, nextClueIndex)
+            const newPointsToWin = questSession.points_to_win - 2
+            await fetchClueAndUpdateRequestedClues(questSession, enigmaId, nextClueIndex)
+            await updateQuestSessionPointsToWin(questSession, newPointsToWin)
         },
-        onSuccess: async (data, variables) => {
-            const newPointsToWin = variables.questSession.points_to_win - 2
-            await updateQuestSessionPointsToWin(variables.questSession, newPointsToWin)
-            await queryClient.invalidateQueries({
+        onSuccess: (data, variables) => {
+            queryClient.invalidateQueries({
                 queryKey: ['clues', variables.questSession.id, variables.enigmaId],
             })
-            await queryClient.invalidateQueries({
+            queryClient.invalidateQueries({
                 queryKey: ['questSession'],
             })
         },

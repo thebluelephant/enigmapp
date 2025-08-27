@@ -5,8 +5,8 @@ import { createContext, useContext, useState, type ReactNode } from 'react'
 interface EnigmappContextProps {
     showQuestDetails: Quest | null;
     setShowQuestDetails: (quest: Quest | null) => void
-    resultModalStatus: { status: 'success' | 'error' | 'error_last_chance' | null, text?: string },
-    setResultModalStatus: (status: 'success' | 'error' | 'error_last_chance' | null, text?: string) => void,
+    showIntroductionModal: boolean,
+    setShowIntroductionModal: (showIntroductionModal: boolean) => void,
     userId: number;
     setUserId: (userId: number) => void
 }
@@ -16,28 +16,27 @@ const EnigmappContext = createContext<EnigmappContextProps | undefined>(undefine
 const defaultValue: EnigmappContextProps = {
     showQuestDetails: null,
     setShowQuestDetails: () => { },
+    showIntroductionModal: false,
+    setShowIntroductionModal: () => { },
     userId: 1,
     setUserId: () => { },
-    resultModalStatus: { status: null },
-    setResultModalStatus: () => { },
+
 }
 
 export const EnigmappContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [showQuestDetails, setShowQuestDetails] = useState(defaultValue.showQuestDetails);
     const [userId, setUserId] = useState(defaultValue.userId);
-    const [resultModalStatus, setResultModalStatus] = useState(defaultValue.resultModalStatus)
-
+    const [showIntroductionModal, setShowIntroductionModal] = useState(defaultValue.showIntroductionModal)
 
     return (
         <EnigmappContext.Provider value={{
+            showIntroductionModal,
+            setShowIntroductionModal,
             showQuestDetails,
             setShowQuestDetails,
             userId,
             setUserId,
-            resultModalStatus,
-            setResultModalStatus: (status: 'success' | 'error' | 'error_last_chance' | null, text?: string) => {
-                setResultModalStatus({ status, text });
-            },
+
         }}>
             {children}
         </EnigmappContext.Provider>

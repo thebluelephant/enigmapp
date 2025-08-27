@@ -1,40 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Image, View, StyleSheet, Text, Pressable } from 'react-native';
 import GenericModal from '../GenericModal';
 import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
 import Icon from '../Icon';
 import Button from '../Button';
+import { useEnigmappContext } from '@/utils/EnigmappContext';
 
 type IntroductionModalProps = {
-    isVisible: boolean,
     text: string | undefined,
     image: string | undefined
 };
 
 const IntroductionModal: React.FC<IntroductionModalProps> = ({
-    isVisible,
     text,
     image
 }) => {
-    const [showModal, setShowModal] = useState(false)
-
-    useEffect(() => {
-        setShowModal(isVisible)
-    }, [isVisible]);
+    const { showIntroductionModal, setShowIntroductionModal } = useEnigmappContext()
 
     return (
-        <GenericModal visible={showModal}>
+        <GenericModal visible={showIntroductionModal}>
             <View style={styles.modal}>
                 <View style={styles.container}>
-                    <Pressable onPress={() => setShowModal(false)} style={styles.closeIcon}>
+                    <Pressable onPress={() => setShowIntroductionModal(false)} style={styles.closeIcon}>
                         <Icon name='close' size={20} color='white' />
                     </Pressable>
                     <Image style={styles.image} source={{ uri: image }} />
                     <View style={styles.content}>
                         <Text style={titleStyle.subtitle}>{text}</Text>
                         <View >
-                            <Button title='OK !' onPress={() => setShowModal(false)} type='primary' />
+                            <Button title='OK !' onPress={() => setShowIntroductionModal(false)} type='primary' />
                         </View>
                     </View>
                 </View>

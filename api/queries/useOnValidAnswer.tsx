@@ -1,14 +1,10 @@
 import { QuestSession } from '@/types/QuestSession'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { Enigma } from '@/types/Quest'
-import { useEnigmappContext } from '@/utils/EnigmappContext'
 import { updateQuestSessionPointsToWin, updateQuestSessionScore, updateQuestSessionSolutions, updateQuestSessionTriesNumber } from '../Quests'
+import { ResultModalStatus } from '@/components/ResultModal'
 
 export const useOnValidAnswer = () => {
-    const queryClient = useQueryClient()
-
-    const { setResultModalStatus } = useEnigmappContext()
-
     return useMutation({
         mutationFn: async ({
             questSession,
@@ -18,7 +14,7 @@ export const useOnValidAnswer = () => {
             questSession: QuestSession
             enigma: Enigma
             userRightAnswer: string
-        }) => {
+        }): Promise<ResultModalStatus> => {
             const formattedSolution = {
                 quest_id: questSession.quest_id,
                 enigma_id: enigma.id,
@@ -31,13 +27,8 @@ export const useOnValidAnswer = () => {
             //We reset the points to win and the tries number for the next enigma
             await updateQuestSessionPointsToWin(questSession, 7)
             await updateQuestSessionTriesNumber(questSession, 0)
-            setResultModalStatus('success', enigma.success_text)
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ['questSession'],
-            })
-        },
+            return "success"
 
+        }
     })
 }

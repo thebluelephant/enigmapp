@@ -1,12 +1,13 @@
 import { EnigmappContextProvider } from "@/utils/EnigmappContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
+import moment from "moment";
 import { useFonts, Roboto_700Bold } from "@expo-google-fonts/roboto";
-
 const queryClient = new QueryClient()
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
+  moment.locale('fr');
+  useFonts({
     Roboto_700Bold,
   });
   return (

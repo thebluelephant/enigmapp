@@ -15,10 +15,14 @@ export const startQuest = (userId: number, questId: Quest['id']) => {
 }
 
 export const getQuestState = (quest: Quest, associatedQuestSession?: QuestSession): QuestState => {
+    console.log(quest.enigmas?.length, associatedQuestSession);
     if (!associatedQuestSession) {
         return 'notStarted'
-    } else {
+    }
+    if (associatedQuestSession && quest.enigmas?.length > (associatedQuestSession.solutions?.length ?? 0)) {
         return 'inProgress'
+    } else {
+        return 'finished'
     }
 
 }

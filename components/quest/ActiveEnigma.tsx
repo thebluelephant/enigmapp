@@ -1,16 +1,19 @@
 import type { Enigma, Quest } from '@/types/Quest';
 import titleStyle from '@/utils/titleStyle';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
 import { QuestSession } from '@/types/QuestSession';
 import Clues from './Clues';
-import { useGetClues } from '@/api/queries/useGetClues';
 import { colors } from '@/utils/colors'
 import AppCamera from './AppCamera';
 import EnigmaHeader from './EnigmaHeader';
 import EnigmaButtons from './EnigmaButtons';
 import { useOnValidAnswer } from '@/api/queries/useOnValidAnswer';
 import { useOnWrongAnswer } from '@/api/queries/useOnWrongAnswer';
+import ResultModal, { ResultModalStatus } from '../ResultModal';
+import ClotureModal from './ClotureModal';
+import { useQueryClient } from '@tanstack/react-query';
+import CameraLoader from './CameraLoader';
 interface ActiveEnigmaProps {
     enigma: Enigma;
     questSession: QuestSession;
@@ -18,10 +21,11 @@ interface ActiveEnigmaProps {
     clues: string[] | undefined
 }
 const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps) => {
+    const queryClient = useQueryClient()
     const [showCamera, setShowCamera] = useState(false);
-
-    const { mutate: onValidAnswer } = useOnValidAnswer()
-    const { mutate: onWrongAnswer } = useOnWrongAnswer()
+    const [resultModalStatus, setResultModalStatus] = useState<ResultModalStatus>(null)
+    const { mutate: onValidAnswer, data: validAnswerStatus } = useOnValidAnswer()
+    const { mutate: onWrongAnswer, data: wrongAnswerStatus } = useOnWrongAnswer()
 
     const validateAnswer = async (answer: string[]) => {
         if (!answer) {
@@ -35,12 +39,26 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
         }
     }
 
+    useEffect(() => {
+        if (wrongAnswerStatus || validAnswerStatus) {
+            setResultModalStatus(wrongAnswerStatus ?? validAnswerStatus ?? null)
+        }
+    }, [wrongAnswerStatus, validAnswerStatus]);
+
     if (showCamera) {
         return (<AppCamera onCloseCamera={() => setShowCamera(false)} onProposeAnswer={validateAnswer} />)
     }
 
+
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <ClotureModal isVisible={true} questName={quest.name} questSession={questSession} />
+            <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text : undefined} onClose={() => {
+                setResultModalStatus(null)
+                queryClient.invalidateQueries({
+                    queryKey: ['questSession'],
+                })
+            }} />
             <EnigmaHeader totalEnigmas={quest.enigmas.length} questSession={questSession} />
             <View style={styles.activeEnigma}>
                 <View style={styles.content}>

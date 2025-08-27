@@ -1,4 +1,4 @@
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { colors } from './colors';
 
 const styles = StyleSheet.create({
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
 // Style composé (hérite de "default")
 const titleStyle = {
     ...styles,
+    default_xl: [styles.default, { fontSize: 30 }],
     default_l: [styles.default, { fontSize: 18 }],
     default_m: [styles.default, { fontSize: 16 }],
     default_s: [styles.default, { fontSize: 14 }],

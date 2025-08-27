@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
-import { useCameraDevice, Camera, useCameraFormat } from 'react-native-vision-camera';
+import React, { useRef, useState } from 'react';
+import { View, StyleSheet, Pressable } from 'react-native';
+import { useCameraDevice, Camera } from 'react-native-vision-camera';
 import CameraIcon from '../../assets/icons/Camera'
 import RNFS from 'react-native-fs';
 import { postImageRecognition } from '@/api/Quests';
 import { colors } from '@/utils/colors';
+import CameraLoader from './CameraLoader';
 
 
 type Props = {
@@ -21,6 +22,10 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
         return
     }
 
+    if (isLoading) {
+        return <CameraLoader />
+    }
+
     const recognizeImage = async () => {
         setIsLoading(true)
         const photo = await camera?.current?.takePhoto()
@@ -28,7 +33,6 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
             const base64 = await RNFS.readFile(photo.path, 'base64');
             try {
                 const imageElements = await postImageRecognition(base64)
-                console.log('imageElements, ', imageElements);
                 onProposeAnswer(imageElements)
                 setIsLoading(false)
                 onCloseCamera()
@@ -44,7 +48,6 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
 
     return (
         <View style={styles.container}>
-            {isLoading && <View style={styles.loadingOverlay} />}
             <Camera
                 ref={camera}
                 style={styles.camera}
@@ -54,11 +57,7 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
             />
             <View style={styles.buttonContainer}>
                 <Pressable onPress={recognizeImage} style={[styles.button, isLoading && styles.disabledButton]} disabled={isLoading}>
-                    {isLoading ? (
-                        <View><ActivityIndicator color={colors.yellow} size="small" /></View>
-                    ) : (
-                        <CameraIcon color='white' height={24} />
-                    )}
+                    <CameraIcon color='white' height={24} />
                 </Pressable>
             </View>
         </View>

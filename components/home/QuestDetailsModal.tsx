@@ -4,13 +4,15 @@ import { View, Text, StyleSheet, Image, Pressable, Modal, } from 'react-native';
 import Button from '../Button';
 import QuestLevel from './QuestLevel';
 import Icon from '../Icon';
-import { startQuest } from '@/utils/quest';
 import GestureRecognizer from 'react-native-swipe-gestures';
+import { useStartQuest } from '@/api/queries/useStartQuest';
 
 
 
 const QuestDetailsModal = () => {
     const { showQuestDetails: quest, setShowQuestDetails, userId } = useEnigmappContext()
+    const { mutate: startQuest, data } = useStartQuest();
+
     const isInProgress = quest?.state === 'inProgress'
 
     if (!quest) {
@@ -47,7 +49,7 @@ const QuestDetailsModal = () => {
                         <Button
                             title={isInProgress ? 'Continuer' : 'Commencer'}
                             onPress={() => {
-                                startQuest(userId, quest.id)
+                                startQuest({ userId: userId, questId: quest.id, questState: quest?.state ?? 'notStarted' })
                                 setShowQuestDetails(null)
                             }}
                             type={'primary'} />

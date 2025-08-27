@@ -6,6 +6,7 @@ import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import QuestLevel from './QuestLevel';
 import { startQuest } from '@/utils/quest';
+import { useStartQuest } from '@/api/queries/useStartQuest';
 
 
 interface QuestCardProps {
@@ -15,10 +16,10 @@ interface QuestCardProps {
 
 const QuestCard = ({ quest, state }: QuestCardProps) => {
     const { userId } = useEnigmappContext()
+    const { mutate: startQuest } = useStartQuest();
     const { setShowQuestDetails } = useEnigmappContext();
     const isInProgress = state === 'inProgress'
     const hasNotStarted = state === 'notStarted'
-
 
     return (
         <View style={[styles.card, styles[state]]}>
@@ -36,7 +37,7 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                 </View>
                 <View style={styles.buttons}>
                     <Button size='mini' title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails({ ...quest, state: state })} type='secondary' />
-                    <Button size='mini' title={isInProgress ? 'Continuer' : "Commencer"} onPress={() => startQuest(userId, quest.id)} type='primary' />
+                    <Button size='mini' title={isInProgress ? 'Continuer' : "Commencer"} onPress={() => startQuest({ userId: userId, questId: quest.id, questState: state })} type='primary' />
                 </View>
             </View>
 

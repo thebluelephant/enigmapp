@@ -8,12 +8,10 @@ export const useGetActiveEnigma = () => {
 
     return useMutation({
         mutationFn: async ({
-            questSessionId
+            questSession
         }: {
-            questSessionId: QuestSession['id']
+            questSession: QuestSession
         }) => {
-
-            const questSession = await fetchQuestSessionById(questSessionId)
             if (questSession) {
                 const quest = await fetchQuestById(questSession.quest_id)
 

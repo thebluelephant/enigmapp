@@ -8,6 +8,6 @@ export const colors = {
     disabledText: '#808084',
     yellow: '#F59E0C',
     green: '#12B981',
-    red: '#EF4444'
+    red: '#EF4444',
 
 }
