@@ -52,7 +52,7 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <ClotureModal isVisible={true} questName={quest.name} questSession={questSession} />
+            {/*  <ClotureModal isVisible={true} questName={quest.name} questSession={questSession} /> */}
             <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text : undefined} onClose={() => {
                 setResultModalStatus(null)
                 queryClient.invalidateQueries({

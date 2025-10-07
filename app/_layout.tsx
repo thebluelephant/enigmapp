@@ -4,22 +4,28 @@ import { Stack } from "expo-router";
 import moment from "moment";
 import { useFonts, Roboto_700Bold } from "@expo-google-fonts/roboto";
 const queryClient = new QueryClient()
+import { Auth0Provider } from 'react-native-auth0';
+import Config from "@/env";
+
 
 export default function RootLayout() {
   moment.locale('fr');
   useFonts({
     Roboto_700Bold,
   });
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <EnigmappContextProvider>
-        <Stack screenOptions={{
-          headerShown: false,
-          animation: 'fade',
-          animationDuration: 2000,
-        }} />
-      </EnigmappContextProvider>
-    </QueryClientProvider>
+    <Auth0Provider domain={Config.AUTH0_DOMAIN} clientId={Config.AUTH0_CLIENTID}>
+      <QueryClientProvider client={queryClient}>
+        <EnigmappContextProvider>
+          <Stack screenOptions={{
+            headerShown: false,
+            animation: 'fade',
+            animationDuration: 2000,
+          }} />
+        </EnigmappContextProvider>
+      </QueryClientProvider>
+    </Auth0Provider>
 
   )
 }

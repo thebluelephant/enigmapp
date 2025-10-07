@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Image, View, StyleSheet, Text, Pressable } from 'react-native';
 import GenericModal from '../GenericModal';
 import { colors } from '@/utils/colors';

@@ -5,6 +5,7 @@ import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import QuestDetailsModal from '@/components/home/QuestDetailsModal';
 import QuestList from '@/components/home/QuestList';
+import TopBar from '@/components/TopBar';
 
 const HomeScreen = () => {
     //  const { hasPermission, requestPermission } = useCameraPermission()
@@ -18,6 +19,7 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <TopBar backButton={false} account={true} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View style={styles.container}>
                     <QuestDetailsModal />

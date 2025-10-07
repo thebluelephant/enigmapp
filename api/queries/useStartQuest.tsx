@@ -14,7 +14,7 @@ export const useStartQuest = () => {
             questId,
             questState
         }: {
-            userId: number,
+            userId: string,
             questId: Quest['id'],
             questState: QuestState
         }) => {

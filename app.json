@@ -52,7 +52,13 @@
           "cameraPermissionText": "$(PRODUCT_NAME) needs access to your Camera."
         }
       ],
-      "expo-font"
+      "expo-font",
+      [
+        "react-native-auth0",
+        {
+          "domain": "dev-bfwkqoak.us.auth0.com"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

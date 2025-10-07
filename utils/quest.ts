@@ -3,7 +3,7 @@ import { Quest, QuestState } from "@/types/Quest";
 import { QuestSession } from "@/types/QuestSession";
 import { router } from "expo-router";
 
-export const startQuest = (userId: number, questId: Quest['id']) => {
+export const startQuest = (userId: string, questId: Quest['id']) => {
     postNewQuestSession(userId, questId)
         .then((questSession) => {
             if (questSession instanceof Error) {
@@ -15,7 +15,6 @@ export const startQuest = (userId: number, questId: Quest['id']) => {
 }
 
 export const getQuestState = (quest: Quest, associatedQuestSession?: QuestSession): QuestState => {
-    console.log(quest.enigmas?.length, associatedQuestSession);
     if (!associatedQuestSession) {
         return 'notStarted'
     }

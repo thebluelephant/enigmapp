@@ -1,3 +1,4 @@
+import Account from '@/assets/icons/Account';
 import Bulb from '@/assets/icons/Bulb';
 import Camera from '@/assets/icons/Camera';
 import Close from '@/assets/icons/Close';
@@ -21,6 +22,8 @@ const Icon = ({ name, color, size }: IconProps) => {
             return <Camera color={color} height={size} />
         case 'close':
             return <Close color={color} height={size} />
+        case 'account':
+            return <Account color={color} height={size} />
         default:
             break;
     }

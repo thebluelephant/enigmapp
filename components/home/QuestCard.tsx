@@ -5,9 +5,7 @@ import Button from '../Button';
 import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import QuestLevel from './QuestLevel';
-import { startQuest } from '@/utils/quest';
 import { useStartQuest } from '@/api/queries/useStartQuest';
-
 
 interface QuestCardProps {
     quest: Quest
@@ -15,9 +13,8 @@ interface QuestCardProps {
 }
 
 const QuestCard = ({ quest, state }: QuestCardProps) => {
-    const { userId } = useEnigmappContext()
     const { mutate: startQuest } = useStartQuest();
-    const { setShowQuestDetails } = useEnigmappContext();
+    const { setShowQuestDetails, userId } = useEnigmappContext();
     const isInProgress = state === 'inProgress'
     const hasNotStarted = state === 'notStarted'
 

@@ -7,8 +7,8 @@ interface EnigmappContextProps {
     setShowQuestDetails: (quest: Quest | null) => void
     showIntroductionModal: boolean,
     setShowIntroductionModal: (showIntroductionModal: boolean) => void,
-    userId: number;
-    setUserId: (userId: number) => void
+    userId: string;
+    setUserId: (userId: string) => void
 }
 
 const EnigmappContext = createContext<EnigmappContextProps | undefined>(undefined);
@@ -18,7 +18,7 @@ const defaultValue: EnigmappContextProps = {
     setShowQuestDetails: () => { },
     showIntroductionModal: false,
     setShowIntroductionModal: () => { },
-    userId: 1,
+    userId: '',
     setUserId: () => { },
 
 }
