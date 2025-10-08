@@ -11,7 +11,6 @@ interface EnigmaHeaderProps {
 }
 const EnigmaHeader = ({ totalEnigmas, questSession }: EnigmaHeaderProps) => {
     const activeEnigmaIndex = (questSession.solutions?.length ?? 0) + 1
-
     return (
         < View style={styles.container} >
             <Text style={[titleStyle.default, styles.step]}>Étape {activeEnigmaIndex}/{totalEnigmas}</Text>

@@ -10,18 +10,19 @@ import ActiveEnigma from '@/components/quest/ActiveEnigma';
 import { useGetClues } from '@/api/queries/useGetClues';
 
 import { usetGetQuestSessionById } from '@/api/queries/usetGetQuestSessionById';
+import ClotureModal from '@/components/quest/ClotureModal';
 
 
 const QuestScreen = () => {
     const { id: questSessionId } = useLocalSearchParams();
     const { mutate: getActiveEnigma, data } = useGetActiveEnigma();
+
     // We need to use a Query to be able to invalidate it in some places and refresh data
     const { data: questSession } = usetGetQuestSessionById(Number(questSessionId))
     const enigma = data?.enigma;
     const quest = data?.quest;
-
+    const hasNextEnigma = enigma && Object.keys(enigma).length
     const { data: clues } = useGetClues(Number(questSessionId), enigma?.id)
-
 
 
     useEffect(() => {
@@ -30,12 +31,15 @@ const QuestScreen = () => {
         }
     }, [questSession]);
 
+    if (!hasNextEnigma && quest && questSession) {
+        return (<ClotureModal isVisible={true} questName={quest.name} questSession={questSession} />)
+    }
 
     return (
         <SafeAreaView style={styles.quest}>
             <TopBar backButton={true} />
             <IntroductionModal text={quest?.description} image={quest?.image} />
-            {enigma && quest && questSession && <ActiveEnigma enigma={enigma} questSession={questSession} quest={quest} clues={clues} />}
+            {hasNextEnigma && quest && questSession && <ActiveEnigma enigma={enigma} questSession={questSession} quest={quest} clues={clues} />}
         </SafeAreaView>
     );
 }

@@ -3,6 +3,7 @@ import { supabase } from "./core"
 import { QuestSession, Solution } from "@/types/QuestSession";
 import axios from "axios";
 import Config from '../env';
+import { updateAccountWithNewInProgressQuest } from "./Account";
 
 export const fetchQuests = async (): Promise<Quest[] | null> => {
     const { data, error } = await supabase
@@ -86,7 +87,7 @@ export const postNewQuestSession = async (userId: string, questId: Quest['id']):
     if (existingQuestSession) {
         return existingQuestSession
     } else {
-        const { data, error } = await supabase
+        const { data: questSession, error } = await supabase
             .from('quest_sessions')
             .insert({ user_id: userId, quest_id: questId })
             .select()
@@ -94,7 +95,12 @@ export const postNewQuestSession = async (userId: string, questId: Quest['id']):
         if (error) {
             console.log("postNewQuestSession error : ", error);
         }
-        return data?.[0]
+
+        if (questSession) {
+            await updateAccountWithNewInProgressQuest(userId, questId, questSession[0].id)
+            return questSession[0]
+        }
+        return null
     }
 }
 

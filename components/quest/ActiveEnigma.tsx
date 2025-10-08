@@ -11,9 +11,7 @@ import EnigmaButtons from './EnigmaButtons';
 import { useOnValidAnswer } from '@/api/queries/useOnValidAnswer';
 import { useOnWrongAnswer } from '@/api/queries/useOnWrongAnswer';
 import ResultModal, { ResultModalStatus } from '../ResultModal';
-import ClotureModal from './ClotureModal';
 import { useQueryClient } from '@tanstack/react-query';
-import CameraLoader from './CameraLoader';
 interface ActiveEnigmaProps {
     enigma: Enigma;
     questSession: QuestSession;
@@ -52,7 +50,6 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            {/*  <ClotureModal isVisible={true} questName={quest.name} questSession={questSession} /> */}
             <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text : undefined} onClose={() => {
                 setResultModalStatus(null)
                 queryClient.invalidateQueries({

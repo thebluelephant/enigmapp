@@ -1,15 +1,14 @@
 import { postNewQuestSession } from "@/api/Quests";
 import { Quest, QuestState } from "@/types/Quest";
 import { QuestSession } from "@/types/QuestSession";
-import { router } from "expo-router";
 
-export const startQuest = (userId: string, questId: Quest['id']) => {
-    postNewQuestSession(userId, questId)
+export const startQuest = async (userId: string, questId: Quest['id']) => {
+    return postNewQuestSession(userId, questId)
         .then((questSession) => {
             if (questSession instanceof Error) {
                 return;
             } else {
-                router.push(`/quest/${questSession?.id}`);
+                return questSession
             }
         })
 }
@@ -24,4 +23,12 @@ export const getQuestState = (quest: Quest, associatedQuestSession?: QuestSessio
         return 'finished'
     }
 
+}
+
+export const getQuestButtonWordingFromState = (state: QuestState) => {
+    if (state === 'inProgress') {
+        return 'Continuer'
+    } else if (state === 'notStarted') {
+        return 'Commencer'
+    } else return 'Quête terminée'
 }

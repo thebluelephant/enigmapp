@@ -3,8 +3,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Quest, QuestState } from '@/types/Quest'
 import { startQuest } from '@/utils/quest'
 import { useEnigmappContext } from '@/utils/EnigmappContext'
+import { useRouter } from 'expo-router'
 
 export const useStartQuest = () => {
+    const router = useRouter()
     const { setShowIntroductionModal } = useEnigmappContext()
     const queryClient = useQueryClient()
 
@@ -12,13 +14,15 @@ export const useStartQuest = () => {
         mutationFn: async ({
             userId,
             questId,
-            questState
         }: {
             userId: string,
             questId: Quest['id'],
             questState: QuestState
         }) => {
-            return startQuest(userId, questId)
+            const questSession = await startQuest(userId, questId)
+            if (questSession) {
+                router.push(`/quest/${questSession?.id}`);
+            }
         },
         onSuccess: (data, variables) => {
             if (variables.questState === 'notStarted') {

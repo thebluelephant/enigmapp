@@ -6,6 +6,7 @@ import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import QuestLevel from './QuestLevel';
 import { useStartQuest } from '@/api/queries/useStartQuest';
+import { getQuestButtonWordingFromState } from '@/utils/quest';
 
 interface QuestCardProps {
     quest: Quest
@@ -17,13 +18,14 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
     const { setShowQuestDetails, userId } = useEnigmappContext();
     const isInProgress = state === 'inProgress'
     const hasNotStarted = state === 'notStarted'
+    const isFinished = state === 'finished'
 
     return (
         <View style={[styles.card, styles[state]]}>
             {
                 !hasNotStarted &&
                 <View style={[styles.banner, isInProgress ? styles.inProgressBanner : styles.completedBanner]}>
-                    <Text style={[titleStyle.default_s, styles.textBanner]}>{isInProgress ? 'En cours' : 'Terminé'}</Text>
+                    <Text style={[titleStyle.default_s, styles.textBanner]}>{isInProgress ? 'En cours' : 'Terminée'}</Text>
                 </View>
             }
             <Image style={styles.image} source={{ uri: quest.image }} />
@@ -34,7 +36,7 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                 </View>
                 <View style={styles.buttons}>
                     <Button size='mini' title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails({ ...quest, state: state })} type='secondary' />
-                    <Button size='mini' title={isInProgress ? 'Continuer' : "Commencer"} onPress={() => startQuest({ userId: userId, questId: quest.id, questState: state })} type='primary' />
+                    <Button size='mini' disabled={isFinished} title={getQuestButtonWordingFromState(state)} onPress={() => !isFinished && startQuest({ userId: userId, questId: quest.id, questState: state })} type='primary' />
                 </View>
             </View>
 

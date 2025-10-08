@@ -1,0 +1,87 @@
+import type { Quest } from "@/types/Quest"
+import { supabase } from "./core"
+import { Account, MinimizedQuest } from "@/types/Account"
+import { QuestSession } from "@/types/QuestSession"
+
+
+export const fetchAccountById = async (userId: Account['user_id']) => {
+    const { data, error } = await supabase
+        .from('accounts')
+        .select()
+        .eq('user_id', userId)
+
+    if (error) {
+        console.log("fetchAccountById error : ", error);
+    }
+    return data?.[0]
+}
+
+export const updateAccountWithNewInProgressQuest = async (userId: Account['user_id'], questId: Quest['id'], questSessionId: QuestSession['id']) => {
+    const newQuest: MinimizedQuest = {
+        quest_session_id: questSessionId,
+        quest_id: questId,
+        started_at: new Date(),
+        ended_at: null
+    }
+    const account = await fetchAccountById(userId)
+
+    if (account) {
+        const updatedInProgressQuests = [...(account.in_progress_quests ?? []), newQuest];
+        const { data, error } = await supabase
+            .from('accounts')
+            .update({ in_progress_quests: updatedInProgressQuests })
+            .eq('user_id', account.user_id)
+            .select()
+
+        if (error) {
+            console.log("updateAccountWithNewInProgressQuest error : ", error);
+        }
+        return data?.[0]
+    }
+}
+export const updateAccountWithDeletedInProgressQuest = async (userId: Account['user_id'], questId: Quest['id'], questSessionId: QuestSession['id']) => {
+    const account = await fetchAccountById(userId)
+
+    if (account) {
+        // We delete the concerned entry from the "in progress quests" to update the complete list of in progress quests
+        const updatedInProgressQuests = account.in_progress_quests.filter(((ipq: MinimizedQuest) => ipq.quest_session_id != questSessionId))
+        const { data, error } = await supabase
+            .from('accounts')
+            .update({ in_progress_quests: updatedInProgressQuests })
+            .eq('user_id', account.user_id)
+            .select()
+
+        if (error) {
+            console.log("updateAccountWithDeletedInProgressQuest error : ", error);
+        }
+        return data?.[0]
+    }
+}
+export const updateAccountWithCompletedQuest = async (userId: Account['user_id'], questId: Quest['id']) => {
+    const account: Account = await fetchAccountById(userId)
+
+    if (account) {
+        const initialStartedQuest = account.in_progress_quests.find((quest) => quest.quest_id === questId)
+
+        const completedQuest = {
+            ...initialStartedQuest,
+            ended_at: new Date()
+        }
+
+        if (account) {
+            const updatedCompletedQuests = [...(account.completed_quests ?? []), completedQuest];
+            const { data, error } = await supabase
+                .from('accounts')
+                .update({ 'completed_quests': updatedCompletedQuests })
+                .eq('user_id', account.user_id)
+                .select()
+
+            if (error) {
+                console.log("updateAccountWithCompletedQuest error : ", error);
+            }
+            return data?.[0]
+        }
+    }
+
+
+}

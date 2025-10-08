@@ -22,14 +22,10 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
         return
     }
 
-    if (isLoading) {
-        return <CameraLoader />
-    }
-
     const recognizeImage = async () => {
-        setIsLoading(true)
         const photo = await camera?.current?.takePhoto()
         if (photo) {
+            setIsLoading(true)
             const base64 = await RNFS.readFile(photo.path, 'base64');
             try {
                 const imageElements = await postImageRecognition(base64)
@@ -48,18 +44,26 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
 
     return (
         <View style={styles.container}>
-            <Camera
-                ref={camera}
-                style={styles.camera}
-                device={device}
-                photo={true}
-                isActive={true}
-            />
-            <View style={styles.buttonContainer}>
-                <Pressable onPress={recognizeImage} style={[styles.button, isLoading && styles.disabledButton]} disabled={isLoading}>
-                    <CameraIcon color='white' height={24} />
-                </Pressable>
-            </View>
+            {
+                isLoading ?
+                    <CameraLoader />
+                    :
+                    <>
+                        <Camera
+                            ref={camera}
+                            style={styles.camera}
+                            device={device}
+                            photo={true}
+                            isActive={true}
+                        />
+                        <View style={styles.buttonContainer}>
+                            <Pressable onPress={recognizeImage} style={[styles.button, isLoading && styles.disabledButton]} disabled={isLoading}>
+                                <CameraIcon color='white' height={24} />
+                            </Pressable>
+                        </View>
+                    </>
+            }
+
         </View>
     )
 }
