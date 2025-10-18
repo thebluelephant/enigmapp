@@ -15,6 +15,17 @@ export const fetchAccountById = async (userId: Account['user_id']) => {
     }
     return data?.[0]
 }
+export const fetchCompletedQuestsByAccountId = async (userId: Account['user_id']) => {
+    const { data, error } = await supabase
+        .from('accounts')
+        .select('completed_quests')
+        .eq('user_id', userId)
+
+    if (error) {
+        console.log("fetchCompletedQuestsByAccountId error : ", error);
+    }
+    return data?.[0].completed_quests
+}
 
 export const updateAccountWithNewInProgressQuest = async (userId: Account['user_id'], questId: Quest['id'], questSessionId: QuestSession['id']) => {
     const newQuest: MinimizedQuest = {

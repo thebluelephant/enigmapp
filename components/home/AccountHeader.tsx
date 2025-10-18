@@ -1,9 +1,16 @@
+import { useGetAccountStats } from '@/api/queries/useGetAccountStats';
 import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
 import React from 'react';
 import { StyleSheet, View, ImageBackground, Text } from 'react-native';
 
 const AccountHeader = () => {
+    const { data: stats } = useGetAccountStats()
+
+    if (!stats) {
+        return
+    }
+
     return (
         <ImageBackground
             source={require('../../assets/images/inspector-office.jpg')}
@@ -12,19 +19,20 @@ const AccountHeader = () => {
             <View style={styles.container}>
                 <Text style={[titleStyle.default_l, styles.title]}>Bienvenue inspecteur !</Text>
                 <Text style={titleStyle.subtitle}>Prêt a résoudre des énigmes grâce a votre caméra ?</Text>
-                <View style={styles.rankContainer} >
-                    <Text style={styles.ranking}>Classement : Expert</Text>
-                    <Text style={styles.ranking}>8/12 cas résolus</Text>
-                </View>
+
                 <View style={styles.subCards}>
                     <View style={styles.subCard}>
-                        <Text style={titleStyle.subtitle}>Current case</Text>
-                        <Text style={styles.progress}>40% completed</Text>
+                        <Text style={titleStyle.subtitle}>Cas résolus</Text>
+                        <Text style={styles.progress}>{stats.accountResolvedQuests}/{stats.totalAppQuests}</Text>
                     </View>
-                    <View style={styles.subCard}>
-                        <Text style={titleStyle.subtitle}>Available coins</Text>
-                        <Text style={styles.progress}>250</Text>
-                    </View>
+                    {
+                        !!stats.lastQuestProgression &&
+                        <View style={styles.subCard}>
+                            <Text style={titleStyle.subtitle}>Quête en cours</Text>
+                            <Text style={styles.progress}>{stats.lastQuestProgression}% complétée</Text>
+                        </View>
+                    }
+
                 </View>
             </View>
         </ImageBackground >
@@ -43,12 +51,6 @@ const styles = StyleSheet.create({
     title: {
         marginBottom: 4,
     },
-    rankContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 20,
-        paddingVertical: 10,
-    },
     ranking: {
         fontFamily: "Roboto_700Bold",
         color: colors.primaryText,
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         gap: 5,
+        marginTop: 15
     },
     subCard: {
         backgroundColor: 'black',

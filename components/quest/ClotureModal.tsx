@@ -27,7 +27,7 @@ const ClotureModal: React.FC<ClotureModalProps> = ({
     questSession
 }) => {
     const [showModal, setShowModal] = useState(false)
-    const totalTime = moment(moment(questSession.start_date)).fromNow(true)
+    const totalTime = moment(moment(questSession.start_date).locale('fr')).fromNow(true)
 
     useEffect(() => {
         setShowModal(isVisible)
@@ -58,7 +58,7 @@ const ClotureModal: React.FC<ClotureModalProps> = ({
                                     <Diamond color={colors.yellow} />
                                     <Text style={styles.statLabel}>Score</Text>
                                 </View>
-                                <Text style={styles.statNumber}>{questSession.score}</Text>
+                                <Text style={styles.statNumber}>{questSession.score} points</Text>
                             </View>
                             <View style={styles.stat}>
                                 <View style={{ flexDirection: "row", gap: 10 }}>
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(27, 26, 26, 0.94)',
     },
     container: {
-        height: '60%',
         width: '80%',
         backgroundColor: 'rgba(241, 200, 38, 0.1)',
         borderRadius: 10,
@@ -96,7 +95,8 @@ const styles = StyleSheet.create({
         borderColor: colors.yellow,
         paddingBottom: 50,
         paddingHorizontal: 20,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        gap: 20
     },
     content: {
         alignItems: 'center',
