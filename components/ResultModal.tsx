@@ -58,19 +58,27 @@ const ResultModal = ({ status, text, onClose }: ResultModalProps) => {
     return (
         <Animated.View
             style={styles.container}
-            key={'uniqueKey'}
             entering={FadeIn.duration(800)}
             exiting={FadeOut.duration(800)}
         >
 
             <View style={styles.overlay} />
             <View style={styles.modal}>
-                <View style={[styles.icon, isSuccess ? styles.isSuccessIcon : styles.isErrorIcon]}>
-                    {isSuccess ? <Check height={30} color={colors.green} /> : <Close height={30} color={colors.red} />}
+                <View style={styles.content}>
+                    <View style={[styles.icon, isSuccess ? styles.isSuccessIcon : styles.isErrorIcon]}>
+                        {isSuccess ? <Check height={30} color={colors.green} /> : <Close height={30} color={colors.red} />}
+                    </View>
+                    <Text style={[styles.text, styles.title]} >{getTitle()}</Text>
+                    <Text style={[styles.text, titleStyle.subtitle]}>{getSubtitle()}</Text>
                 </View>
-                <Text style={[styles.text, styles.title]} >{getTitle()}</Text>
-                <Text style={[styles.text, titleStyle.subtitle]}>{getSubtitle()}</Text>
-                {isSuccess ? <Button title="Continuer" onPress={closeModal} type='primary' /> : <Timer additionalStyle={styles.timer} seconds={5} onTimerFinished={closeModal} />}
+
+                {isSuccess ?
+                    <View style={{ height: 50 }}>
+                        <Button title="Continuer" onPress={closeModal} type='primary' />
+                    </View>
+                    :
+
+                    <Timer additionalStyle={styles.timer} seconds={5} onTimerFinished={closeModal} />}
             </View>
         </Animated.View>
     );
@@ -88,7 +96,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     modal: {
-        height: "55%",
+        height: "50%",
         width: '90%',
         borderRadius: 10,
         borderWidth: 0.3,
@@ -96,9 +104,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(49, 60, 49, 0.3)',
         paddingHorizontal: 50,
         paddingVertical: 20,
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    content: {
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 10
+        gap: 20
     },
     overlay: {
         position: 'absolute',

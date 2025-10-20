@@ -13,7 +13,7 @@ const CGU = () => {
                 <Text style={titleStyle.default_m}>Conditions Générales d'Utilisation</Text>
                 <Text style={[titleStyle.default_s, { paddingBottom: 40 }]}>
                     1. Présentation de l’Application {"\n"}
-                    L’application Enigmapp (ci-après « l’Application ») est éditée par [Nom de ton studio ou société], dont le siège social est situé à [adresse].{"\n"}
+                    L’application Enigmapp (ci-après « l’Application ») est éditée par Léa Delacotte, dont le siège social est situé en Ardèche, France.{"\n"}
                     Elle propose une expérience ludique et interactive d’énigmes à résoudre en photographiant des objets du quotidien.{"\n"}
 
                     En accédant et en utilisant l’Application, l’utilisateur (ci-après « l’Utilisateur ») reconnaît avoir pris connaissance des présentes Conditions Générales d’Utilisation (CGU) et les accepter pleinement.{"\n"}
@@ -72,7 +72,7 @@ const CGU = () => {
                     10. Droit applicable et juridiction compétente{"\n"}
 
                     Les présentes CGU sont soumises au droit français.{"\n"}
-                    En cas de litige, et après tentative de résolution amiable, les tribunaux compétents de [ville/pays] seront seuls compétents.{"\n"}
+                    En cas de litige, et après tentative de résolution amiable, les tribunaux compétents de France seront seuls compétents.{"\n"}
                 </Text>
             </ScrollView>
         </View >

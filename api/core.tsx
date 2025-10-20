@@ -1,4 +1,3 @@
 import { createClient } from "@supabase/supabase-js";
-import Config from '../env';
 
-export const supabase = createClient(Config.SUPABASE_URL, Config.SUPABASE_KEY, { db: { schema: Config.SUPABASE_SCHEMA } })
+export const supabase = createClient(process.env.EXPO_PUBLIC_SUPABASE_URL, process.env.EXPO_PUBLIC_SUPABASE_KEY, { db: { schema: process.env.EXPO_PUBLIC_SUPABASE_SCHEMA } })

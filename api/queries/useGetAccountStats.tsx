@@ -4,13 +4,14 @@ import { fetchMostRecentQuestSessionId } from "../Stats";
 import { useAuth0 } from "react-native-auth0";
 import { fetchCompletedQuestsByAccountId } from "../Account";
 
-export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number }> => {
+export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number }, Error> => {
     const { user } = useAuth0()
-    return useQuery({
+    return useQuery<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number }, Error>({
         queryKey: ['accountStats'],
         queryFn: async () => {
             try {
                 const appQuests = await fetchQuests()
+                const totalAppQuests = appQuests?.length ?? 0
                 let totalResolvedCases = 0
                 // in percent
                 let mostRecentQuestSessionProgress = 0
@@ -26,17 +27,17 @@ export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: nu
                         if (questSession) {
                             const quest = await fetchQuestById(questSession?.quest_id)
                             if (quest) {
-                                const progression = questSession.solutions.length / quest?.enigmas?.length;
+                                const progression = questSession?.solutions?.length / (quest?.enigmas?.length ?? 1);
                                 mostRecentQuestSessionProgress = Math.round(progression * 100)
                             }
                         }
+                    }
+                }
 
-                    }
-                    return {
-                        totalAppQuests: appQuests?.length,
-                        accountResolvedQuests: totalResolvedCases,
-                        lastQuestProgression: mostRecentQuestSessionProgress
-                    }
+                return {
+                    totalAppQuests,
+                    accountResolvedQuests: totalResolvedCases,
+                    lastQuestProgression: mostRecentQuestSessionProgress
                 }
 
             } catch (e) {

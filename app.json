@@ -1,26 +1,37 @@
 {
   "expo": {
-    "name": "enigmapp",
-    "slug": "enigmapp",
+    "name": "Enigmapp",
+    "slug": "Enigmapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#1A1A1D"
+    },
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.enigmapp"
+      "bundleIdentifier": "com.anonymous.enigmapp",
+      "infoPlist": {
+        "NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera."
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "permissions": [
           "CAMERA"
         ],
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1A1A1D"
       },
-      "package": "com.anonymous.enigmapp"
+      "package": "com.anonymous.enigmapp",
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -29,15 +40,6 @@
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
       [
         "expo-font",
         {
@@ -58,10 +60,23 @@
         {
           "domain": "dev-bfwkqoak.us.auth0.com"
         }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#1A1A1D",
+          "image": "./assets/images/icon.png"
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "cd6be927-d3dd-465e-bdd8-3e63b9e7f72d"
+      }
     }
   }
 }

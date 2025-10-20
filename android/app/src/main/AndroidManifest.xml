@@ -33,7 +33,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="com.anonymous.enigmapp.auth0" android:host="dev-bfwkqoak.us.auth0.com"/>
+        <data android:scheme="com.anonymous.enigmapp.auth0" android:pathPrefix="/android/com.anonymous.enigmapp/callback" android:host="dev-bfwkqoak.us.auth0.com"/>
       </intent-filter>
     </activity>
   </application>

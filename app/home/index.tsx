@@ -6,16 +6,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import QuestDetailsModal from '@/components/home/QuestDetailsModal';
 import QuestList from '@/components/home/QuestList';
 import TopBar from '@/components/TopBar';
+import { useCameraPermission } from 'react-native-vision-camera';
+import { useEffect } from 'react';
 
 const HomeScreen = () => {
-    //  const { hasPermission, requestPermission } = useCameraPermission()
+    const { hasPermission, requestPermission } = useCameraPermission()
 
-    /*     useEffect(() => {
-            if (!hasPermission) {
-                requestPermission().then((status) => { console.log(status); })
-            }
-    
-        }, [requestPermission, hasPermission]); */
+    useEffect(() => {
+        if (!hasPermission) {
+            requestPermission()
+        }
+
+    }, [requestPermission, hasPermission]);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

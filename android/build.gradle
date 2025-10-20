@@ -12,10 +12,6 @@ buildscript {
   }
 }
 
-ext {
-    auth0Scheme = "com.anonymous.enigmapp"
-}
-
 def reactNativeAndroidDir = new File(
   providers.exec {
     workingDir(rootDir)

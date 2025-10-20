@@ -2,7 +2,6 @@ import type { Enigma, Quest } from "@/types/Quest"
 import { supabase } from "./core"
 import { QuestSession, Solution } from "@/types/QuestSession";
 import axios from "axios";
-import Config from '../env';
 import { updateAccountWithNewInProgressQuest } from "./Account";
 
 export const fetchQuests = async (): Promise<Quest[] | null> => {
@@ -184,7 +183,7 @@ export const postImageRecognition = async (image: Base64URLString) => {
         },
         {
             headers: {
-                'X-Goog-Api-Key': Config.GOOGLE_API_KEY
+                'X-Goog-Api-Key': process.env.EXPO_PUBLIC_GOOGLE_API_KEY
             }
         }
     ).then((resp) => resp.data.responses[0].localizedObjectAnnotations?.map((object) => object.name.toLowerCase()))

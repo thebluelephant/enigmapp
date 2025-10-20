@@ -1,9 +1,8 @@
 import React from 'react';
-import { Image, View, StyleSheet, Text, Pressable } from 'react-native';
+import { Image, View, StyleSheet, Text, ScrollView } from 'react-native';
 import GenericModal from '../GenericModal';
 import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
-import Icon from '../Icon';
 import Button from '../Button';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 
@@ -22,56 +21,47 @@ const IntroductionModal: React.FC<IntroductionModalProps> = ({
         <GenericModal visible={showIntroductionModal}>
             <View style={styles.modal}>
                 <View style={styles.container}>
-                    <Pressable onPress={() => setShowIntroductionModal(false)} style={styles.closeIcon}>
-                        <Icon name='close' size={20} color='white' />
-                    </Pressable>
-                    <Image style={styles.image} source={{ uri: image }} />
-                    <View style={styles.content}>
-                        <Text style={titleStyle.subtitle}>{text}</Text>
-                        <View >
-                            <Button title='OK !' onPress={() => setShowIntroductionModal(false)} type='primary' />
+                    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                        <Image style={styles.image
+                        } source={{ uri: image }} />
+                        <View style={styles.content}>
+                            <Text style={titleStyle.subtitle}>{text}</Text>
+                            <View >
+                                <Button title='OK !' onPress={() => setShowIntroductionModal(false)} type='primary' />
+                            </View>
                         </View>
-                    </View>
+                    </ScrollView>
                 </View>
             </View>
-        </GenericModal>
+        </GenericModal >
     );
 };
 
 const styles = StyleSheet.create({
     modal: {
         height: '100%',
+        padding: 30,
         justifyContent: 'center',
         alignItems: "center",
-        backgroundColor: 'rgba(178, 178, 178, 0.3)',
+        backgroundColor: 'rgba(178, 178, 178, 0.58)',
     },
     container: {
-        height: '80%',
-        width: '80%',
         backgroundColor: colors.tertiaryBackground,
         borderRadius: 10,
         borderWidth: 0.3,
         borderColor: colors.yellow,
-        paddingVertical: 50,
-        paddingHorizontal: 20,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 20
+        padding: 20,
     },
     image: {
         height: 200,
         width: '100%',
         borderRadius: 5,
-    },
-    closeIcon: {
-        position: 'absolute',
-        top: 10,
-        right: 10
+        marginBottom: 20
     },
     content: {
-        flex: 1,
+        flexDirection: 'column',
         justifyContent: 'space-between',
-        width: '100%'
+        flex: 1,
     }
 });
 
