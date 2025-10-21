@@ -7,9 +7,6 @@ const queryClient = new QueryClient()
 import { Auth0Provider } from 'react-native-auth0';
 import 'moment/locale/fr';
 
-
-
-
 export default function RootLayout() {
   moment.locale('fr');
   useFonts({

@@ -1,12 +1,10 @@
-import Bulb from '@/assets/icons/Bulb';
 import { RequestedClues } from '@/types/Clue';
 import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
-
-
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Icon from '../Icon';
+import i18n from '@/app/intl/config';
 
 type Props = {
     clues?: RequestedClues['clues']
@@ -21,7 +19,7 @@ const Clues = ({ clues }: Props) => {
             <View style={styles.title}>
                 <Icon name='bulb' color={colors.yellow} size={15} />
                 <Text style={titleStyle.subtitle}>
-                    Indices utilisés ({clues.length}/3)
+                    {i18n.t('clues.subtitle')} ({clues.length}/3)
                 </Text>
             </View>
 

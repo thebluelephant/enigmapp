@@ -7,10 +7,11 @@ import Icon from '../Icon';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { useStartQuest } from '@/api/queries/useStartQuest';
 import { getQuestButtonWordingFromState } from '@/utils/quest';
+import i18n from '@/app/intl/config';
 
 const QuestDetailsModal = () => {
     const { showQuestDetails: quest, setShowQuestDetails, userId } = useEnigmappContext()
-    const { mutate: startQuest, data } = useStartQuest();
+    const { mutate: startQuest } = useStartQuest();
 
     if (!quest) {
         return null
@@ -39,13 +40,13 @@ const QuestDetailsModal = () => {
                     <Image style={styles.image} source={{ uri: quest?.image }} />
 
                     <View style={styles.subCard}>
-                        <Text style={titleStyle.default_s}>Description</Text>
+                        <Text style={titleStyle.default_s}>{i18n.t('quest-details-modal.description')} </Text>
                         <Text style={[titleStyle.subtitle]}>{quest?.description}</Text>
                     </View>
                     <View>
                         <Button
                             disabled={quest.state === 'finished'}
-                            title={getQuestButtonWordingFromState(quest.state ?? 'finished')}
+                            title={getQuestButtonWordingFromState(quest.state ?? 'finished', i18n)}
                             onPress={() => {
                                 startQuest({ userId: userId, questId: quest.id, questState: quest?.state ?? 'notStarted' })
                                 setShowQuestDetails(null)

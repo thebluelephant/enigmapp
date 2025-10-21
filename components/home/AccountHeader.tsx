@@ -1,4 +1,5 @@
 import { useGetAccountStats } from '@/api/queries/useGetAccountStats';
+import i18n from '@/app/intl/config';
 import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
 import React from 'react';
@@ -17,19 +18,19 @@ const AccountHeader = () => {
             imageStyle={{ opacity: 0.2, height: 'auto', width: '100%' }}
             resizeMode='cover'>
             <View style={styles.container}>
-                <Text style={[titleStyle.default_l, styles.title]}>Bienvenue inspecteur !</Text>
-                <Text style={titleStyle.subtitle}>Prêt a résoudre des énigmes grâce a votre caméra ?</Text>
+                <Text style={[titleStyle.default_l, styles.title]}>{i18n.t('account-header.title')}</Text>
+                <Text style={titleStyle.subtitle}>{i18n.t('account-header.subtitle')}</Text>
 
                 <View style={styles.subCards}>
                     <View style={styles.subCard}>
-                        <Text style={titleStyle.subtitle}>Cas résolus</Text>
+                        <Text style={titleStyle.subtitle}>{i18n.t('account-header.resolved-cases')}</Text>
                         <Text style={styles.progress}>{stats.accountResolvedQuests}/{stats.totalAppQuests}</Text>
                     </View>
                     {
                         !!stats.lastQuestProgression &&
                         <View style={styles.subCard}>
-                            <Text style={titleStyle.subtitle}>Quête en cours</Text>
-                            <Text style={styles.progress}>{stats.lastQuestProgression}% complétée</Text>
+                            <Text style={titleStyle.subtitle}>{i18n.t('account-header.in-progress-quest')}</Text>
+                            <Text style={styles.progress}>{stats.lastQuestProgression}% {i18n.t('account-header.completed')}</Text>
                         </View>
                     }
 

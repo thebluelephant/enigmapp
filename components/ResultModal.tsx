@@ -9,6 +9,7 @@ import Close from '@/assets/icons/Close';
 import titleStyle from '@/utils/titleStyle';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import Button from './Button';
+import i18n from '@/app/intl/config';
 
 export type ResultModalStatus = "success" | "error" | "error_last_chance" | null
 
@@ -38,12 +39,12 @@ const ResultModal = ({ status, text, onClose }: ResultModalProps) => {
 
     const getTitle = () => {
         if (isSuccess) {
-            return 'Bien joué inspecteur !'
+            return i18n.t('result-modal.title-success')
         }
         if (hasFailedOnLastChance) {
-            return "Mauvaise nouvelle inspecteur ... "
+            return i18n.t('result-modal.title-last-chance')
         }
-        return "Pas tout a fait !"
+        return i18n.t('result-modal.title-failed')
     }
 
     const getSubtitle = () => {
@@ -51,9 +52,9 @@ const ResultModal = ({ status, text, onClose }: ResultModalProps) => {
             return text
         }
         if (hasFailedOnLastChance) {
-            return "Vous ne gagnez pas de points et passez directement à l'énigme suivante."
+            return i18n.t('result-modal.subtitle-last-chance')
         }
-        return "Ce n'est pas le bon objet, regardez attentivement les indices et réesseayez !"
+        return i18n.t('result-modal.subtitle-failed')
     }
     return (
         <Animated.View
@@ -74,7 +75,7 @@ const ResultModal = ({ status, text, onClose }: ResultModalProps) => {
 
                 {isSuccess ?
                     <View style={{ height: 50 }}>
-                        <Button title="Continuer" onPress={closeModal} type='primary' />
+                        <Button title={i18n.t('result-modal.button')} onPress={closeModal} type='primary' />
                     </View>
                     :
 

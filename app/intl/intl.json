@@ -1,0 +1,146 @@
+{
+    "fr": {
+        "login": {
+            "subtitle": "Votre aventure de détective commence ici",
+            "legend": "Plongez dans un univers steampunk où chaque énigme se résout en photographiant les bons objets",
+            "login": "Connexion",
+            "sign-up": "Inscription",
+            "cgu-1": "En vous connectant, vous acceptez",
+            "cgu-2": "nos conditions d'utilisation"
+        },
+        "account": {
+            "username": "Nom d'utilisateur",
+            "email": "E-mail",
+            "logout": "Déconnexion"
+        },
+        "account-header": {
+            "title": "Bienvenue, inspecteur !",
+            "subtitle": "Prêt à résoudre des énigmes grâce à votre caméra ?",
+            "resolved-cases": "Cas résolus",
+            "in-progress-quest": "Quête en cours",
+            "completed": "complétée"
+        },
+        "quest-card": {
+            "in-progress": "En cours",
+            "finished": "Terminée",
+            "more-info": "+ d'infos"
+        },
+        "quest-details-modal": {
+            "description": "Description"
+        },
+        "camera-loader": {
+            "title": "Analyse en cours..."
+        },
+        "cloture-modal": {
+            "congrats": "Félicitations !",
+            "quest-finished-1": "Vous avez terminé la quête",
+            "quest-finished-2": "avec brio !",
+            "score": "Score",
+            "points": "points",
+            "total-time": "Temps total",
+            "back-home": "Retour à l'accueil"
+        },
+        "clues": {
+            "subtitle": "Indices utilisés"
+        },
+        "enigma-button": {
+            "title": "Faire une proposition"
+        },
+        "enigma-header": {
+            "title": "Étape"
+        },
+        "request-clue-button": {
+            "title": "Demander un indice"
+        },
+        "result-modal": {
+            "title-success": "Bien joué, inspecteur !",
+            "title-last-chance": "Mauvaise nouvelle, inspecteur...",
+            "title-failed": "Pas tout à fait !",
+            "subtitle-last-chance": "Vous ne gagnez pas de points et passez directement à l'énigme suivante.",
+            "subtitle-failed": "Ce n'est pas le bon objet. Regardez attentivement les indices et réessayez !",
+            "button": "Continuer"
+        },
+        "utils-quest": {
+            "button-continue": "Continuer",
+            "button-not-started": "Commencer",
+            "button-finished": "Quête terminée"
+        },
+        "quest-level": {
+            "easy": "Facile",
+            "medium": "Intermédiaire",
+            "expert": "Expert"
+        }
+    },
+    "en": {
+        "login": {
+            "subtitle": "Your detective adventure begins here",
+            "legend": "Dive into a steampunk world where every riddle is solved by photographing the right objects",
+            "login": "Login",
+            "sign-up": "Sign Up",
+            "cgu-1": "By logging in, you agree to",
+            "cgu-2": "our terms of use"
+        },
+        "account": {
+            "username": "Username",
+            "email": "Email",
+            "logout": "Logout"
+        },
+        "account-header": {
+            "title": "Welcome, Inspector!",
+            "subtitle": "Ready to solve riddles with your camera?",
+            "resolved-cases": "Cases solved",
+            "in-progress-quest": "Ongoing quest",
+            "completed": "completed"
+        },
+        "quest-card": {
+            "in-progress": "In progress",
+            "finished": "Completed",
+            "more-info": "+ info"
+        },
+        "quest-details-modal": {
+            "description": "Description"
+        },
+        "camera-loader": {
+            "title": "Analyzing..."
+        },
+        "cloture-modal": {
+            "congrats": "Congratulations!",
+            "quest-finished-1": "You have completed the quest",
+            "quest-finished-2": "with flying colors!",
+            "score": "Score",
+            "points": "points",
+            "total-time": "Total time",
+            "back-home": "Back to home"
+        },
+        "clues": {
+            "subtitle": "Clues used"
+        },
+        "enigma-button": {
+            "title": "Make a guess"
+        },
+        "enigma-header": {
+            "title": "Step"
+        },
+        "request-clue-button": {
+            "title": "Request a clue"
+        },
+        "result-modal": {
+            "title-success": "Well done, Inspector!",
+            "title-last-chance": "Bad news, Inspector...",
+            "title-failed": "Not quite!",
+            "subtitle-last-chance": "You earn no points and move directly to the next riddle.",
+            "subtitle-failed": "That’s not the right object. Take another look at the clues and try again!",
+            "button": "Continue"
+        },
+        "utils-quest": {
+            "button-continue": "Continue",
+            "button-not-started": "Start",
+            "button-finished": "Quest completed"
+        },
+        "quest-level": {
+            "easy": "Easy",
+            "medium": "Medium",
+            "expert": "Expert"
+        }
+    }
+}

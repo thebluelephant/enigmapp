@@ -24,7 +24,6 @@ const GenericModal: React.FC<GenericModalProps> = ({
         onRequestClose={onClose}
         transparent
     >
-
         {children}
     </RNModal>
 

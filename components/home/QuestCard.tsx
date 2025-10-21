@@ -7,6 +7,7 @@ import { useEnigmappContext } from '@/utils/EnigmappContext';
 import QuestLevel from './QuestLevel';
 import { useStartQuest } from '@/api/queries/useStartQuest';
 import { getQuestButtonWordingFromState } from '@/utils/quest';
+import i18n from '@/app/intl/config';
 
 interface QuestCardProps {
     quest: Quest
@@ -25,7 +26,7 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
             {
                 !hasNotStarted &&
                 <View style={[styles.banner, isInProgress ? styles.inProgressBanner : styles.completedBanner]}>
-                    <Text style={[titleStyle.default_s, styles.textBanner]}>{isInProgress ? 'En cours' : 'Terminée'}</Text>
+                    <Text style={[titleStyle.default_s, styles.textBanner]}>{isInProgress ? i18n.t('quest-card.in-progress') : i18n.t('quest-card.finished')}</Text>
                 </View>
             }
             <Image style={styles.image} source={{ uri: quest.image }} />
@@ -35,8 +36,8 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                     <QuestLevel level={quest.level} />
                 </View>
                 <View style={styles.buttons}>
-                    <Button size='mini' title={"+ d'info"} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails({ ...quest, state: state })} type='secondary' />
-                    <Button size='mini' disabled={isFinished} title={getQuestButtonWordingFromState(state)} onPress={() => !isFinished && startQuest({ userId: userId, questId: quest.id, questState: state })} type='primary' />
+                    <Button size='mini' title={i18n.t('quest-card.more-info')} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails({ ...quest, state: state })} type='secondary' />
+                    <Button size='mini' disabled={isFinished} title={getQuestButtonWordingFromState(state, i18n)} onPress={() => !isFinished && startQuest({ userId: userId, questId: quest.id, questState: state })} type='primary' />
                 </View>
             </View>
 

@@ -1,6 +1,7 @@
 import { postNewQuestSession } from "@/api/Quests";
 import { Quest, QuestState } from "@/types/Quest";
 import { QuestSession } from "@/types/QuestSession";
+import { I18n } from "i18n-js";
 
 export const startQuest = async (userId: string, questId: Quest['id']) => {
     return postNewQuestSession(userId, questId)
@@ -25,10 +26,10 @@ export const getQuestState = (quest: Quest, associatedQuestSession?: QuestSessio
 
 }
 
-export const getQuestButtonWordingFromState = (state: QuestState) => {
+export const getQuestButtonWordingFromState = (state: QuestState, i18n: I18n) => {
     if (state === 'inProgress') {
-        return 'Continuer'
+        return i18n.t('utils-quest.button-continue')
     } else if (state === 'notStarted') {
-        return 'Commencer'
-    } else return 'Quête terminée'
+        return i18n.t('utils-quest.button-not-started')
+    } else return i18n.t('utils-quest.button-finished')
 }

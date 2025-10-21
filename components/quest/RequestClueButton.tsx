@@ -4,6 +4,7 @@ import { QuestSession } from '@/types/QuestSession';
 import { colors } from '@/utils/colors';
 import React, { useEffect, useState } from 'react';
 import Button from '../Button';
+import i18n from '@/app/intl/config';
 
 interface Props {
     clues: string[] | undefined,
@@ -30,7 +31,7 @@ const RequestClueButton = ({ clues, questSession, enigmaId, disabled }: Props) =
 
     return (
         <Button
-            title={"Demander un indice"}
+            title={i18n.t('request-clue-button.title')}
             onPress={requestClue}
             type='secondary'
             disabled={disabled}

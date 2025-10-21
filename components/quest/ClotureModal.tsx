@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, Pressable, GestureResponderEvent } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import GenericModal from '../GenericModal';
 import { colors } from '@/utils/colors';
 
@@ -7,13 +7,13 @@ import titleStyle from '@/utils/titleStyle';
 import { Quest } from '@/types/Quest';
 import { QuestSession } from '@/types/QuestSession';
 import moment from 'moment'
-import Medal from '@/assets/icons/Medal';
 import Button from '../Button';
 import { router } from 'expo-router';
 
 import Diamond from '@/assets/icons/Diamond';
 import Clock from '@/assets/icons/Clock';
 import LottieView from 'lottie-react-native';
+import i18n from '@/app/intl/config';
 
 type ClotureModalProps = {
     isVisible: boolean,
@@ -49,21 +49,21 @@ const ClotureModal: React.FC<ClotureModalProps> = ({
                             source={require('@/assets/animations/cloturePrize.json')}
                         />
 
-                        <Text style={[titleStyle.default_xl, styles.title]}>Felicitations !</Text>
-                        <Text style={{ color: colors.primaryText }}>Vous avez terminé la quête "{questName}"  avec brio !</Text>
+                        <Text style={[titleStyle.default_xl, styles.title]}>{i18n.t('cloture-modal.congrats')}</Text>
+                        <Text style={{ color: colors.primaryText }}>{i18n.t('cloture-modal.quest-finished-1')} "{questName}" {i18n.t('cloture-modal.quest-finished-2')}</Text>
 
                         <View style={styles.stats}>
                             <View style={styles.stat}>
                                 <View style={{ flexDirection: "row", gap: 10 }}>
                                     <Diamond color={colors.yellow} />
-                                    <Text style={styles.statLabel}>Score</Text>
+                                    <Text style={styles.statLabel}>{i18n.t('cloture-modal.score')}</Text>
                                 </View>
-                                <Text style={styles.statNumber}>{questSession.score} points</Text>
+                                <Text style={styles.statNumber}>{questSession.score} {i18n.t('cloture-modal.points')}</Text>
                             </View>
                             <View style={styles.stat}>
                                 <View style={{ flexDirection: "row", gap: 10 }}>
                                     <Clock color={colors.yellow} />
-                                    <Text style={styles.statLabel}>Temps total</Text>
+                                    <Text style={styles.statLabel}>{i18n.t('cloture-modal.total-time')}</Text>
                                 </View>
                                 <Text style={styles.statNumber}>{totalTime}</Text>
                             </View>
@@ -72,7 +72,7 @@ const ClotureModal: React.FC<ClotureModalProps> = ({
 
 
                     <View style={{ height: 30, width: '100%' }}>
-                        <Button title={"Retour à l'accueil"} onPress={() => router.replace('/')} type={'primary'} />
+                        <Button title={i18n.t('cloture-modal.back-home')} onPress={() => router.replace('/')} type={'primary'} />
                     </View>
                 </View>
             </View>

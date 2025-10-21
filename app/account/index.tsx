@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { useAuth0 } from 'react-native-auth0';
+import i18n from '../intl/config';
 
 
 const AccountScreen: React.FC = () => {
@@ -28,13 +29,13 @@ const AccountScreen: React.FC = () => {
                 <View style={styles.account}>
                     <Icon name='account' color={colors.disabledBackground} size={100} />
                     <View style={styles.card}>
-                        <Text style={styles.label}>Nom d'utilisateur</Text>
+                        <Text style={styles.label}>{i18n.t('account.username')}</Text>
                         <TextInput
                             style={[styles.input, { marginBottom: 15 }]}
                             value={user?.username}
                             editable={false}
                         />
-                        <Text style={styles.label}>Email</Text>
+                        <Text style={styles.label}>{i18n.t('account.email')}</Text>
                         <TextInput
                             style={styles.input}
                             value={user?.email}
@@ -43,7 +44,7 @@ const AccountScreen: React.FC = () => {
                     </View>
                 </View>
                 <View style={styles.logoutContainer}>
-                    <Button title={'Déconnexion'} onPress={() => logout()} type={'primary'} />
+                    <Button title={i18n.t('account.logout')} onPress={() => logout()} type={'primary'} />
                 </View>
             </View>
 

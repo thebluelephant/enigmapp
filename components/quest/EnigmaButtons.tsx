@@ -4,6 +4,7 @@ import Button from '../Button';
 import RequestClueButton from './RequestClueButton';
 import { QuestSession } from '@/types/QuestSession';
 import { Enigma } from '@/types/Quest';
+import i18n from '@/app/intl/config';
 
 type EnigmaButtonsProps = {
     clues: string[] | undefined,
@@ -39,7 +40,7 @@ const EnigmaButtons: React.FC<EnigmaButtonsProps> = ({ clues, questSession, enig
         <View style={styles.buttons}>
             <Button
                 disabled={disable.camera}
-                title={"Faire une proposition"}
+                title={i18n.t('enigma-button.title')}
                 onPress={onShowCamera}
                 type='primary'
                 icon={{

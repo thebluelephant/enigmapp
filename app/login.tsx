@@ -5,6 +5,7 @@ import { Link, useRouter } from 'expo-router';
 import React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { useAuth0 } from 'react-native-auth0';
+import i18n from './intl/config';
 
 const Login = () => {
     const { authorize } = useAuth0();
@@ -26,7 +27,6 @@ const Login = () => {
         }
     };
 
-
     return (
         <View style={{ flex: 1 }}>
             <Image style={styles.image}
@@ -35,16 +35,16 @@ const Login = () => {
                 <View style={styles.container}>
                     <View style={styles.header}>
                         <Text style={styles.title}>Enigmapp</Text>
-                        <Text style={[titleStyle.default_l, { marginBottom: 20 }]}>Votre aventure de détective commence ici</Text>
-                        <Text style={[titleStyle.default_s, { textAlign: 'center', color: colors.disabledText }]}>Plongez dans un univers steampunk où chaque énigme se résout en photographiant les bons objets</Text>
+                        <Text style={[titleStyle.default_l, { marginBottom: 20 }]}>{i18n.t('login.subtitle')}</Text>
+                        <Text style={[titleStyle.default_s, { textAlign: 'center', color: colors.disabledText }]}>{i18n.t('login.legend')}</Text>
                     </View>
 
                     <View style={styles.buttonsContainer}>
-                        <Button title={'Connexion'} onPress={() => onRedirectTo('login')} type={'primary'} />
-                        <Button title={'Inscription'} onPress={() => onRedirectTo('signup')} type={'secondary'} />
+                        <Button title={i18n.t('login.login')} onPress={() => onRedirectTo('login')} type={'primary'} />
+                        <Button title={i18n.t('login.sign-up')} onPress={() => onRedirectTo('signup')} type={'secondary'} />
                     </View>
 
-                    <Text style={{ color: colors.disabledText }}>En vous connectant, vous acceptez <Link style={{ color: colors.yellow }} href={'/cgu'}>nos conditions d'utilisation</Link> </Text>
+                    <Text style={{ color: colors.disabledText }}>{i18n.t('login.cgu-1')} <Link style={{ color: colors.yellow }} href={'/cgu'}>{i18n.t('login.cgu-2')}</Link> </Text>
                 </View>
             </View>
 

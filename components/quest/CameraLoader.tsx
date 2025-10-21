@@ -3,6 +3,7 @@ import titleStyle from '@/utils/titleStyle';
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import LottieView from 'lottie-react-native';
+import i18n from '@/app/intl/config';
 
 
 const CameraLoader: React.FC = () => (
@@ -16,7 +17,7 @@ const CameraLoader: React.FC = () => (
                 }}
                 source={require('@/assets/animations/cameraLoader.json')}
             />
-            <Text style={[titleStyle.default_l, { color: colors.yellow, textAlign: 'center' }]}>Analyse en cours ...</Text>
+            <Text style={[titleStyle.default_l, { color: colors.yellow, textAlign: 'center' }]}>{i18n.t('camera-loader.title')}</Text>
         </View>
     </View>
 );
@@ -24,7 +25,6 @@ const CameraLoader: React.FC = () => (
 const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.background,
-
         alignItems: 'center',
         position: 'absolute',
         top: 0,
