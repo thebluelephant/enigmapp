@@ -9,6 +9,7 @@ export const useGetClues = (
     questSessionId: QuestSession['id'],
     enigmaId: Enigma['id'] | undefined
 ): UseQueryResult<RequestedClues['clues'], Error> => {
+
     return useQuery<RequestedClues['clues'], Error>({
         queryKey: ['clues', questSessionId, enigmaId],
         queryFn: async () => {

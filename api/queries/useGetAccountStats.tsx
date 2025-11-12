@@ -1,11 +1,11 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { fetchQuestById, fetchQuests, fetchQuestSessionById } from "../Quests";
 import { fetchMostRecentQuestSessionId } from "../Stats";
-import { useAuth0 } from "react-native-auth0";
 import { fetchCompletedQuestsByAccountId } from "../Account";
+import { useEnigmappContext } from "@/utils/EnigmappContext";
 
 export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number }, Error> => {
-    const { user } = useAuth0()
+    const { userId } = useEnigmappContext()
     return useQuery<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number }, Error>({
         queryKey: ['accountStats'],
         queryFn: async () => {
@@ -16,9 +16,9 @@ export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: nu
                 // in percent
                 let mostRecentQuestSessionProgress = 0
 
-                if (user) {
-                    const mostRecentQuestSessionId = await fetchMostRecentQuestSessionId(user.sub)
-                    const accountResolvedCases = await fetchCompletedQuestsByAccountId(user.sub)
+                if (userId) {
+                    const mostRecentQuestSessionId = await fetchMostRecentQuestSessionId(userId)
+                    const accountResolvedCases = await fetchCompletedQuestsByAccountId(userId)
                     totalResolvedCases = accountResolvedCases?.length ?? 0
 
                     if (mostRecentQuestSessionId) {

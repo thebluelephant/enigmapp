@@ -3,11 +3,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { fetchEnigmaById, fetchQuestById } from '../Quests'
 import { updateAccountWithCompletedQuest, updateAccountWithDeletedInProgressQuest } from '../Account'
-import { useAuth0 } from 'react-native-auth0'
+import { useEnigmappContext } from '@/utils/EnigmappContext'
 
 export const useGetActiveEnigma = () => {
     const queryClient = useQueryClient()
-    const { user } = useAuth0();
+    const { userId } = useEnigmappContext()
+
 
     return useMutation({
         mutationFn: async ({
@@ -24,9 +25,9 @@ export const useGetActiveEnigma = () => {
                     // The quest is finished when there's no next enigma id and the number of questsession solutions is equal to the number of this quest enigmas
                     const questIsFinished = !nextEnigmaId && questSession.solutions.length === quest.enigmas?.length
 
-                    if (questIsFinished && user?.sub) {
-                        await updateAccountWithCompletedQuest(user?.sub, quest.id)
-                        await updateAccountWithDeletedInProgressQuest(user?.sub, quest.id, questSession.id)
+                    if (questIsFinished && userId) {
+                        await updateAccountWithCompletedQuest(userId, quest.id)
+                        await updateAccountWithDeletedInProgressQuest(userId, quest.id, questSession.id)
                         return { enigma: {}, quest, questSession }
                     }
                     const enigma = await fetchEnigmaById(nextEnigmaId)

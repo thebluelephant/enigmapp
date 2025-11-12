@@ -9,11 +9,11 @@ export type Enigma = {
 
 export type Quest = {
     id: number;
-    name: string;
+    name: { en: string, fr: string };
     enigmas: number[];
     level: number;
     image: string;
-    description: string;
+    description: { en: string, fr: string };
     state?: QuestState
 };
 

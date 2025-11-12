@@ -5,11 +5,14 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import Icon from '../Icon';
 import i18n from '@/app/intl/config';
+import { getLocale } from '@/utils/locale';
 
 type Props = {
     clues?: RequestedClues['clues']
 }
 const Clues = ({ clues }: Props) => {
+    const lang = getLocale()
+
     if (!clues) {
         return null
     }
@@ -25,8 +28,8 @@ const Clues = ({ clues }: Props) => {
 
             <View style={styles.container}>
                 {clues.map((clue) =>
-                    <View style={styles.clue} key={clue}>
-                        <Text style={titleStyle.subtitle}>{clue} </Text>
+                    <View style={styles.clue} key={clue[lang]}>
+                        <Text style={titleStyle.subtitle}>{clue[lang]} </Text>
                     </View>
                 )}
             </View>

@@ -6,6 +6,7 @@ import React from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { useAuth0 } from 'react-native-auth0';
 import i18n from './intl/config';
+import * as SecureStore from "expo-secure-store";
 
 const Login = () => {
     const { authorize } = useAuth0();
@@ -19,7 +20,9 @@ const Login = () => {
         }
         try {
             const creds = await authorize(type === 'signup' ? signUpParams : undefined);
-            if (creds?.accessToken) {
+
+            if (creds && creds.accessToken) {
+                await SecureStore.setItemAsync("auth_token", creds.idToken);
                 router.replace('/home');
             }
         } catch (e) {

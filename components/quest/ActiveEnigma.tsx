@@ -12,6 +12,7 @@ import { useOnValidAnswer } from '@/api/queries/useOnValidAnswer';
 import { useOnWrongAnswer } from '@/api/queries/useOnWrongAnswer';
 import ResultModal, { ResultModalStatus } from '../ResultModal';
 import { useQueryClient } from '@tanstack/react-query';
+import { getLocale } from '@/utils/locale';
 interface ActiveEnigmaProps {
     enigma: Enigma;
     questSession: QuestSession;
@@ -19,6 +20,7 @@ interface ActiveEnigmaProps {
     clues: string[] | undefined
 }
 const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps) => {
+    const lang = getLocale()
     const queryClient = useQueryClient()
     const [showCamera, setShowCamera] = useState(false);
     const [resultModalStatus, setResultModalStatus] = useState<ResultModalStatus>(null)
@@ -50,7 +52,7 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text : undefined} onClose={() => {
+            <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text[lang] : undefined} onClose={() => {
                 setResultModalStatus(null)
                 queryClient.invalidateQueries({
                     queryKey: ['questSession'],
@@ -61,8 +63,8 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
                 <View style={styles.content}>
                     <View >
                         <Image style={styles.image} source={{ uri: enigma.image }} />
-                        <Text style={[titleStyle.default_l, styles.title]}>{enigma.title}</Text>
-                        <Text style={[styles.text]}>{enigma?.text}</Text>
+                        <Text style={[titleStyle.default_l, styles.title]}>{enigma.title[lang]}</Text>
+                        <Text style={[styles.text]}>{enigma?.text[lang]}</Text>
                     </View>
                     <Clues clues={clues} />
                 </View>

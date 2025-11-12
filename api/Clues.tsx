@@ -2,6 +2,7 @@ import type { Enigma } from "@/types/Quest"
 import { supabase } from "./core"
 import { QuestSession } from "@/types/QuestSession"
 import { Clue, RequestedClues } from "@/types/Clue"
+import { useEnigmappContext } from "@/utils/EnigmappContext"
 
 
 export const fetchClueByEnigmaId = async (enigmaId: Enigma['id'], index: Clue['index']): Promise<Clue['clue'] | null> => {
@@ -28,6 +29,7 @@ export const fetchClueAndUpdateRequestedClues = async (questSession: QuestSessio
 
 export const updateRequestedCluesWithNewClue = async (questSessionId: QuestSession['id'], enigmaId: Enigma['id'], clue: Clue['clue']) => {
     // We get user's requested clues
+
     const requestedClues = await fetchRequestedClues(questSessionId, enigmaId)
 
     // If he already requests clues, we update them with the new one
@@ -43,14 +45,15 @@ export const updateRequestedCluesWithNewClue = async (questSessionId: QuestSessi
         if (error) {
             console.log("updateRequestedCluesWithNewClue update error : ", error);
         }
-
         return data?.[0]
 
     } else {
+        const { userId } = useEnigmappContext()
+
         // Else, we create a request clue entry with the new one
         const { data, error } = await supabase
             .from('requested_clues')
-            .insert({ 'enigma_id': enigmaId, 'quest_session_id': questSessionId, 'clues': [clue] })
+            .insert({ 'enigma_id': enigmaId, 'quest_session_id': questSessionId, 'clues': [clue], 'user_id': userId })
             .select()
 
         if (error) {
@@ -66,6 +69,7 @@ export const fetchRequestedClues = async (questSessionId: QuestSession['id'], en
         .select()
         .eq('quest_session_id', questSessionId)
         .eq('enigma_id', enigmaId)
+
 
     if (error) {
         console.log("FetchrequestedClues error : ", error);

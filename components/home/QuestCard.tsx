@@ -8,6 +8,7 @@ import QuestLevel from './QuestLevel';
 import { useStartQuest } from '@/api/queries/useStartQuest';
 import { getQuestButtonWordingFromState } from '@/utils/quest';
 import i18n from '@/app/intl/config';
+import { getLocale } from '@/utils/locale';
 
 interface QuestCardProps {
     quest: Quest
@@ -15,6 +16,7 @@ interface QuestCardProps {
 }
 
 const QuestCard = ({ quest, state }: QuestCardProps) => {
+    const lang = getLocale()
     const { mutate: startQuest } = useStartQuest();
     const { setShowQuestDetails, userId } = useEnigmappContext();
     const isInProgress = state === 'inProgress'
@@ -32,7 +34,7 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
             <Image style={styles.image} source={{ uri: quest.image }} />
             <View style={styles.content}>
                 <View>
-                    <Text style={titleStyle.default_l}>{quest.name}</Text>
+                    <Text style={titleStyle.default_l}>{quest.name[lang]}</Text>
                     <QuestLevel level={quest.level} />
                 </View>
                 <View style={styles.buttons}>

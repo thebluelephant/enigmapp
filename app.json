@@ -83,7 +83,8 @@
           "image": "./assets/images/icon.png"
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

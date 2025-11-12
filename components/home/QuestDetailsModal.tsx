@@ -8,8 +8,10 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 import { useStartQuest } from '@/api/queries/useStartQuest';
 import { getQuestButtonWordingFromState } from '@/utils/quest';
 import i18n from '@/app/intl/config';
+import { getLocale } from '@/utils/locale';
 
 const QuestDetailsModal = () => {
+    const lang = getLocale()
     const { showQuestDetails: quest, setShowQuestDetails, userId } = useEnigmappContext()
     const { mutate: startQuest } = useStartQuest();
 
@@ -33,7 +35,7 @@ const QuestDetailsModal = () => {
                         <Icon name='close' size={20} color='white' />
                     </Pressable>
                     <View>
-                        <Text style={titleStyle.default_l}>{quest?.name}</Text>
+                        <Text style={titleStyle.default_l}>{quest?.name[lang]}</Text>
                         <QuestLevel level={quest?.level ?? 1} />
                     </View>
 
@@ -41,7 +43,7 @@ const QuestDetailsModal = () => {
 
                     <View style={styles.subCard}>
                         <Text style={titleStyle.default_s}>{i18n.t('quest-details-modal.description')} </Text>
-                        <Text style={[titleStyle.subtitle]}>{quest?.description}</Text>
+                        <Text style={[titleStyle.subtitle]}>{quest?.description[lang]}</Text>
                     </View>
                     <View>
                         <Button
