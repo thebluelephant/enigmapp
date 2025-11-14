@@ -2,7 +2,9 @@ import Account from '@/assets/icons/Account';
 import Bulb from '@/assets/icons/Bulb';
 import Camera from '@/assets/icons/Camera';
 import Close from '@/assets/icons/Close';
+import Email from '@/assets/icons/Email';
 import Info from '@/assets/icons/Info';
+import Lock from '@/assets/icons/Lock';
 import React from 'react';
 
 export type IconName = 'bulb' | 'info' | 'camera' | 'close'
@@ -24,6 +26,10 @@ const Icon = ({ name, color, size }: IconProps) => {
             return <Close color={color} height={size} />
         case 'account':
             return <Account color={color} height={size} />
+        case 'email':
+            return <Email color={color} height={size} />
+        case 'lock':
+            return <Lock color={color} height={size} />
         default:
             break;
     }

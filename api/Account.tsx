@@ -4,6 +4,27 @@ import { Account, MinimizedQuest } from "@/types/Account"
 import { QuestSession } from "@/types/QuestSession"
 
 
+export const getUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    return user
+}
+
+export const insertAccount = async (userId: Account['user_id']) => {
+    const accountAlreadyExist = await fetchAccountById(userId)
+
+    if (!accountAlreadyExist) {
+        const { data: account, error } = await supabase
+            .from('accounts')
+            .insert({ user_id: userId })
+            .select()
+
+        if (error) {
+            console.log("fetchAccountById error : ", error);
+        }
+        return account?.[0]
+    }
+
+}
 export const fetchAccountById = async (userId: Account['user_id']) => {
     const { data, error } = await supabase
         .from('accounts')

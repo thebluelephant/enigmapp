@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 5,
         flex: 1,
+        maxHeight: 50
     },
     default: {
         minHeight: 50

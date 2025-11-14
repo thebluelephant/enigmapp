@@ -11,7 +11,7 @@ export const fetchMostRecentQuestSessionId = async (userId: Account['user_id']) 
         console.log("fetchMostRecentQuestSessionId error : ", error);
     }
 
-    if (data?.[0].in_progress_quests.length) {
+    if (data?.[0].in_progress_quests?.length) {
         return data?.[0].in_progress_quests?.pop().quest_session_id
     } else return null
 

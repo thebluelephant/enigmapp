@@ -70,15 +70,14 @@ const ResultModal = ({ status, text, onClose }: ResultModalProps) => {
                         {isSuccess ? <Check height={30} color={colors.green} /> : <Close height={30} color={colors.red} />}
                     </View>
                     <Text style={[styles.text, styles.title]} >{getTitle()}</Text>
-                    <Text style={[styles.text, titleStyle.subtitle]}>{getSubtitle()}</Text>
+                    <Text style={[styles.text, titleStyle.subtitle, { fontSize: 15 }]}>{getSubtitle()}</Text>
                 </View>
 
                 {isSuccess ?
-                    <View style={{ height: 50 }}>
+                    <View style={{ width: '100%', height: 50 }}>
                         <Button title={i18n.t('result-modal.button')} onPress={closeModal} type='primary' />
                     </View>
                     :
-
                     <Timer additionalStyle={styles.timer} seconds={5} onTimerFinished={closeModal} />}
             </View>
         </Animated.View>
@@ -102,8 +101,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 0.3,
         borderColor: colors.yellow,
-        backgroundColor: 'rgba(49, 60, 49, 0.3)',
-        paddingHorizontal: 50,
+        backgroundColor: 'rgba(39, 53, 39, 0.62)',
+        paddingHorizontal: 30,
         paddingVertical: 20,
         justifyContent: 'space-between',
         alignItems: 'center'

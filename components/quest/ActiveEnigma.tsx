@@ -17,7 +17,7 @@ interface ActiveEnigmaProps {
     enigma: Enigma;
     questSession: QuestSession;
     quest: Quest;
-    clues: string[] | undefined
+    clues: { fr: string; en: string; }[] | undefined
 }
 const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps) => {
     const lang = getLocale()
@@ -28,15 +28,18 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
     const { mutate: onWrongAnswer, data: wrongAnswerStatus } = useOnWrongAnswer()
 
     const validateAnswer = async (answer: string[]) => {
-        if (!answer) {
-            onWrongAnswer({ questSession: questSession, enigma: enigma })
-        }
-        const userRightAnswer = enigma.solution.find((solution) => answer.includes(solution))
-        if (userRightAnswer) {
-            onValidAnswer({ questSession: questSession, enigma: enigma, userRightAnswer: userRightAnswer })
-        } else {
-            onWrongAnswer({ questSession: questSession, enigma: enigma })
-        }
+        console.log('Enigma solutions ------', enigma.solution);
+        console.log('User answers -------', answer);
+        /* 
+                if (!answer) {
+                    onWrongAnswer({ questSession: questSession, enigma: enigma })
+                }
+                const userRightAnswer = enigma.solution.find((solution) => answer.includes(solution))
+                if (userRightAnswer) {
+                    onValidAnswer({ questSession: questSession, enigma: enigma, userRightAnswer: userRightAnswer })
+                } else {
+                    onWrongAnswer({ questSession: questSession, enigma: enigma })
+                } */
     }
 
     useEffect(() => {

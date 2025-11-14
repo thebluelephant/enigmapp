@@ -2,12 +2,12 @@ import { useRequestClue } from '@/api/queries/useRequestClue';
 import { Enigma } from '@/types/Quest';
 import { QuestSession } from '@/types/QuestSession';
 import { colors } from '@/utils/colors';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Button from '../Button';
 import i18n from '@/app/intl/config';
 
 interface Props {
-    clues: string[] | undefined,
+    clues: { fr: string; en: string; }[] | undefined,
     questSession: QuestSession,
     enigmaId: Enigma['id']
     disabled: boolean

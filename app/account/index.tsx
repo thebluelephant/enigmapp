@@ -3,19 +3,29 @@ import Icon from '@/components/Icon';
 import TopBar from '@/components/TopBar';
 import { colors } from '@/utils/colors';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { useAuth0 } from 'react-native-auth0';
 import i18n from '../intl/config';
+import { supabase } from '@/api/core';
+import { getUser } from '@/api/Account';
+import { User } from '@supabase/supabase-js';
 
 
 const AccountScreen: React.FC = () => {
-    const { clearSession, user } = useAuth0()
     const router = useRouter()
+    const [user, setUser] = useState<User>()
+
+    useEffect(() => {
+        getUser().then((user) => {
+            if (user) {
+                setUser(user)
+            }
+        })
+    }, []);
 
     const logout = async () => {
         try {
-            await clearSession()
+            await supabase.auth.signOut()
             router.replace('/login');
         } catch (e) {
             console.log(e);
@@ -29,12 +39,7 @@ const AccountScreen: React.FC = () => {
                 <View style={styles.account}>
                     <Icon name='account' color={colors.disabledBackground} size={100} />
                     <View style={styles.card}>
-                        <Text style={styles.label}>{i18n.t('account.username')}</Text>
-                        <TextInput
-                            style={[styles.input, { marginBottom: 15 }]}
-                            value={user?.username}
-                            editable={false}
-                        />
+
                         <Text style={styles.label}>{i18n.t('account.email')}</Text>
                         <TextInput
                             style={styles.input}

@@ -1,21 +1,20 @@
+import { supabase } from "@/api/core";
 import { useEnigmappContext } from "@/utils/EnigmappContext";
-import { Redirect } from "expo-router";
+import { useRouter } from "expo-router";
 import { useEffect } from "react";
-import { useAuth0 } from "react-native-auth0";
 
 const Index = () => {
-  const { user, isLoading } = useAuth0();
-  const { setUserId } = useEnigmappContext()
+  const router = useRouter()
+  const { setUserId, userId } = useEnigmappContext()
 
   useEffect(() => {
-    setUserId(user?.sub ?? '')
-  }, [user]);
-
-  if (isLoading) {
-    return null;
-  }
-
-  return <Redirect href={user ? '/home' : '/login'} />;
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        setUserId(session.user.id)
+        router.replace('/home')
+      } else router.replace('/login')
+    })
+  }, [])
 }
 
 

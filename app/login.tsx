@@ -2,34 +2,51 @@ import Button from '@/components/Button';
 import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
 import { Link, useRouter } from 'expo-router';
-import React from 'react';
-import { View, StyleSheet, Image, Text } from 'react-native';
-import { useAuth0 } from 'react-native-auth0';
+import React, { useState } from 'react';
+import { View, StyleSheet, Image, Text, Alert, TextInput } from 'react-native';
 import i18n from './intl/config';
-import * as SecureStore from "expo-secure-store";
+import { supabase } from '@/api/core';
+import { useEnigmappContext } from '@/utils/EnigmappContext';
+import Icon from '@/components/Icon';
+import { insertAccount } from '@/api/Account';
 
 const Login = () => {
-    const { authorize } = useAuth0();
     const router = useRouter()
+    const { setUserId, userId } = useEnigmappContext()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
 
-    const onRedirectTo = async (type: 'signup' | 'login') => {
-        const signUpParams = {
-            additionalParameters: {
-                screen_hint: "signup",
-            }
+    const signInWithEmail = async () => {
+        setLoading(true)
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        })
+        if (error) Alert.alert(error.message)
+        if (data.user) {
+            setUserId(data.user.id)
+            // Insert new user in account table
+            await insertAccount(data.user.id)
+            router.replace('/home')
         }
-        try {
-            const creds = await authorize(type === 'signup' ? signUpParams : undefined);
+        setLoading(false)
+    }
 
-            if (creds && creds.accessToken) {
-                await SecureStore.setItemAsync("auth_token", creds.idToken);
-                router.replace('/home');
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    const signUpWithEmail = async () => {
+        setLoading(true)
+        const {
+            data: { session },
+            error,
+        } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+        })
+        if (error) Alert.alert(error.message)
 
+        if (!session) Alert.alert('Please check your inbox for email verification!')
+        setLoading(false)
+    }
     return (
         <View style={{ flex: 1 }}>
             <Image style={styles.image}
@@ -42,9 +59,45 @@ const Login = () => {
                         <Text style={[titleStyle.default_s, { textAlign: 'center', color: colors.disabledText }]}>{i18n.t('login.legend')}</Text>
                     </View>
 
-                    <View style={styles.buttonsContainer}>
-                        <Button title={i18n.t('login.login')} onPress={() => onRedirectTo('login')} type={'primary'} />
-                        <Button title={i18n.t('login.sign-up')} onPress={() => onRedirectTo('signup')} type={'secondary'} />
+
+                    <View style={styles.inputContainer}>
+                        <View style={{ gap: 15 }}>
+                            <View style={{ gap: 10 }}>
+                                <View style={styles.label}>
+                                    <Icon name='email' color={colors.yellow} />
+                                    <Text style={titleStyle.subtitle}>Email</Text>
+                                </View>
+
+                                <TextInput
+                                    onChangeText={(text) => setEmail(text)}
+                                    value={email}
+                                    placeholder="email@address.com"
+                                    placeholderTextColor={colors.disabledBackground}
+                                    autoCapitalize={'none'}
+                                    style={styles.input}
+                                />
+                            </View>
+                            <View style={{ gap: 10 }}>
+                                <View style={styles.label}>
+                                    <Icon name='lock' color={colors.yellow} />
+                                    <Text style={titleStyle.subtitle}>Mot de passe</Text>
+                                </View>
+                                <TextInput
+                                    onChangeText={(text) => setPassword(text)}
+                                    value={password}
+                                    secureTextEntry={true}
+                                    placeholder="••••••••"
+                                    placeholderTextColor={colors.disabledBackground}
+                                    autoCapitalize={'none'}
+                                    style={styles.input}
+                                />
+                            </View>
+                        </View>
+                        <View style={{ height: 130, gap: 15 }}>
+                            <Button title={i18n.t('login.login')} disabled={loading} onPress={() => signInWithEmail()} type={'primary'} />
+                            <Button title={i18n.t('login.sign-up')} disabled={loading} onPress={() => signUpWithEmail()} type={'secondary'} />
+
+                        </View>
                     </View>
 
                     <Text style={{ color: colors.disabledText }}>{i18n.t('login.cgu-1')} <Link style={{ color: colors.yellow }} href={'/cgu'}>{i18n.t('login.cgu-2')}</Link> </Text>
@@ -60,7 +113,6 @@ const styles = StyleSheet.create({
     container: {
         height: '75%',
         padding: 10,
-        gap: 20,
     },
     content: {
         flex: 1,
@@ -70,19 +122,31 @@ const styles = StyleSheet.create({
     header: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 50
+        marginBottom: 30
     },
     title: {
         fontSize: 50,
         color: 'white'
     },
-    buttonsContainer: {
-        height: 200,
+    label: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        gap: 5
+    },
+    input: {
+        backgroundColor: '#111827',
+        padding: 12,
+        fontSize: 16,
+        color: 'white',
+        borderColor: colors.yellow,
+        borderWidth: 0.3,
+        borderRadius: 10,
+    },
+    inputContainer: {
         backgroundColor: '#1D212A',
         width: '100%',
-        paddingVertical: 25,
-        paddingHorizontal: 20,
-        gap: 15,
+        padding: 15,
+        gap: 30,
         borderColor: colors.yellow,
         borderWidth: 0.3,
         borderRadius: 10,

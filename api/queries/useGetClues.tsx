@@ -3,7 +3,7 @@ import type { Enigma } from "@/types/Quest";
 import { fetchRequestedClues } from "../Clues";
 import { RequestedClues } from "@/types/Clue";
 import { QuestSession } from "@/types/QuestSession";
-import { UseQueryResult } from "@tanstack/react-query";
+import { UseQueryResult, keepPreviousData } from "@tanstack/react-query";
 
 export const useGetClues = (
     questSessionId: QuestSession['id'],
@@ -24,5 +24,6 @@ export const useGetClues = (
                 return [];
             }
         },
+        placeholderData: keepPreviousData
     });
 }

@@ -71,20 +71,13 @@
       ],
       "expo-font",
       [
-        "react-native-auth0",
-        {
-          "domain": "dev-bfwkqoak.us.auth0.com"
-        }
-      ],
-      [
         "expo-splash-screen",
         {
           "backgroundColor": "#1A1A1D",
           "image": "./assets/images/icon.png"
         }
       ],
-      "expo-localization",
-      "expo-secure-store"
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true

@@ -26,7 +26,7 @@ const IntroductionModal: React.FC<IntroductionModalProps> = ({
                         } source={{ uri: image }} />
                         <View style={styles.content}>
                             <Text style={titleStyle.subtitle}>{text}</Text>
-                            <View >
+                            <View>
                                 <Button title='OK !' onPress={() => setShowIntroductionModal(false)} type='primary' />
                             </View>
                         </View>

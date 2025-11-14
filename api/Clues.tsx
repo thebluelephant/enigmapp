@@ -2,7 +2,7 @@ import type { Enigma } from "@/types/Quest"
 import { supabase } from "./core"
 import { QuestSession } from "@/types/QuestSession"
 import { Clue, RequestedClues } from "@/types/Clue"
-import { useEnigmappContext } from "@/utils/EnigmappContext"
+import { Account } from "@/types/Account"
 
 
 export const fetchClueByEnigmaId = async (enigmaId: Enigma['id'], index: Clue['index']): Promise<Clue['clue'] | null> => {
@@ -19,17 +19,20 @@ export const fetchClueByEnigmaId = async (enigmaId: Enigma['id'], index: Clue['i
 }
 
 
-export const fetchClueAndUpdateRequestedClues = async (questSession: QuestSession, enigmaId: Enigma['id'], nextClueNumber: Clue['index']) => {
+export const fetchClueAndUpdateRequestedClues = async (questSession: QuestSession, enigmaId: Enigma['id'], nextClueNumber: Clue['index'], userId: Account['user_id']) => {
     const clue = await fetchClueByEnigmaId(enigmaId, nextClueNumber)
     if (clue) {
-        return await updateRequestedCluesWithNewClue(questSession.id, enigmaId, clue)
+        return await updateRequestedCluesWithNewClue(questSession.id, enigmaId, clue, userId)
     }
 }
 
 
-export const updateRequestedCluesWithNewClue = async (questSessionId: QuestSession['id'], enigmaId: Enigma['id'], clue: Clue['clue']) => {
-    // We get user's requested clues
-
+export const updateRequestedCluesWithNewClue = async (
+    questSessionId: QuestSession['id'],
+    enigmaId: Enigma['id'],
+    clue: Clue['clue'],
+    userId: Account['user_id']) => {
+    // We get user's already requested clues
     const requestedClues = await fetchRequestedClues(questSessionId, enigmaId)
 
     // If he already requests clues, we update them with the new one
@@ -48,8 +51,6 @@ export const updateRequestedCluesWithNewClue = async (questSessionId: QuestSessi
         return data?.[0]
 
     } else {
-        const { userId } = useEnigmappContext()
-
         // Else, we create a request clue entry with the new one
         const { data, error } = await supabase
             .from('requested_clues')

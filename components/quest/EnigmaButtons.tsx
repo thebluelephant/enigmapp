@@ -7,7 +7,7 @@ import { Enigma } from '@/types/Quest';
 import i18n from '@/app/intl/config';
 
 type EnigmaButtonsProps = {
-    clues: string[] | undefined,
+    clues: { fr: string; en: string; }[] | undefined,
     questSession: QuestSession
     enigmaId: Enigma['id']
     onShowCamera: () => void
