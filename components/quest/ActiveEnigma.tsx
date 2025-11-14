@@ -28,18 +28,15 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
     const { mutate: onWrongAnswer, data: wrongAnswerStatus } = useOnWrongAnswer()
 
     const validateAnswer = async (answer: string[]) => {
-        console.log('Enigma solutions ------', enigma.solution);
-        console.log('User answers -------', answer);
-        /* 
-                if (!answer) {
-                    onWrongAnswer({ questSession: questSession, enigma: enigma })
-                }
-                const userRightAnswer = enigma.solution.find((solution) => answer.includes(solution))
-                if (userRightAnswer) {
-                    onValidAnswer({ questSession: questSession, enigma: enigma, userRightAnswer: userRightAnswer })
-                } else {
-                    onWrongAnswer({ questSession: questSession, enigma: enigma })
-                } */
+        if (!answer) {
+            onWrongAnswer({ questSession: questSession, enigma: enigma })
+        }
+        const userRightAnswer = enigma.solution.find((solution) => answer.includes(solution))
+        if (userRightAnswer) {
+            onValidAnswer({ questSession: questSession, enigma: enigma, userRightAnswer: userRightAnswer })
+        } else {
+            onWrongAnswer({ questSession: questSession, enigma: enigma })
+        }
     }
 
     useEffect(() => {

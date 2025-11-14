@@ -6,6 +6,7 @@ import RNFS from 'react-native-fs';
 import { postImageRecognition } from '@/api/Quests';
 import { colors } from '@/utils/colors';
 import CameraLoader from './CameraLoader';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 
 type Props = {
@@ -26,7 +27,13 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
         const photo = await camera?.current?.takePhoto()
         if (photo) {
             setIsLoading(true)
-            const base64 = await RNFS.readFile(photo.path, 'base64');
+            const resized = await ImageManipulator.manipulateAsync(
+                photo.path,
+                [{ resize: { width: 512 } }],
+                { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+            );
+            const base64 = await RNFS.readFile(resized.uri, 'base64');
+
             try {
                 const imageElements = await postImageRecognition(base64)
                 onProposeAnswer(imageElements)

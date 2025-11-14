@@ -2,6 +2,11 @@ import { createClient, processLock } from "@supabase/supabase-js";
 import { AppState, Platform } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import 'react-native-url-polyfill/auto'
+import OpenAI from 'openai';
+
+export const openAiClient = new OpenAI({
+    apiKey: process.env.EXPO_PUBLIC_OPENAI_KEY
+});
 
 export const supabase = createClient(
     process.env.EXPO_PUBLIC_SUPABASE_URL,

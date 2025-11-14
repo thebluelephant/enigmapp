@@ -1,7 +1,6 @@
 import type { Enigma, Quest } from "@/types/Quest"
-import { supabase } from "./core"
+import { openAiClient, supabase } from "./core"
 import { QuestSession, Solution } from "@/types/QuestSession";
-import axios from "axios";
 import { updateAccountWithNewInProgressQuest } from "./Account";
 
 export const fetchQuests = async (): Promise<Quest[] | null> => {
@@ -172,21 +171,25 @@ export const updateQuestSessionTriesNumber = async (questSession: QuestSession, 
 }
 
 export const postImageRecognition = async (image: Base64URLString) => {
-    return axios.post('https://vision.googleapis.com/v1/images:annotate',
-        {
-            requests: [
-                {
-                    image: { content: image },
-                    features: [{ type: 'OBJECT_LOCALIZATION', maxResults: 10 }],
-                }
-            ]
-        },
-        {
-            headers: {
-                'X-Goog-Api-Key': process.env.EXPO_PUBLIC_GOOGLE_API_KEY
-            }
-        }
-    ).then((resp) => resp.data.responses[0].localizedObjectAnnotations?.map((object) => object.name.toLowerCase()))
+    const response = await openAiClient.responses.create({
+        model: "gpt-4o-mini",
+        max_output_tokens: 50,
+        input: [
+            {
+                role: "user",
 
+                content: [
+                    { type: "input_text", text: "Detect objects and return a list of strings, no spaces, coma separate" },
+                    {
+                        type: "input_image",
+                        image_url: `data:image/jpeg;base64,${image}`,
+                        detail: 'low'
+                    },
+                ],
+            },
+        ],
+    });
+    const responseToArray = response.output_text.split(",")
+    return responseToArray
 }
 
