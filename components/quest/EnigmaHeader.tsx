@@ -2,6 +2,7 @@ import i18n from '@/app/intl/config';
 import Diamond from '@/assets/icons/Diamond';
 import { QuestSession } from '@/types/QuestSession';
 import { colors } from '@/utils/colors';
+import { Shake } from '@/utils/shake';
 import titleStyle from '@/utils/titleStyle';
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
@@ -12,6 +13,7 @@ interface EnigmaHeaderProps {
 }
 const EnigmaHeader = ({ totalEnigmas, questSession }: EnigmaHeaderProps) => {
     const activeEnigmaIndex = (questSession.solutions?.length ?? 0) + 1
+
     return (
         < View style={styles.container} >
             <Text style={[titleStyle.default, styles.step]}>{i18n.t('enigma-header.title')} {activeEnigmaIndex}/{totalEnigmas}</Text>
@@ -19,7 +21,9 @@ const EnigmaHeader = ({ totalEnigmas, questSession }: EnigmaHeaderProps) => {
                 <View style={styles.score}>
                     <Diamond height={15} color={colors.yellow} />
                     <Text style={[styles.scoreNumber, styles.totalScore]}>{questSession.score}</Text>
-                    <Text style={[styles.scoreNumber, styles.pointsToWin]}>+{questSession.points_to_win}</Text>
+                    <Shake key={questSession.points_to_win}>
+                        <Text style={[styles.scoreNumber, styles.pointsToWin]}>+{questSession.points_to_win}</Text>
+                    </Shake>
                 </View>
             </View>
         </View >
