@@ -1,5 +1,5 @@
 import { QuestSession } from '@/types/QuestSession'
-import { useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { fetchClueAndUpdateRequestedClues } from '../Clues'
 import { updateQuestSessionPointsToWin } from '../Quests'
 import { useEnigmappContext } from '@/utils/EnigmappContext'

@@ -16,7 +16,6 @@ const QuestList = () => {
     if (!quests) {
         return null
     }
-
     return (
         <View style={styles.container}>
             {quests.map((quest: Quest) => {

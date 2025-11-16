@@ -1,4 +1,3 @@
-import { Timestamp } from "react-native-reanimated/lib/typescript/commonTypes";
 import { Quest } from "./Quest";
 import { QuestSession } from "./QuestSession";
 

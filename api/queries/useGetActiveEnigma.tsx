@@ -1,6 +1,5 @@
 import { QuestSession } from '@/types/QuestSession'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
 import { fetchEnigmaById, fetchQuestById } from '../Quests'
 import { updateAccountWithCompletedQuest, updateAccountWithDeletedInProgressQuest } from '../Account'
 import { useEnigmappContext } from '@/utils/EnigmappContext'

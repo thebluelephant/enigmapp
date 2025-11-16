@@ -16,7 +16,6 @@ const Timer: React.FC<TimerProps> = ({ seconds, onTimerFinished, additionalStyle
             setTimeLeft(prev => {
                 if (prev <= 1) {
                     clearInterval(interval);
-
                 }
                 return prev - 1;
             });

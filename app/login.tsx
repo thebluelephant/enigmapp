@@ -2,20 +2,24 @@ import Button from '@/components/Button';
 import { colors } from '@/utils/colors';
 import titleStyle from '@/utils/titleStyle';
 import { Link, useRouter } from 'expo-router';
-import React, { useState } from 'react';
-import { View, StyleSheet, Image, Text, Alert, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Image, Text, TextInput } from 'react-native';
 import i18n from './intl/config';
 import { supabase } from '@/api/core';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import Icon from '@/components/Icon';
 import { insertAccount } from '@/api/Account';
+import NotificationModal from '@/components/login/NotificationModal';
+import { isEmail } from '@/utils/validators';
 
 const Login = () => {
     const router = useRouter()
-    const { setUserId, userId } = useEnigmappContext()
+    const { setUserId } = useEnigmappContext()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
+    const [notification, setNotification] = useState<string | null>(null)
+    const [isDisabled, setIsDisabled] = useState(false)
 
     const signInWithEmail = async () => {
         setLoading(true)
@@ -23,10 +27,12 @@ const Login = () => {
             email: email,
             password: password,
         })
-        if (error) Alert.alert(error.message)
+        if (error) {
+            setNotification(error.message)
+        }
         if (data.user) {
             setUserId(data.user.id)
-            // Insert new user in account table
+            // Insert manualy new user in account table
             await insertAccount(data.user.id)
             router.replace('/home')
         }
@@ -42,23 +48,35 @@ const Login = () => {
             email: email,
             password: password,
         })
-        if (error) Alert.alert(error.message)
-
-        if (!session) Alert.alert('Please check your inbox for email verification!')
+        if (error) {
+            setNotification(error.message)
+        }
+        if (!session) {
+            setNotification(i18n.t('login.validate-email'))
+        }
         setLoading(false)
     }
+
+    useEffect(() => {
+        if (!isEmail(email) || password.length < 6) {
+            setIsDisabled(true)
+        } else {
+            setIsDisabled(false)
+        }
+    }, [email, password]);
+
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ height: '100%' }}>
             <Image style={styles.image}
                 source={require('@/assets/images/login-bkg.png')} />
             <View style={styles.content}>
+                <NotificationModal notification={notification} onModalClose={() => setNotification(null)} />
                 <View style={styles.container}>
                     <View style={styles.header}>
                         <Text style={styles.title}>Enigmapp</Text>
                         <Text style={[titleStyle.default_l, { marginBottom: 20 }]}>{i18n.t('login.subtitle')}</Text>
                         <Text style={[titleStyle.default_s, { textAlign: 'center', color: colors.disabledText }]}>{i18n.t('login.legend')}</Text>
                     </View>
-
 
                     <View style={styles.inputContainer}>
                         <View style={{ gap: 15 }}>
@@ -80,7 +98,7 @@ const Login = () => {
                             <View style={{ gap: 10 }}>
                                 <View style={styles.label}>
                                     <Icon name='lock' color={colors.yellow} />
-                                    <Text style={titleStyle.subtitle}>Mot de passe</Text>
+                                    <Text style={titleStyle.subtitle}>{i18n.t('login.password')}</Text>
                                 </View>
                                 <TextInput
                                     onChangeText={(text) => setPassword(text)}
@@ -94,16 +112,14 @@ const Login = () => {
                             </View>
                         </View>
                         <View style={{ height: 130, gap: 15 }}>
-                            <Button title={i18n.t('login.login')} disabled={loading} onPress={() => signInWithEmail()} type={'primary'} />
-                            <Button title={i18n.t('login.sign-up')} disabled={loading} onPress={() => signUpWithEmail()} type={'secondary'} />
-
+                            <Button title={i18n.t('login.login')} disabled={isDisabled || loading} onPress={() => signInWithEmail()} type={'primary'} />
+                            <Button title={i18n.t('login.sign-up')} disabled={isDisabled || loading} onPress={() => signUpWithEmail()} type={'secondary'} />
                         </View>
                     </View>
 
-                    <Text style={{ color: colors.disabledText }}>{i18n.t('login.cgu-1')} <Link style={{ color: colors.yellow }} href={'/cgu'}>{i18n.t('login.cgu-2')}</Link> </Text>
+                    <Text style={{ color: colors.disabledText, fontSize: 10 }}>{i18n.t('login.cgu-1')} <Link style={{ color: colors.yellow }} href={'/cgu'}>{i18n.t('login.cgu-2')}</Link> </Text>
                 </View>
             </View>
-
         </View>
 
     );
@@ -111,7 +127,7 @@ const Login = () => {
 
 const styles = StyleSheet.create({
     container: {
-        height: '75%',
+        height: '80%',
         padding: 10,
     },
     content: {
@@ -156,7 +172,7 @@ const styles = StyleSheet.create({
         opacity: 0.3,
         resizeMode: 'cover',
         width: '100%',
-        height: '40%',
+        height: '30%',
         position: 'absolute',
         zIndex: 200
     }

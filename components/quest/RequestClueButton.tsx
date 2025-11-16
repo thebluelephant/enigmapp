@@ -5,9 +5,10 @@ import { colors } from '@/utils/colors';
 import React from 'react';
 import Button from '../Button';
 import i18n from '@/app/intl/config';
+import { TranslationString } from '@/types/Generic';
 
 interface Props {
-    clues: { fr: string; en: string; }[] | undefined,
+    clues: TranslationString[] | undefined,
     questSession: QuestSession,
     enigmaId: Enigma['id']
     disabled: boolean

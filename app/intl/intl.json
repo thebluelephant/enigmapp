@@ -6,7 +6,9 @@
             "login": "Connexion",
             "sign-up": "Inscription",
             "cgu-1": "En vous connectant, vous acceptez",
-            "cgu-2": "nos conditions d'utilisation"
+            "cgu-2": "nos conditions d'utilisation",
+            "validate-email": "Veuillez vérifier vos e-mail pour valider votre compte",
+            "password": "Mot de passe"
         },
         "account": {
             "username": "Nom d'utilisateur",
@@ -78,7 +80,9 @@
             "login": "Login",
             "sign-up": "Sign Up",
             "cgu-1": "By logging in, you agree to",
-            "cgu-2": "our terms of use"
+            "cgu-2": "our terms of use",
+            "validate-email": "Please check your inbox for email verification",
+            "password": "Password"
         },
         "account": {
             "username": "Username",

@@ -1,6 +1,5 @@
 import { Enigma, Quest } from "./Quest";
 
-
 export type Solution = {
     quest_id: Quest['id'],
     enigma_id: Enigma['id'],

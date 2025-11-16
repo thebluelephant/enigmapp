@@ -1,0 +1,1 @@
+export type TranslationString = { en: string; fr: string; }

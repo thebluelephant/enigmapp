@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { Modal as RNModal } from 'react-native';
-import Icon from './Icon';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 

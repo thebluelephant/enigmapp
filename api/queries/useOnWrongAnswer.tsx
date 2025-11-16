@@ -27,14 +27,11 @@ export const useOnWrongAnswer = () => {
                 //We reset the points to win and the tries number for the next enigma
                 await updateQuestSessionPointsToWin(questSession, 7)
                 await updateQuestSessionTriesNumber(questSession, 0)
-                return 'error_last_chance'
-
             } else {
                 const newPointsToWin = questSession.points_to_win - 1
                 const newTriesNumber = questSession.tries_number + 1
                 await updateQuestSessionPointsToWin(questSession, newPointsToWin)
                 await updateQuestSessionTriesNumber(questSession, newTriesNumber)
-                return 'error'
             }
         },
 

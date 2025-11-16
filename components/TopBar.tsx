@@ -33,9 +33,6 @@ const TopBar: React.FC<TopBarProps> = ({ backButton, credit, account }: TopBarPr
                     <Account color={colors.yellow} height={24} />
                 </Pressable>
             }
-
-
-
         </View>
     );
 };

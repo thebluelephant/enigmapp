@@ -4,7 +4,6 @@ import GenericModal from '../GenericModal';
 import { colors } from '@/utils/colors';
 
 import titleStyle from '@/utils/titleStyle';
-import { Quest } from '@/types/Quest';
 import { QuestSession } from '@/types/QuestSession';
 import moment from 'moment'
 import Button from '../Button';
@@ -17,7 +16,7 @@ import i18n from '@/app/intl/config';
 
 type ClotureModalProps = {
     isVisible: boolean,
-    questName: Quest['name']
+    questName: string
     questSession: QuestSession
 };
 
@@ -48,7 +47,6 @@ const ClotureModal: React.FC<ClotureModalProps> = ({
                             loop={false}
                             source={require('@/assets/animations/cloturePrize.json')}
                         />
-
                         <Text style={[titleStyle.default_xl, styles.title]}>{i18n.t('cloture-modal.congrats')}</Text>
                         <Text style={{ color: colors.primaryText }}>{i18n.t('cloture-modal.quest-finished-1')} "{questName}" {i18n.t('cloture-modal.quest-finished-2')}</Text>
 
@@ -70,9 +68,8 @@ const ClotureModal: React.FC<ClotureModalProps> = ({
                         </View>
                     </View>
 
-
                     <View style={{ height: 30, width: '100%' }}>
-                        <Button title={i18n.t('cloture-modal.back-home')} onPress={() => router.replace('/')} type={'primary'} />
+                        <Button title={i18n.t('cloture-modal.back-home')} onPress={() => router.replace('/home')} type={'primary'} />
                     </View>
                 </View>
             </View>

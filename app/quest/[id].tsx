@@ -4,33 +4,21 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors } from '@/utils/colors';
 import TopBar from '@/components/TopBar';
 import IntroductionModal from '@/components/quest/IntroductionModal';
-import { useGetActiveEnigma } from '@/api/queries/useGetActiveEnigma';
-import { useEffect } from 'react';
+
 import ActiveEnigma from '@/components/quest/ActiveEnigma';
 import { useGetClues } from '@/api/queries/useGetClues';
 
 import ClotureModal from '@/components/quest/ClotureModal';
 import { getLocale } from '@/utils/locale';
-import { useGetQuestSessionById } from '@/api/queries/usetGetQuestSessionById';
+import useStableData from '@/utils/hooks/useStableData';
 
 
 const QuestScreen = () => {
     const lang = getLocale()
     const { id: questSessionId } = useLocalSearchParams();
-    const { mutate: getActiveEnigma, data } = useGetActiveEnigma();
-
-    // We need to use a Query to be able to invalidate it in some places and refresh data
-    const { data: questSession } = useGetQuestSessionById(Number(questSessionId))
-    const enigma = data?.enigma;
-    const quest = data?.quest;
+    const { questSession, enigma, quest } = useStableData(Number(questSessionId))
     const hasNextEnigma = enigma && Object.keys(enigma).length
     const { data: clues } = useGetClues(Number(questSessionId), enigma?.id)
-
-    useEffect(() => {
-        if (questSession) {
-            getActiveEnigma({ questSession: questSession })
-        }
-    }, [questSession]);
 
     if (!hasNextEnigma && quest && questSession) {
         return (<ClotureModal isVisible={true} questName={quest.name[lang]} questSession={questSession} />)

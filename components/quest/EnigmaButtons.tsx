@@ -5,9 +5,10 @@ import RequestClueButton from './RequestClueButton';
 import { QuestSession } from '@/types/QuestSession';
 import { Enigma } from '@/types/Quest';
 import i18n from '@/app/intl/config';
+import { TranslationString } from '@/types/Generic';
 
 type EnigmaButtonsProps = {
-    clues: { fr: string; en: string; }[] | undefined,
+    clues: TranslationString[] | undefined,
     questSession: QuestSession
     enigmaId: Enigma['id']
     onShowCamera: () => void

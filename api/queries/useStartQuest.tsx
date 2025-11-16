@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-
 import { Quest, QuestState } from '@/types/Quest'
 import { startQuest } from '@/utils/quest'
 import { useEnigmappContext } from '@/utils/EnigmappContext'

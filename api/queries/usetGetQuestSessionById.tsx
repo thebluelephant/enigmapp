@@ -1,4 +1,4 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { QuestSession } from "@/types/QuestSession";
 import { fetchQuestSessionById } from "../Quests";
 
@@ -13,7 +13,6 @@ export const useGetQuestSessionById = (id: QuestSession['id']) => {
                 console.log('useGetQuestSessionById error :', e);
                 throw e;
             }
-        },
-        placeholderData: keepPreviousData
+        }
     });
 };

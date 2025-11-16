@@ -5,7 +5,6 @@ import { View, StyleSheet, Text } from 'react-native';
 import LottieView from 'lottie-react-native';
 import i18n from '@/app/intl/config';
 
-
 const CameraLoader: React.FC = () => (
     <View style={styles.container}>
         <View style={styles.content}>

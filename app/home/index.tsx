@@ -16,8 +16,8 @@ const HomeScreen = () => {
         if (!hasPermission) {
             requestPermission()
         }
-
     }, [requestPermission, hasPermission]);
+
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

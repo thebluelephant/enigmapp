@@ -10,7 +10,6 @@ import { supabase } from '@/api/core';
 import { getUser } from '@/api/Account';
 import { User } from '@supabase/supabase-js';
 
-
 const AccountScreen: React.FC = () => {
     const router = useRouter()
     const [user, setUser] = useState<User>()
