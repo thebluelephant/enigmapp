@@ -20,7 +20,7 @@ export const useStartQuest = () => {
         }) => {
             const questSession = await startQuest(userId, questId)
             if (questSession) {
-                router.push(`/quest/${questSession?.id}`);
+                router.replace(`/quest/${questSession?.id}`);
             }
         },
         onSuccess: (data, variables) => {

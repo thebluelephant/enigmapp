@@ -18,7 +18,6 @@ const HomeScreen = () => {
         }
     }, [requestPermission, hasPermission]);
 
-
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <TopBar backButton={false} account={true} />

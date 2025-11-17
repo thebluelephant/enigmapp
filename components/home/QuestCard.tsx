@@ -18,10 +18,16 @@ interface QuestCardProps {
 const QuestCard = ({ quest, state }: QuestCardProps) => {
     const lang = getLocale()
     const { mutate: startQuest } = useStartQuest();
-    const { setShowQuestDetails, userId } = useEnigmappContext();
+    const { setShowQuestDetails, showQuestDetails, userId } = useEnigmappContext();
     const isInProgress = state === 'inProgress'
     const hasNotStarted = state === 'notStarted'
     const isFinished = state === 'finished'
+
+    const onShowQuestDetails = () => {
+        if (!showQuestDetails) {
+            setShowQuestDetails({ ...quest, state: state })
+        }
+    }
 
     return (
         <View style={[styles.card, styles[state]]}>
@@ -38,7 +44,7 @@ const QuestCard = ({ quest, state }: QuestCardProps) => {
                     <QuestLevel level={quest.level} />
                 </View>
                 <View style={styles.buttons}>
-                    <Button size='mini' title={i18n.t('quest-card.more-info')} icon={{ name: 'info', color: 'white', size: 13 }} onPress={() => setShowQuestDetails({ ...quest, state: state })} type='secondary' />
+                    <Button size='mini' title={i18n.t('quest-card.more-info')} icon={{ name: 'info', color: 'white', size: 13 }} onPress={onShowQuestDetails} type='secondary' />
                     <Button size='mini' disabled={isFinished} title={getQuestButtonWordingFromState(state, i18n)} onPress={() => !isFinished && startQuest({ userId: userId, questId: quest.id, questState: state })} type='primary' />
                 </View>
             </View>
