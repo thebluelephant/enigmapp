@@ -4,15 +4,16 @@ import { fetchMostRecentQuestSessionId } from "../Stats";
 import { fetchCompletedQuestsByAccountId } from "../Account";
 import { useEnigmappContext } from "@/utils/EnigmappContext";
 
-export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number }, Error> => {
+export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number, totalScore: number }, Error> => {
     const { userId } = useEnigmappContext()
-    return useQuery<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number }, Error>({
+    return useQuery<{ accountResolvedQuests: number, lastQuestProgression: number, totalAppQuests: number, totalScore: number }, Error>({
         queryKey: ['accountStats'],
         queryFn: async () => {
             try {
                 const appQuests = await fetchQuests()
                 const totalAppQuests = appQuests?.length ?? 0
                 let totalResolvedCases = 0
+                let totalScore = 0
                 // in percent
                 let mostRecentQuestSessionProgress = 0
 
@@ -20,6 +21,10 @@ export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: nu
                     const mostRecentQuestSessionId = await fetchMostRecentQuestSessionId(userId)
                     const accountResolvedCases = await fetchCompletedQuestsByAccountId(userId)
                     totalResolvedCases = accountResolvedCases?.length ?? 0
+                    totalScore = accountResolvedCases?.reduce(
+                        (accumulator, currentValue) => accumulator + currentValue.score,
+                        0,
+                    )
 
                     if (mostRecentQuestSessionId) {
                         const questSession = await fetchQuestSessionById(mostRecentQuestSessionId)
@@ -37,7 +42,8 @@ export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: nu
                 return {
                     totalAppQuests,
                     accountResolvedQuests: totalResolvedCases,
-                    lastQuestProgression: mostRecentQuestSessionProgress
+                    lastQuestProgression: mostRecentQuestSessionProgress,
+                    totalScore
                 }
 
             } catch (e) {
@@ -45,7 +51,8 @@ export const useGetAccountStats = (): UseQueryResult<{ accountResolvedQuests: nu
                 return {
                     totalAppQuests: 0,
                     accountResolvedQuests: 0,
-                    lastQuestProgression: 0
+                    lastQuestProgression: 0,
+                    totalScore: 0
                 }
 
             }

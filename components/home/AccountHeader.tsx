@@ -33,6 +33,13 @@ const AccountHeader = () => {
                             <Text style={styles.progress}>{stats.lastQuestProgression}% {i18n.t('account-header.completed')}</Text>
                         </View>
                     }
+                    {
+                        !!stats.totalScore &&
+                        <View style={styles.subCard}>
+                            <Text style={titleStyle.subtitle}>{i18n.t('account-header.total-score')}</Text>
+                            <Text style={styles.progress}>{stats.totalScore} {i18n.t('account-header.points')}</Text>
+                        </View>
+                    }
 
                 </View>
             </View>

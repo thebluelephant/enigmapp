@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
         opacity: 0.3,
         resizeMode: 'cover',
         width: '100%',
-        height: '30%',
+        height: '40%',
         position: 'absolute',
         zIndex: 200
     }

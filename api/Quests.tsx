@@ -95,7 +95,7 @@ export const postNewQuestSession = async (userId: string, questId: Quest['id']):
         }
 
         if (questSession) {
-            await updateAccountWithNewInProgressQuest(userId, questId, questSession[0].id)
+            await updateAccountWithNewInProgressQuest(userId, questId, questSession[0].id, questSession[0].score)
             return questSession[0]
         }
         return null

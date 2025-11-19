@@ -13,5 +13,6 @@ export type MinimizedQuest = {
     quest_id: Quest['id'],
     quest_session_id: QuestSession['id']
     started_at: Date,
-    ended_at: Date | null
+    ended_at: Date | null,
+    score: QuestSession['score']
 }

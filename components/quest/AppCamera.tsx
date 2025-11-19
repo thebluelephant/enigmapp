@@ -55,7 +55,7 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
                 isLoading ?
                     <CameraLoader />
                     :
-                    <>
+                    <View style={{ flex: 1 }}>
                         <Camera
                             ref={camera}
                             style={styles.camera}
@@ -68,7 +68,7 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
                                 <CameraIcon color='white' height={24} />
                             </Pressable>
                         </View>
-                    </>
+                    </View>
             }
 
         </View>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     camera: {
-        flex: 1
+        height: '100%'
     },
     buttonContainer: {
         height: 70,

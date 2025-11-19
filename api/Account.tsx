@@ -36,7 +36,7 @@ export const fetchAccountById = async (userId: Account['user_id']) => {
     }
     return data?.[0]
 }
-export const fetchCompletedQuestsByAccountId = async (userId: Account['user_id']) => {
+export const fetchCompletedQuestsByAccountId = async (userId: Account['user_id']): Promise<MinimizedQuest[]> => {
     const { data, error } = await supabase
         .from('accounts')
         .select('completed_quests')
@@ -48,12 +48,13 @@ export const fetchCompletedQuestsByAccountId = async (userId: Account['user_id']
     return data?.[0].completed_quests
 }
 
-export const updateAccountWithNewInProgressQuest = async (userId: Account['user_id'], questId: Quest['id'], questSessionId: QuestSession['id']) => {
+export const updateAccountWithNewInProgressQuest = async (userId: Account['user_id'], questId: Quest['id'], questSessionId: QuestSession['id'], score: QuestSession['score']) => {
     const newQuest: MinimizedQuest = {
         quest_session_id: questSessionId,
         quest_id: questId,
         started_at: new Date(),
-        ended_at: null
+        ended_at: null,
+        score: score
     }
     const account = await fetchAccountById(userId)
 

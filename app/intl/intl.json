@@ -20,7 +20,9 @@
             "subtitle": "Prêt à résoudre des énigmes grâce à votre caméra ?",
             "resolved-cases": "Cas résolus",
             "in-progress-quest": "Quête en cours",
-            "completed": "complétée"
+            "completed": "complétée",
+            "total-score": "Score total",
+            "points": "points"
         },
         "quest-card": {
             "in-progress": "En cours",
@@ -94,7 +96,9 @@
             "subtitle": "Ready to solve riddles with your camera?",
             "resolved-cases": "Cases solved",
             "in-progress-quest": "Ongoing quest",
-            "completed": "completed"
+            "completed": "completed",
+            "total-score": "Total score",
+            "points": "points"
         },
         "quest-card": {
             "in-progress": "In progress",
