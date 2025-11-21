@@ -2,25 +2,17 @@ import Button from '@/components/Button';
 import Icon from '@/components/Icon';
 import TopBar from '@/components/TopBar';
 import { colors } from '@/utils/colors';
-import { useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { Link, useRouter } from 'expo-router';
+import React from 'react';
+import { View, Text, TextInput, StyleSheet, Linking, Pressable } from 'react-native';
 import i18n from '../intl/config';
 import { supabase } from '@/api/core';
-import { getUser } from '@/api/Account';
-import { User } from '@supabase/supabase-js';
+import { useGetAccountById } from '@/api/queries/useGetAccountById';
 
 const AccountScreen: React.FC = () => {
     const router = useRouter()
-    const [user, setUser] = useState<User>()
+    const { data: account } = useGetAccountById()
 
-    useEffect(() => {
-        getUser().then((user) => {
-            if (user) {
-                setUser(user)
-            }
-        })
-    }, []);
 
     const logout = async () => {
         try {
@@ -38,19 +30,32 @@ const AccountScreen: React.FC = () => {
                 <View style={styles.account}>
                     <Icon name='account' color={colors.disabledBackground} size={100} />
                     <View style={styles.card}>
-
-                        <Text style={styles.label}>{i18n.t('account.email')}</Text>
-                        <TextInput
-                            style={styles.input}
-                            value={user?.email}
-                            editable={false}
-                        />
+                        <View>
+                            <Text style={styles.label}>{i18n.t('account.email')}</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={account?.email}
+                                editable={false}
+                            />
+                        </View>
+                        <View>
+                            <Text style={styles.label}>{i18n.t('account.username')}</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={account?.username}
+                                editable={false}
+                            />
+                        </View>
+                    </View>
+                    <View style={styles.contact}>
+                        <Text style={{ color: colors.disabledText, fontSize: 10 }}>{i18n.t('account.contact')}</Text> <Pressable
+                            onPress={() => Linking.openURL('mailto:contact.enigmapp@gmail.com')}><Text style={{ color: colors.yellow, fontSize: 10 }}>contact.enigmapp@gmail.com</Text></Pressable>
                     </View>
                 </View>
                 <View style={styles.logoutContainer}>
                     <Button title={i18n.t('account.logout')} onPress={() => logout()} type={'primary'} />
                 </View>
-            </View>
+            </View >
 
 
         </View >
@@ -73,13 +78,19 @@ const styles = StyleSheet.create({
         height: 50,
         borderRadius: 15
     },
+    contact: {
+        flexDirection: 'row',
+        gap: 3
+
+    },
     card: {
         borderColor: colors.yellow,
         borderWidth: 0.3,
         borderRadius: 10,
         padding: 10,
         backgroundColor: '#1D212A',
-        width: '100%'
+        width: '100%',
+        gap: 15
     },
     account: {
         gap: 30,
@@ -95,7 +106,7 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         padding: 12,
         fontSize: 16,
-        color: 'white',
+        color: colors.disabledText,
     },
     button: {
         backgroundColor: '#e53935',

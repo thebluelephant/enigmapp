@@ -13,7 +13,8 @@
         "account": {
             "username": "Nom d'utilisateur",
             "email": "E-mail",
-            "logout": "Déconnexion"
+            "logout": "Déconnexion",
+            "contact": "Pour tout contact, merci de nous envoyer un mail à"
         },
         "account-header": {
             "title": "Bienvenue, inspecteur {{username}} !",
@@ -117,7 +118,8 @@
         "account": {
             "username": "Username",
             "email": "Email",
-            "logout": "Logout"
+            "logout": "Logout",
+            "contact": "For any inquiries, please email us at"
         },
         "account-header": {
             "title": "Welcome, Inspector {{username}} !",
