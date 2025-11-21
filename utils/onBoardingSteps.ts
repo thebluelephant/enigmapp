@@ -52,6 +52,6 @@ export const onBoardingSteps = [
     {
         title: 'onboarding.title-11',
         subtitle: 'onboarding.subtitle-11',
-        imageSource: null
+        imageSource: require('@/assets/images/onboarding/intro-1.png')
     },
 ];

@@ -3,15 +3,13 @@ import { onBoardingSteps } from '@/utils/onBoardingSteps';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-const ProgressionBar: React.FC<{ index: number }> = ({ index }: { index: number }) => {
-    return (
-        <View style={styles.progression}>
-            {onBoardingSteps.map((_, stepIndex) => (
-                <View key={stepIndex} style={[styles.step, stepIndex < index && styles.isDone]} />
-            ))}
-        </View>
-    )
-};
+const ProgressionBar: React.FC<{ index: number }> = ({ index }: { index: number }) =>
+    <View style={styles.progression}>
+        {onBoardingSteps.map((_, stepIndex) => (
+            <View key={stepIndex} style={[styles.step, stepIndex < index && styles.isDone]} />
+        ))}
+    </View>
+
 
 const styles = StyleSheet.create({
     progression: {

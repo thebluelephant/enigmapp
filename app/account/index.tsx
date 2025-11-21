@@ -2,7 +2,7 @@ import Button from '@/components/Button';
 import Icon from '@/components/Icon';
 import TopBar from '@/components/TopBar';
 import { colors } from '@/utils/colors';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, Linking, Pressable } from 'react-native';
 import i18n from '../intl/config';
@@ -48,16 +48,21 @@ const AccountScreen: React.FC = () => {
                         </View>
                     </View>
                     <View style={styles.contact}>
-                        <Text style={{ color: colors.disabledText, fontSize: 10 }}>{i18n.t('account.contact')}</Text> <Pressable
-                            onPress={() => Linking.openURL('mailto:contact.enigmapp@gmail.com')}><Text style={{ color: colors.yellow, fontSize: 10 }}>contact.enigmapp@gmail.com</Text></Pressable>
+                        <Text style={{ color: colors.disabledText, fontSize: 10 }}>
+                            {i18n.t('account.contact')}{' '}
+                            <Text
+                                style={{ color: colors.yellow, fontSize: 10 }}
+                                onPress={() => Linking.openURL('mailto:contact.enigmapp@gmail.com')}
+                            >
+                                contact.enigmapp@gmail.com
+                            </Text>
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.logoutContainer}>
                     <Button title={i18n.t('account.logout')} onPress={() => logout()} type={'primary'} />
                 </View>
             </View >
-
-
         </View >
     );
 };

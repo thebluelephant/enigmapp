@@ -7,12 +7,12 @@ import titleStyle from '@/utils/titleStyle';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import { updateAccountWithCompletedOnboarding, updateAccountWithUsername } from '@/api/Account';
 import { useRouter } from 'expo-router';
-import ImageFrame from './components/ImageFrame';
 import { onBoardingSteps } from '@/utils/onBoardingSteps';
 import { useGetAccountById } from '@/api/queries/useGetAccountById';
-import ProgressionBar from './components/ProgressionBar';
-import InspectorNameInput from './components/InspectorNameInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ImageFrame from '@/components/onboarding/ImageFrame';
+import ProgressionBar from '@/components/onboarding/ProgressionBar';
+import InspectorNameInput from '@/components/onboarding/InspectorNameInput';
 
 const OnBoarding: React.FC = () => {
     const router = useRouter();
@@ -58,7 +58,7 @@ const OnBoarding: React.FC = () => {
                             keyboardShouldPersistTaps="handled"
                             contentContainerStyle={[styles.content, { flexGrow: 1 }]}
                         >
-                            <ImageFrame isFirstStep={isFirstStep} source={steps?.imageSource} />
+                            <ImageFrame source={steps?.imageSource} />
                             <Text style={[titleStyle.subtitle, { textAlign: 'center', fontSize: 15, lineHeight: 20 }]}>{i18n.t(steps.subtitle, { username: account?.username })}</Text>
                             {isFirstStep && <InspectorNameInput onUsernameChange={(username) => setUsername(username)} username={username} />}
                         </KeyboardAwareScrollView>

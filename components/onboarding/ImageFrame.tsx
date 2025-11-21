@@ -3,11 +3,10 @@ import React from 'react';
 import { View, StyleSheet, Image, Dimensions, ImageSourcePropType } from 'react-native';
 
 type Props = {
-    isFirstStep: boolean,
     source: ImageSourcePropType
 };
 
-const ImageFrame: React.FC<Props> = ({ isFirstStep, source }) => {
+const ImageFrame: React.FC<Props> = ({ source }) => {
     const { height: SCREEN_HEIGHT } = Dimensions.get('window');
     const FRAME_HEIGHT = SCREEN_HEIGHT * 0.6;
     const ORIGINAL_ASPECT_RATIO = 600 / 1200;
@@ -16,24 +15,17 @@ const ImageFrame: React.FC<Props> = ({ isFirstStep, source }) => {
         return null
     }
     return (
-        isFirstStep ? (
+        <View style={[styles.imageFrame, { height: FRAME_HEIGHT }]} >
             <Image
                 source={source}
-                style={[styles.containerImage, styles.firstImage]}
-                resizeMode="center"
+                style={[
+                    styles.image,
+                    { height: '100%', aspectRatio: ORIGINAL_ASPECT_RATIO }
+                ]}
+                resizeMode="contain"
             />
-        ) : (
-            <View style={[styles.imageFrame, { height: FRAME_HEIGHT }]} >
-                <Image
-                    source={source}
-                    style={[
-                        styles.image,
-                        { height: '100%', aspectRatio: ORIGINAL_ASPECT_RATIO }
-                    ]}
-                    resizeMode="contain"
-                />
-            </View >
-        )
+        </View >
+
     )
 };
 
@@ -58,12 +50,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5a00c21',
         borderWidth: 0.7,
         borderColor: colors.yellow,
-    },
-    firstImage: {
-        resizeMode: 'center',
-        width: '80%',
-        height: '50%',
-        borderWidth: 20,
-        borderColor: '#f5a00c21',
-    },
+    }
 });

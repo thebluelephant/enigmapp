@@ -3,7 +3,6 @@ import { supabase } from "./core"
 import { Account, MinimizedQuest } from "@/types/Account"
 import { QuestSession } from "@/types/QuestSession"
 
-
 export const getUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
     return user
