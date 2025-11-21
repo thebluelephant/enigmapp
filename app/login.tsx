@@ -8,7 +8,7 @@ import i18n from './intl/config';
 import { supabase } from '@/api/core';
 import { useEnigmappContext } from '@/utils/EnigmappContext';
 import Icon from '@/components/Icon';
-import { insertAccount } from '@/api/Account';
+import { fetchAccountById, insertAccount } from '@/api/Account';
 import NotificationModal from '@/components/login/NotificationModal';
 import { isEmail } from '@/utils/validators';
 
@@ -32,9 +32,14 @@ const Login = () => {
         }
         if (data.user) {
             setUserId(data.user.id)
-            // Insert manualy new user in account table
-            await insertAccount(data.user.id)
-            router.replace('/home')
+            const hasAlreadyAnAccount = await fetchAccountById(data.user.id)
+            if (!hasAlreadyAnAccount) {
+                // Insert manualy new user in account table
+                await insertAccount(data.user.id, email)
+                router.replace('/onboarding')
+            } else {
+                router.replace('/home')
+            }
         }
         setLoading(false)
     }

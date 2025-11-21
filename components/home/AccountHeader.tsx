@@ -1,3 +1,4 @@
+import { useGetAccountById } from '@/api/queries/useGetAccountById';
 import { useGetAccountStats } from '@/api/queries/useGetAccountStats';
 import i18n from '@/app/intl/config';
 import { colors } from '@/utils/colors';
@@ -7,6 +8,7 @@ import { StyleSheet, View, ImageBackground, Text } from 'react-native';
 
 const AccountHeader = () => {
     const { data: stats } = useGetAccountStats()
+    const { data: account } = useGetAccountById()
 
     if (!stats) {
         return
@@ -18,7 +20,7 @@ const AccountHeader = () => {
             imageStyle={{ opacity: 0.2, height: 'auto', width: '100%' }}
             resizeMode='cover'>
             <View style={styles.container}>
-                <Text style={[titleStyle.default_l, styles.title]}>{i18n.t('account-header.title')}</Text>
+                <Text style={[titleStyle.default_l, styles.title]}>{i18n.t('account-header.title', { username: account?.username })}</Text>
                 <Text style={titleStyle.subtitle}>{i18n.t('account-header.subtitle')}</Text>
 
                 <View style={styles.subCards}>

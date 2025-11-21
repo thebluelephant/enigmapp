@@ -16,7 +16,7 @@
             "logout": "Déconnexion"
         },
         "account-header": {
-            "title": "Bienvenue, inspecteur !",
+            "title": "Bienvenue, inspecteur {{username}} !",
             "subtitle": "Prêt à résoudre des énigmes grâce à votre caméra ?",
             "resolved-cases": "Cas résolus",
             "in-progress-quest": "Quête en cours",
@@ -73,6 +73,34 @@
             "easy": "Facile",
             "medium": "Intermédiaire",
             "expert": "Expert"
+        },
+        "onboarding": {
+            "next": "Continuer",
+            "inspector-name": "Comment dois-je vous appeler, Inspecteur ?",
+            "skip": "Passer l’introduction",
+            "your-name": "Votre nom",
+            "title-1": "Bienvenue sur Enigmapp, Inspecteur.",
+            "subtitle-1": "Je suis l’Inspecteur Lysander ! Avant de vous confier vos premières affaires, permettez-moi de vous expliquer brièvement comment nous enquêtons ici. Mais d’abord… quel est votre nom ?",
+            "title-2": "Ravi de vous compter parmi nous, {{username}}.",
+            "subtitle-2": "Chaque enquête commence par une mise en situation : l’histoire, le contexte et les premiers indices.",
+            "title-3": "Progressez énigme après énigme",
+            "subtitle-3": "Chaque affaire est composée d'étapes à résoudre. Cette page vous accompagnera tout au long de votre investigation.",
+            "title-4": "Gardez un œil sur votre avancée",
+            "subtitle-4": "En haut à gauche, vous trouverez votre progression dans l’enquête.",
+            "title-5": "Accumulez des points",
+            "subtitle-5": "Votre score évolue au fil de l’affaire. Chaque énigme résolue vous rapporte des points… à condition de viser juste.",
+            "title-6": "Demandez de l’aide si nécessaire",
+            "subtitle-6": "Vous pouvez obtenir jusqu’à trois indices par énigme. Mais attention : chaque indice vous coûtera 2 points.",
+            "title-7": "Consultez vos indices",
+            "subtitle-7": "Vos indices apparaîtront ici, prêtez-y attention : ils peuvent changer le cours de l’enquête.",
+            "title-8": "Résolvez l’énigme en photographiant la preuve",
+            "subtitle-8": "Vous pensez avoir identifié l’objet mystère ? Prenez-le en photo pour valider votre hypothèse. Mais prudence… chaque mauvaise piste vous coûte 1 point.",
+            "title-9": "Votre progression est sauvegardée",
+            "subtitle-9": "Revenez à l’accueil à tout moment grâce au bouton retour : rien ne sera perdu.",
+            "title-10": "Votre tableau de bord",
+            "subtitle-10": "Depuis l’accueil, explorez d’autres affaires, consultez vos statistiques ou gérez votre profil.",
+            "title-11": "En avant.",
+            "subtitle-11": "Nous comptons sur vous, {{username}}. L’enquête commence."
         }
     },
     "en": {
@@ -92,7 +120,7 @@
             "logout": "Logout"
         },
         "account-header": {
-            "title": "Welcome, Inspector!",
+            "title": "Welcome, Inspector {{username}} !",
             "subtitle": "Ready to solve riddles with your camera?",
             "resolved-cases": "Cases solved",
             "in-progress-quest": "Ongoing quest",
@@ -149,6 +177,34 @@
             "easy": "Easy",
             "medium": "Medium",
             "expert": "Expert"
+        },
+        "onboarding": {
+            "next": "Continue",
+            "inspector-name": "How should I address you, Inspector?",
+            "skip": "Skip",
+            "your-name": "Your name",
+            "title-1": "Welcome on Enigmapp, Inspector.",
+            "subtitle-1": "I am Inspector Lysander ! Before I assign you your first cases, allow me to briefly explain how investigations work here. But first… may I have your name?",
+            "title-2": "Glad to have you with us, {{username}}.",
+            "subtitle-2": "Every case begins with a briefing: the story, the context, and your first clues.",
+            "title-3": "Progress through each puzzle",
+            "subtitle-3": "Each case is divided into steps you must solve. This page will accompany you throughout your investigation.",
+            "title-4": "Track your progress",
+            "subtitle-4": "At the top left, you’ll see your progression within the case.",
+            "title-5": "Earn points",
+            "subtitle-5": "Your score evolves as you advance. Solving each puzzle correctly will earn you points… as long as you're accurate.",
+            "title-6": "Ask for help if needed",
+            "subtitle-6": "You may request up to three hints per puzzle. But be careful: each hint costs 2 points.",
+            "title-7": "Review your hints",
+            "subtitle-7": "Your hints will appear here. Study them carefully—they might change the course of the investigation.",
+            "title-8": "Solve the puzzle by photographing the evidence",
+            "subtitle-8": "Think you’ve identified the mystery object? Take a picture to confirm your hypothesis. But beware… each wrong attempt will cost you 1 point.",
+            "title-9": "Your progress is saved",
+            "subtitle-9": "You can return to the home screen at any moment using the back button—nothing will be lost.",
+            "title-10": "Your dashboard",
+            "subtitle-10": "From the home screen, start another case, check your statistics, or manage your profile.",
+            "title-11": "Let’s begin.",
+            "subtitle-11": "We’re counting on you, {{username}}. The investigation starts now."
         }
     }
 }

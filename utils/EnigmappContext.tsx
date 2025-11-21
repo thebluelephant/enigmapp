@@ -20,7 +20,6 @@ const defaultValue: EnigmappContextProps = {
     setShowIntroductionModal: () => { },
     userId: '',
     setUserId: () => { },
-
 }
 
 export const EnigmappContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

@@ -6,7 +6,9 @@ export type Account = {
     created_at: string,
     username: string,
     completed_quests: MinimizedQuest[],
-    in_progress_quests: MinimizedQuest[]
+    in_progress_quests: MinimizedQuest[],
+    onboarded: boolean,
+    email: string
 };
 
 export type MinimizedQuest = {

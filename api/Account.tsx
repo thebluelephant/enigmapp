@@ -9,13 +9,13 @@ export const getUser = async () => {
     return user
 }
 
-export const insertAccount = async (userId: Account['user_id']) => {
+export const insertAccount = async (userId: Account['user_id'], email: Account['email']) => {
     const accountAlreadyExist = await fetchAccountById(userId)
 
     if (!accountAlreadyExist) {
         const { data: account, error } = await supabase
             .from('accounts')
-            .insert({ user_id: userId })
+            .insert({ user_id: userId, email: email })
             .select()
 
         if (error) {
@@ -89,6 +89,32 @@ export const updateAccountWithDeletedInProgressQuest = async (userId: Account['u
         }
         return data?.[0]
     }
+}
+export const updateAccountWithCompletedOnboarding = async (userId: Account['user_id']) => {
+    const { data, error } = await supabase
+        .from('accounts')
+        .update({ onboarded: true })
+        .eq('user_id', userId)
+        .select()
+
+    if (error) {
+        console.log("updateAccountWithCompletedOnboarding error : ", error);
+    }
+    return data?.[0]
+
+}
+export const updateAccountWithUsername = async (userId: Account['user_id'], username: Account['username']): Promise<Account> => {
+    const { data, error } = await supabase
+        .from('accounts')
+        .update({ username: username })
+        .eq('user_id', userId)
+        .select()
+
+    if (error) {
+        console.log("updateAccountWithUsername error : ", error);
+    }
+    return data?.[0]
+
 }
 export const updateAccountWithCompletedQuest = async (userId: Account['user_id'], questId: Quest['id']) => {
     const account: Account = await fetchAccountById(userId)

@@ -5,13 +5,13 @@ import { useEffect } from "react";
 
 const Index = () => {
   const router = useRouter()
-  const { setUserId, userId } = useEnigmappContext()
+  const { setUserId } = useEnigmappContext()
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setUserId(session.user.id)
-        router.replace('/home')
+        router.replace('/onboarding')
       } else router.replace('/login')
     })
   }, [])
