@@ -52,18 +52,16 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.fakeTopBar}>
-                {
-                    !isLoading && <Pressable onPress={() => onCloseCamera()} >
-                        <BackArrow color={colors.yellow} height={24} />
-                    </Pressable>
-                }
-            </View>
             {
                 isLoading ?
                     <CameraLoader />
                     :
-                    <View>
+                    <>
+                        <View style={styles.fakeTopBar}>
+                            <Pressable onPress={() => onCloseCamera()} >
+                                <BackArrow color={colors.yellow} height={24} />
+                            </Pressable>
+                        </View>
                         <Camera
                             ref={camera}
                             style={styles.camera}
@@ -76,7 +74,7 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
                                 <CameraIcon color='white' height={24} />
                             </Pressable>
                         </View>
-                    </View>
+                    </>
             }
         </View>
     )
@@ -84,8 +82,12 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: colors.background,
+    },
+    fakeTopBar: {
+        width: '100%',
+        height: "5%",
+        padding: 10,
     },
     camera: {
         height: '100%'
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        bottom: 100
+        bottom: 70
     },
     button: {
         height: 70,
@@ -108,22 +110,7 @@ const styles = StyleSheet.create({
     },
     disabledButton: {
         backgroundColor: colors.disabledBackground
-    },
-    loadingOverlay: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: 'rgba(255,255,255,0.7)',
-        zIndex: 10
-    },
-    fakeTopBar: {
-        width: '100%',
-        height: 50,
-        padding: 10,
     }
-
 });
 
 export default AppCamera;
