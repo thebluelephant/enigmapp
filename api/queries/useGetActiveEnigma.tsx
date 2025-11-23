@@ -25,7 +25,7 @@ export const useGetActiveEnigma = () => {
                     const questIsFinished = !nextEnigmaId && questSession.solutions.length === quest.enigmas?.length
 
                     if (questIsFinished && userId) {
-                        await updateAccountWithCompletedQuest(userId, quest.id)
+                        await updateAccountWithCompletedQuest(userId, quest.id, questSession.score)
                         await updateAccountWithDeletedInProgressQuest(userId, quest.id, questSession.id)
                         return { enigma: {}, quest, questSession }
                     }

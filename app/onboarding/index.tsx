@@ -19,7 +19,7 @@ const OnBoarding: React.FC = () => {
     const { userId } = useEnigmappContext();
     const { data: account, refetch: refetchAccount } = useGetAccountById()
     const [index, setIndex] = useState(0);
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState('Martin');
 
     const steps = onBoardingSteps[index];
     const isFirstStep = index === 0
@@ -61,10 +61,11 @@ const OnBoarding: React.FC = () => {
                             <ImageFrame source={steps?.imageSource} />
                             <Text style={[titleStyle.subtitle, { textAlign: 'center', fontSize: 15, lineHeight: 20 }]}>{i18n.t(steps.subtitle, { username: account?.username })}</Text>
                             {isFirstStep && <InspectorNameInput onUsernameChange={(username) => setUsername(username)} username={username} />}
+                            <Button title={i18n.t('onboarding.next')} onPress={isFirstStep ? saveUsername : progress} type={'primary'} style={{ width: '100%' }} disabled={isFirstStep && username.length < 3} />
+
                         </KeyboardAwareScrollView>
                     </ScrollView>
                 </View>
-                <Button title={i18n.t('onboarding.next')} onPress={isFirstStep ? saveUsername : progress} type={'primary'} style={{ width: '100%' }} disabled={isFirstStep && username.length < 3} />
             </View>
         </>
     );

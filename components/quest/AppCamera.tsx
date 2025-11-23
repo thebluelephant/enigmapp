@@ -49,7 +49,6 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
         }
     }
 
-
     return (
         <View style={styles.container}>
             {
@@ -86,11 +85,11 @@ const styles = StyleSheet.create({
     },
     fakeTopBar: {
         width: '100%',
-        height: "5%",
+        height: '8%',
         padding: 10,
     },
     camera: {
-        height: '100%'
+        height: '92%'
     },
     buttonContainer: {
         height: 70,

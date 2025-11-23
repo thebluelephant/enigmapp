@@ -115,7 +115,7 @@ export const updateAccountWithUsername = async (userId: Account['user_id'], user
     return data?.[0]
 
 }
-export const updateAccountWithCompletedQuest = async (userId: Account['user_id'], questId: Quest['id']) => {
+export const updateAccountWithCompletedQuest = async (userId: Account['user_id'], questId: Quest['id'], score: QuestSession['score']) => {
     const account: Account = await fetchAccountById(userId)
 
     if (account) {
@@ -123,7 +123,8 @@ export const updateAccountWithCompletedQuest = async (userId: Account['user_id']
 
         const completedQuest = {
             ...initialStartedQuest,
-            ended_at: new Date()
+            ended_at: new Date(),
+            score: score
         }
 
         if (account) {

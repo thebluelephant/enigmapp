@@ -81,7 +81,7 @@
         "onboarding": {
             "next": "Continuer",
             "inspector-name": "Comment dois-je vous appeler, Inspecteur ?",
-            "skip": "Passer l’introduction",
+            "skip": "Passer",
             "your-name": "Votre nom",
             "title-1": "Bienvenue sur Enigmapp, Inspecteur.",
             "subtitle-1": "Je suis l’Inspecteur Lysander ! Avant de vous confier vos premières affaires, permettez-moi de vous expliquer brièvement comment nous enquêtons ici. Mais d’abord… quel est votre nom ?",
