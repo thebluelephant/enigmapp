@@ -36,10 +36,9 @@ const AccountHeader = () => {
                         </View>
                     }
                     {
-                        !!stats.totalScore &&
                         <View style={styles.subCard}>
                             <Text style={titleStyle.subtitle}>{i18n.t('account-header.total-score')}</Text>
-                            <Text style={styles.progress}>{stats.totalScore} {i18n.t('account-header.points')}</Text>
+                            <Text style={styles.progress}>{stats.totalScore ?? 0} {i18n.t('account-header.points')}</Text>
                         </View>
                     }
 

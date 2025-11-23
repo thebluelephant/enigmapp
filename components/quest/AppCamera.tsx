@@ -7,6 +7,7 @@ import { postImageRecognition } from '@/api/Quests';
 import { colors } from '@/utils/colors';
 import CameraLoader from './CameraLoader';
 import * as ImageManipulator from 'expo-image-manipulator';
+import BackArrow from '@/assets/icons/BackArrow';
 
 
 type Props = {
@@ -51,11 +52,18 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
 
     return (
         <View style={styles.container}>
+            <View style={styles.fakeTopBar}>
+                {
+                    !isLoading && <Pressable onPress={() => onCloseCamera()} >
+                        <BackArrow color={colors.yellow} height={24} />
+                    </Pressable>
+                }
+            </View>
             {
                 isLoading ?
                     <CameraLoader />
                     :
-                    <View style={{ flex: 1 }}>
+                    <View>
                         <Camera
                             ref={camera}
                             style={styles.camera}
@@ -70,15 +78,14 @@ const AppCamera = ({ onCloseCamera, onProposeAnswer }: Props) => {
                         </View>
                     </View>
             }
-
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        gap: 10,
-        flex: 1
+        flex: 1,
+        backgroundColor: colors.background,
     },
     camera: {
         height: '100%'
@@ -89,7 +96,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        bottom: 50
+        bottom: 100
     },
     button: {
         height: 70,
@@ -110,7 +117,13 @@ const styles = StyleSheet.create({
         right: 0,
         backgroundColor: 'rgba(255,255,255,0.7)',
         zIndex: 10
+    },
+    fakeTopBar: {
+        width: '100%',
+        height: 50,
+        padding: 10,
     }
+
 });
 
 export default AppCamera;

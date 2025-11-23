@@ -14,6 +14,7 @@ import ResultModal, { ResultModalStatus } from '../ResultModal';
 import { useQueryClient } from '@tanstack/react-query';
 import { getLocale } from '@/utils/locale';
 import { TranslationString } from '@/types/Generic';
+import TopBar from '../TopBar';
 
 interface ActiveEnigmaProps {
     enigma: Enigma;
@@ -48,30 +49,33 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
     }
 
     if (showCamera) {
-        return (<AppCamera onCloseCamera={() => setShowCamera(false)} onProposeAnswer={validateAnswer} />)
+        return <AppCamera onCloseCamera={() => setShowCamera(false)} onProposeAnswer={validateAnswer} />
     }
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text[lang] : undefined} onClose={() => {
-                setResultModalStatus(null)
-                queryClient.invalidateQueries({
-                    queryKey: ['questSession'],
-                })
-            }} />
-            <EnigmaHeader totalEnigmas={quest.enigmas.length} questSession={questSession} />
-            <View style={styles.activeEnigma}>
-                <View style={styles.content}>
-                    <View >
-                        <Image style={styles.image} source={{ uri: enigma.image }} />
-                        <Text style={[titleStyle.default_l, styles.title]}>{enigma.title[lang]}</Text>
-                        <Text style={[styles.text]}>{enigma?.text[lang]}</Text>
+        <>
+            <TopBar backButton={true} />
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text[lang] : undefined} onClose={() => {
+                    setResultModalStatus(null)
+                    queryClient.invalidateQueries({
+                        queryKey: ['questSession'],
+                    })
+                }} />
+                <EnigmaHeader totalEnigmas={quest.enigmas.length} questSession={questSession} />
+                <View style={styles.activeEnigma}>
+                    <View style={styles.content}>
+                        <View >
+                            <Image style={styles.image} source={{ uri: enigma.image }} />
+                            <Text style={[titleStyle.default_l, styles.title]}>{enigma.title[lang]}</Text>
+                            <Text style={[styles.text]}>{enigma?.text[lang]}</Text>
+                        </View>
+                        <Clues clues={clues} />
                     </View>
-                    <Clues clues={clues} />
+                    <EnigmaButtons clues={clues} questSession={questSession} enigmaId={enigma.id} onShowCamera={() => setShowCamera(true)} />
                 </View>
-                <EnigmaButtons clues={clues} questSession={questSession} enigmaId={enigma.id} onShowCamera={() => setShowCamera(true)} />
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </>
     );
 };
 

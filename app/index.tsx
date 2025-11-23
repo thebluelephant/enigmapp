@@ -11,8 +11,8 @@ const Index = () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setUserId(session.user.id)
-        router.replace('/home')
-      } else router.replace('/login')
+        router.replace('/dashboard')
+      } else router.replace('/home')
     })
   }, [])
 }

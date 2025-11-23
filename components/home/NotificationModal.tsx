@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import GenericModal from '../GenericModal';
+
 import { colors } from '@/utils/colors';
-import Timer from '../Timer';
 import titleStyle from '@/utils/titleStyle';
+import GenericModal from '@/components/GenericModal';
+import Timer from '@/components/Timer';
 
 type NotificationModalProps = {
     notification: string | null,

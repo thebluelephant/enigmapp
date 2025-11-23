@@ -1,54 +1,53 @@
 import { colors } from '@/utils/colors';
-import AccountHeader from '@/components/home/AccountHeader';
-import { RefreshControl, ScrollView } from "react-native";
-import { View, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import QuestDetailsModal from '@/components/home/QuestDetailsModal';
-import QuestList from '@/components/home/QuestList';
-import TopBar from '@/components/TopBar';
-import { useCameraPermission } from 'react-native-vision-camera';
-import { useEffect } from 'react';
-import useRefetchData from '@/utils/hooks/useRefetchData';
+import React, { useState } from 'react';
+import { View, StyleSheet, Image, ScrollView } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import NotificationModal from '@/components/home/NotificationModal';
+import Header from '@/components/home/Header';
+import CredentialsContainer from "@/components/home/CredentialsContainer"
 
-const HomeScreen = () => {
-    const { hasPermission, requestPermission } = useCameraPermission()
-    const { refetch, refreshing } = useRefetchData()
-
-    useEffect(() => {
-        if (!hasPermission) {
-            requestPermission()
-        }
-    }, [requestPermission, hasPermission]);
+const Home = () => {
+    const [notification, setNotification] = useState<string | null>(null)
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <TopBar backButton={false} account={true} />
-            <ScrollView
-                contentContainerStyle={{ flexGrow: 1 }}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={refetch}
-                    />
-                }
+        <View style={{ flex: 1, backgroundColor: colors.background, }}>
+            <Image style={styles.image}
+                source={require('@/assets/images/login-bkg.png')} />
+            <KeyboardAwareScrollView
+                enableOnAndroid={true}
+                keyboardShouldPersistTaps="handled"
+                contentContainerStyle={[{ flexGrow: 1 }]}
             >
-                <View style={styles.container}>
-                    <QuestDetailsModal />
-                    <AccountHeader />
-                    <QuestList />
-                </View>
-            </ScrollView>
-        </SafeAreaView>
+                <ScrollView contentContainerStyle={[styles.container, { justifyContent: 'flex-end' }]}>
+                    <NotificationModal
+                        notification={notification}
+                        onModalClose={() => {
+                            setNotification(null)
+                        }}
+                    />
+                    <View style={{ height: "80%" }}>
+                        <Header />
+                        <CredentialsContainer onSetNotification={setNotification} />
+                    </View>
+                </ScrollView>
+            </KeyboardAwareScrollView>
+        </View >
     );
 };
 
 const styles = StyleSheet.create({
+    image: {
+        opacity: 0.3,
+        resizeMode: 'cover',
+        width: '100%',
+        height: '40%',
+        position: 'absolute',
+        zIndex: 200
+    },
     container: {
         flex: 1,
-        backgroundColor: colors.background,
-        gap: 10,
-        padding: 10,
-    }
+        padding: 10
+    },
 });
 
-export default HomeScreen;
+export default Home;

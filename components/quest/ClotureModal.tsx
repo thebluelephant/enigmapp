@@ -69,7 +69,7 @@ const ClotureModal: React.FC<ClotureModalProps> = ({
                     </View>
 
                     <View style={{ height: 30, width: '100%' }}>
-                        <Button title={i18n.t('cloture-modal.back-home')} onPress={() => router.replace('/home')} type={'primary'} />
+                        <Button title={i18n.t('cloture-modal.back-home')} onPress={() => router.replace('/dashboard')} type={'primary'} />
                     </View>
                 </View>
             </View>

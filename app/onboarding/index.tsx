@@ -38,7 +38,7 @@ const OnBoarding: React.FC = () => {
     };
 
     const completeOnBoarding = () => {
-        updateAccountWithCompletedOnboarding(userId).then(() => router.replace('/home'));
+        updateAccountWithCompletedOnboarding(userId).then(() => router.replace('/dashboard'));
     };
 
     return (

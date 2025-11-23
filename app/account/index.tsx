@@ -13,11 +13,10 @@ const AccountScreen: React.FC = () => {
     const router = useRouter()
     const { data: account } = useGetAccountById()
 
-
     const logout = async () => {
         try {
             await supabase.auth.signOut()
-            router.replace('/login');
+            router.replace('/home');
         } catch (e) {
             console.log(e);
         }

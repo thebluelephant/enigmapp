@@ -1,68 +1,22 @@
 import i18n from '@/app/intl/config';
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TextInput, Text } from 'react-native';
-import Button from '../Button';
 import { colors } from '@/utils/colors';
-import Icon from '../Icon';
 import titleStyle from '@/utils/titleStyle';
-import { useRouter } from 'expo-router';
-import { useEnigmappContext } from '@/utils/EnigmappContext';
-import { supabase } from '@/api/core';
-import { fetchAccountById, insertAccount } from '@/api/Account';
 import { isEmail } from '@/utils/validators';
+import Button from '@/components/Button';
+import Icon from '@/components/Icon';
 
 type Props = {
-    onSetNotification: (notification: string) => void
+    onSubmit: (email: string, password: string) => void,
+    type: 'login' | 'signup',
+    loading: boolean
 };
 
-const LoginContainer: React.FC<Props> = ({ onSetNotification }) => {
-    const router = useRouter()
-    const { setUserId } = useEnigmappContext()
+const UserFormContainer: React.FC<Props> = ({ onSubmit, type, loading }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [loading, setLoading] = useState(false)
     const [isDisabled, setIsDisabled] = useState(false)
-
-    const signInWithEmail = async () => {
-        setLoading(true)
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password,
-        })
-        if (error) {
-            onSetNotification(error.message)
-        }
-        if (data.user) {
-            setUserId(data.user.id)
-            const hasAlreadyAnAccount = await fetchAccountById(data.user.id)
-            if (!hasAlreadyAnAccount) {
-                // Insert manualy new user in account table
-                await insertAccount(data.user.id, email)
-                router.replace('/onboarding')
-            } else {
-                router.replace('/home')
-            }
-        }
-        setLoading(false)
-    }
-
-    const signUpWithEmail = async () => {
-        setLoading(true)
-        const {
-            data: { session },
-            error,
-        } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-        })
-        if (error) {
-            onSetNotification(error.message)
-        }
-        if (!session) {
-            onSetNotification(i18n.t('login.validate-email'))
-        }
-        setLoading(false)
-    }
 
     useEffect(() => {
         if (!isEmail(email) || password.length < 6) {
@@ -73,7 +27,7 @@ const LoginContainer: React.FC<Props> = ({ onSetNotification }) => {
     }, [email, password]);
 
     return (
-        <View style={styles.inputContainer}>
+        <View style={{ gap: 20 }} >
             <View style={{ gap: 15 }}>
                 <View style={{ gap: 10 }}>
                     <View style={styles.label}>
@@ -90,6 +44,7 @@ const LoginContainer: React.FC<Props> = ({ onSetNotification }) => {
                         style={styles.input}
                     />
                 </View>
+
                 <View style={{ gap: 10 }}>
                     <View style={styles.label}>
                         <Icon name='lock' color={colors.yellow} />
@@ -105,16 +60,19 @@ const LoginContainer: React.FC<Props> = ({ onSetNotification }) => {
                         style={styles.input}
                     />
                 </View>
+
             </View>
-            <View style={styles.buttonContainer}>
-                <Button title={i18n.t('login.login')} disabled={isDisabled || loading} onPress={() => signInWithEmail()} type={'primary'} />
-                <Button title={i18n.t('login.sign-up')} disabled={isDisabled || loading} onPress={() => signUpWithEmail()} type={'secondary'} />
-            </View>
+            <Button
+                title={type === 'login' ? i18n.t('login.login') : i18n.t('login.sign-up')}
+                disabled={isDisabled || loading}
+                onPress={() => onSubmit(email, password)}
+                type={'primary'} />
+
         </View>
     );
 };
 
-export default LoginContainer;
+export default UserFormContainer;
 
 const styles = StyleSheet.create({
     container: {
@@ -137,18 +95,4 @@ const styles = StyleSheet.create({
         borderWidth: 0.3,
         borderRadius: 10,
     },
-    inputContainer: {
-        backgroundColor: '#1D212A',
-        width: '100%',
-        padding: 15,
-        gap: 30,
-        borderColor: colors.yellow,
-        borderWidth: 0.3,
-        borderRadius: 10,
-        marginBottom: 20
-    },
-    buttonContainer: {
-        height: 130,
-        gap: 15
-    }
 });

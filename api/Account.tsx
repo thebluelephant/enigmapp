@@ -24,7 +24,7 @@ export const insertAccount = async (userId: Account['user_id'], email: Account['
     }
 
 }
-export const fetchAccountById = async (userId: Account['user_id']) => {
+export const fetchAccountById = async (userId: Account['user_id']): Promise<Account> => {
     const { data, error } = await supabase
         .from('accounts')
         .select()

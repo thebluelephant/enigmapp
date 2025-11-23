@@ -26,7 +26,6 @@ const QuestScreen = () => {
 
     return (
         <SafeAreaView style={styles.quest}>
-            <TopBar backButton={true} />
             {quest && quest.description && <IntroductionModal text={quest?.description[lang]} image={quest?.image} />}
             {hasNextEnigma && quest && questSession && <ActiveEnigma enigma={enigma} questSession={questSession} quest={quest} clues={clues} />}
         </SafeAreaView>

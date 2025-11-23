@@ -17,7 +17,7 @@ const TopBar: React.FC<TopBarProps> = ({ backButton, credit, account }: TopBarPr
         <View style={styles.container}>
             {
                 backButton &&
-                <Pressable onPress={() => router.replace('/home')}>
+                <Pressable onPress={() => router.replace('/dashboard')}>
                     <BackArrow color={colors.yellow} height={24} />
                 </Pressable>
             }
