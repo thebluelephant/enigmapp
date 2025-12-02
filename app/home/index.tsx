@@ -1,41 +1,44 @@
 import { colors } from '@/utils/colors';
 import React, { useState } from 'react';
-import { View, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import NotificationModal from '@/components/home/NotificationModal';
 import Header from '@/components/home/Header';
 import CredentialsContainer from "@/components/home/CredentialsContainer"
+import useKeyboardVisibility from '@/utils/hooks/useKeyboardVisibility';
 
 const Home = () => {
     const [notification, setNotification] = useState<string | null>(null)
+    const { keyboardVisible } = useKeyboardVisibility()
 
     return (
-        <View style={{ flex: 1, backgroundColor: colors.background, }}>
+        <View style={styles.home}>
             <Image style={styles.image}
                 source={require('@/assets/images/login-bkg.png')} />
-            <KeyboardAwareScrollView
-                enableOnAndroid={true}
-                keyboardShouldPersistTaps="handled"
-                contentContainerStyle={[{ flexGrow: 1 }]}
-            >
-                <ScrollView contentContainerStyle={[styles.container, { justifyContent: 'flex-end' }]}>
-                    <NotificationModal
-                        notification={notification}
-                        onModalClose={() => {
-                            setNotification(null)
-                        }}
-                    />
-                    <View style={{ height: "80%" }}>
-                        <Header />
+
+            <View style={styles.container}>
+                <NotificationModal
+                    notification={notification}
+                    onModalClose={() => {
+                        setNotification(null)
+                    }}
+                />
+                <View style={[styles.content, { height: keyboardVisible ? '100%' : '80%' }]}>
+                    <Header />
+                    <KeyboardAwareScrollView>
                         <CredentialsContainer onSetNotification={setNotification} />
-                    </View>
-                </ScrollView>
-            </KeyboardAwareScrollView>
+                    </KeyboardAwareScrollView>
+                </View>
+            </View >
         </View >
     );
 };
 
 const styles = StyleSheet.create({
+    home: {
+        flex: 1,
+        backgroundColor: colors.background
+    },
     image: {
         opacity: 0.3,
         resizeMode: 'cover',
@@ -45,9 +48,13 @@ const styles = StyleSheet.create({
         zIndex: 200
     },
     container: {
+        padding: 10,
         flex: 1,
-        padding: 10
+        justifyContent: 'flex-end'
     },
+    content: {
+        justifyContent: 'space-between'
+    }
 });
 
 export default Home;

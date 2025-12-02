@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
 import UserFormContainer from './UserFormContainer';
 import { supabase } from '@/api/core';
 import i18n from '@/app/intl/config';
@@ -32,11 +31,3 @@ const SignUpContainer: React.FC<Props> = ({ onSetNotification }) => {
 };
 
 export default SignUpContainer;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        padding: 16,
-    },
-});
