@@ -22,7 +22,7 @@ const LoginContainer: React.FC<Props> = ({ onSetNotification }) => {
         setLoading(true)
         const { data, error } = await supabase.auth.signInWithPassword({
             email: email,
-            password: password,
+            password: password
         })
         if (error) {
             onSetNotification(error.message)
@@ -47,7 +47,10 @@ const LoginContainer: React.FC<Props> = ({ onSetNotification }) => {
 
     const resetPassword = async (email: string) => {
         setLoading(true)
-        const { data, error } = await supabase.auth.resetPasswordForEmail(email)
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email,
+            {
+                redirectTo: "exp+enigmapp://home",
+            })
         if (error) {
             onSetNotification(error.message)
         } else {

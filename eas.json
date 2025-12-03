@@ -15,7 +15,8 @@
       "releaseChannel": "production",
       "distribution": "store",
       "android": {
-        "buildType": "apk"
+        "buildType": "app-bundle",
+        "developmentClient": false
       },
       "ios": {
         "simulator": false

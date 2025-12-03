@@ -17,6 +17,10 @@ const SignUpContainer: React.FC<Props> = ({ onSetNotification }) => {
         } = await supabase.auth.signUp({
             email: email,
             password: password,
+            options: {
+                emailRedirectTo: "exp+enigmapp://home"
+            }
+
         })
         if (error) {
             onSetNotification(error.message)

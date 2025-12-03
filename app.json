@@ -10,7 +10,7 @@
       "resizeMode": "cover",
       "backgroundColor": "#1A1A1D"
     },
-    "scheme": "myapp",
+    "scheme": "enigmapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
