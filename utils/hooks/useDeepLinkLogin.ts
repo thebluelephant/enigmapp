@@ -5,7 +5,6 @@ import { useRouter } from "expo-router";
 export function useDeepLinkLogin() {
     const router = useRouter()
 
-
     useEffect(() => {
         const handleUrl = ({ url }: { url: string }) => {
             const { path } = Linking.parse(url);
