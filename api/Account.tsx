@@ -1,6 +1,6 @@
 import type { Quest } from "@/types/Quest"
 import { supabase } from "./core"
-import { Account, MinimizedQuest } from "@/types/Account"
+import { Account, MinimizedQuest, OnboardingReason } from "@/types/Account"
 import { QuestSession } from "@/types/QuestSession"
 
 export const getUser = async () => {
@@ -89,10 +89,10 @@ export const updateAccountWithDeletedInProgressQuest = async (userId: Account['u
         return data?.[0]
     }
 }
-export const updateAccountWithCompletedOnboarding = async (userId: Account['user_id']) => {
+export const updateAccountWithCompletedOnboarding = async (userId: Account['user_id'], reason: OnboardingReason) => {
     const { data, error } = await supabase
         .from('accounts')
-        .update({ onboarded: true })
+        .update({ onboarded: reason })
         .eq('user_id', userId)
         .select()
 

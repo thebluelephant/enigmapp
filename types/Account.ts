@@ -18,3 +18,5 @@ export type MinimizedQuest = {
     ended_at: Date | null,
     score: QuestSession['score']
 }
+
+export type OnboardingReason = 'skipped' | 'complete' | 'false'

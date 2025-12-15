@@ -31,7 +31,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 5,
         flex: 1,
-        maxHeight: 50
+        maxHeight: 50,
+        alignSelf: 'stretch',
+        textAlign: 'center'
     },
     default: {
         minHeight: 50
@@ -59,7 +61,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: "Roboto_700Bold",
-        alignSelf: 'center'
     }
 });
 

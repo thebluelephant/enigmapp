@@ -13,6 +13,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import ImageFrame from '@/components/onboarding/ImageFrame';
 import ProgressionBar from '@/components/onboarding/ProgressionBar';
 import InspectorNameInput from '@/components/onboarding/InspectorNameInput';
+import { OnboardingReason } from '@/types/Account';
 
 const OnBoarding: React.FC = () => {
     const router = useRouter();
@@ -22,11 +23,11 @@ const OnBoarding: React.FC = () => {
     const [username, setUsername] = useState('Martin');
 
     const steps = onBoardingSteps[index];
-    const isFirstStep = index === 0
+    const isUsernameStep = index === 1
 
     const progress = () => {
         if (index < onBoardingSteps.length - 1) setIndex(index + 1);
-        else completeOnBoarding();
+        else completeOnBoarding('complete');
     };
 
     const saveUsername = async () => {
@@ -37,14 +38,14 @@ const OnBoarding: React.FC = () => {
         }
     };
 
-    const completeOnBoarding = () => {
-        updateAccountWithCompletedOnboarding(userId).then(() => router.replace('/dashboard'));
+    const completeOnBoarding = (reason: OnboardingReason) => {
+        updateAccountWithCompletedOnboarding(userId, reason).then(() => router.replace('/dashboard'));
     };
 
     return (
         <>
             <View style={styles.topBar}>
-                <Text onPress={completeOnBoarding} style={[titleStyle.default_m, { position: 'absolute', left: 10 }]}>{i18n.t('onboarding.skip')}</Text>
+                <Text onPress={() => completeOnBoarding('skipped')} style={[titleStyle.default_m, { position: 'absolute', left: 10 }]}>{i18n.t('onboarding.skip')}</Text>
                 <ProgressionBar index={index} />
             </View>
 
@@ -58,10 +59,12 @@ const OnBoarding: React.FC = () => {
                             keyboardShouldPersistTaps="handled"
                             contentContainerStyle={[styles.content, { flexGrow: 1 }]}
                         >
-                            <ImageFrame source={steps?.imageSource} />
-                            <Text style={[titleStyle.subtitle, { textAlign: 'center', fontSize: 15, lineHeight: 20 }]}>{i18n.t(steps.subtitle, { username: account?.username })}</Text>
-                            {isFirstStep && <InspectorNameInput onUsernameChange={(username) => setUsername(username)} username={username} />}
-                            <Button title={i18n.t('onboarding.next')} onPress={isFirstStep ? saveUsername : progress} type={'primary'} style={{ width: '100%' }} disabled={isFirstStep && username.length < 3} />
+                            <View style={{ alignItems: 'center' }}>
+                                <ImageFrame source={steps?.imageSource} />
+                            </View>
+                            {steps.subtitle && <Text style={[titleStyle.subtitle, { textAlign: 'center', fontSize: 15, lineHeight: 20 }]}>{i18n.t(steps.subtitle, { username: account?.username })}</Text>}
+                            {isUsernameStep && <InspectorNameInput onUsernameChange={(username) => setUsername(username)} username={username} />}
+                            <Button title={i18n.t('onboarding.next')} onPress={isUsernameStep ? saveUsername : progress} type={'primary'} style={{ width: '100%' }} disabled={isUsernameStep && username.length < 3} />
 
                         </KeyboardAwareScrollView>
                     </ScrollView>
@@ -88,7 +91,6 @@ const styles = StyleSheet.create({
         flex: 1,
         gap: 20,
         width: '100%',
-        alignItems: 'center'
     },
     topBar: {
         width: '100%',
