@@ -55,13 +55,13 @@ const ActiveEnigma = ({ enigma, questSession, quest, clues }: ActiveEnigmaProps)
     return (
         <>
             <TopBar backButton={true} />
+            <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text[lang] : undefined} onClose={() => {
+                setResultModalStatus(null)
+                queryClient.invalidateQueries({
+                    queryKey: ['questSession'],
+                })
+            }} />
             <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                <ResultModal status={resultModalStatus} text={resultModalStatus === 'success' ? enigma.success_text[lang] : undefined} onClose={() => {
-                    setResultModalStatus(null)
-                    queryClient.invalidateQueries({
-                        queryKey: ['questSession'],
-                    })
-                }} />
                 <EnigmaHeader totalEnigmas={quest.enigmas.length} questSession={questSession} />
                 <View style={styles.activeEnigma}>
                     <View style={styles.content}>

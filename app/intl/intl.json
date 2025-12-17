@@ -15,15 +15,15 @@
         },
         "account": {
             "username": "Nom d'utilisateur",
+            "user-id": "Numéro de plaque",
             "email": "E-mail",
-            "logout": "Déconnexion",
             "contact": "Pour tout contact, merci de nous envoyer un mail à"
         },
         "account-header": {
             "title": "Bienvenue, inspecteur {{username}} !",
             "subtitle": "Prêt à résoudre des énigmes grâce à votre caméra ?",
             "resolved-cases": "Cas résolus",
-            "in-progress-quest": "Quête en cours",
+            "in-progress-quest": "Dernière enquête commencée",
             "completed": "complétée",
             "total-score": "Score total",
             "points": "points"
@@ -124,15 +124,15 @@
         },
         "account": {
             "username": "Username",
+            "user-id": "Plate number",
             "email": "Email",
-            "logout": "Logout",
             "contact": "For any inquiries, please email us at"
         },
         "account-header": {
             "title": "Welcome, Inspector {{username}} !",
             "subtitle": "Ready to solve riddles with your camera?",
             "resolved-cases": "Cases solved",
-            "in-progress-quest": "Ongoing quest",
+            "in-progress-quest": "Last quest started",
             "completed": "completed",
             "total-score": "Total score",
             "points": "points"

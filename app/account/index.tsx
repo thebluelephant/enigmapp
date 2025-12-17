@@ -1,26 +1,14 @@
-import Button from '@/components/Button';
 import Icon from '@/components/Icon';
 import TopBar from '@/components/TopBar';
 import { colors } from '@/utils/colors';
-import { useRouter } from 'expo-router';
 import React from 'react';
-import { View, Text, TextInput, StyleSheet, Linking, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Linking } from 'react-native';
 import i18n from '../intl/config';
-import { supabase } from '@/api/core';
 import { useGetAccountById } from '@/api/queries/useGetAccountById';
 
 const AccountScreen: React.FC = () => {
-    const router = useRouter()
     const { data: account } = useGetAccountById()
 
-    const logout = async () => {
-        try {
-            await supabase.auth.signOut()
-            router.replace('/home');
-        } catch (e) {
-            console.log(e);
-        }
-    }
 
     return (
         <View style={styles.container}>
@@ -30,14 +18,6 @@ const AccountScreen: React.FC = () => {
                     <Icon name='account' color={colors.disabledBackground} size={100} />
                     <View style={styles.card}>
                         <View>
-                            <Text style={styles.label}>{i18n.t('account.email')}</Text>
-                            <TextInput
-                                style={styles.input}
-                                value={account?.email}
-                                editable={false}
-                            />
-                        </View>
-                        <View>
                             <Text style={styles.label}>{i18n.t('account.username')}</Text>
                             <TextInput
                                 style={styles.input}
@@ -45,7 +25,16 @@ const AccountScreen: React.FC = () => {
                                 editable={false}
                             />
                         </View>
+                        <View>
+                            <Text style={styles.label}>{i18n.t('account.user-id')}</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={account?.user_id.substring(0, 5)}
+                                editable={false}
+                            />
+                        </View>
                     </View>
+
                     <View style={styles.contact}>
                         <Text style={{ color: colors.disabledText, fontSize: 10 }}>
                             {i18n.t('account.contact')}{' '}
@@ -57,9 +46,6 @@ const AccountScreen: React.FC = () => {
                             </Text>
                         </Text>
                     </View>
-                </View>
-                <View style={styles.logoutContainer}>
-                    <Button title={i18n.t('account.logout')} onPress={() => logout()} type={'primary'} />
                 </View>
             </View >
         </View >
@@ -77,10 +63,6 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'space-between',
         padding: 10
-    },
-    logoutContainer: {
-        height: 50,
-        borderRadius: 15
     },
     contact: {
         flexDirection: 'row',

@@ -6,10 +6,8 @@ const queryClient = new QueryClient()
 import 'moment/locale/fr';
 import React from "react";
 import { Stack } from "expo-router";
-import { useDeepLinkLogin } from "@/utils/hooks/useDeepLinkLogin";
 
 export default function RootLayout() {
-  useDeepLinkLogin()
   moment.locale('fr');
   useFonts({
     Roboto_700Bold,

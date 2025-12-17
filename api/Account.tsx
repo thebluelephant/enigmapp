@@ -8,13 +8,13 @@ export const getUser = async () => {
     return user
 }
 
-export const insertAccount = async (userId: Account['user_id'], email: Account['email']) => {
+export const insertAccount = async (userId: Account['user_id']) => {
     const accountAlreadyExist = await fetchAccountById(userId)
 
     if (!accountAlreadyExist) {
         const { data: account, error } = await supabase
             .from('accounts')
-            .insert({ user_id: userId, email: email })
+            .insert({ user_id: userId })
             .select()
 
         if (error) {
